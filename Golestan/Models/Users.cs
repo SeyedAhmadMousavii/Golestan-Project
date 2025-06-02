@@ -11,5 +11,6 @@ namespace Golestan.Models
         public string Last_name { get; set; }
         public string Email { get; set; }
         public string Hashed_password { get; set; }
+        public List<User_Role> User_Roles { get; set; }
     }
 }
