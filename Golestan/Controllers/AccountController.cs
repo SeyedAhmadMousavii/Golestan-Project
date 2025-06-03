@@ -19,40 +19,39 @@ namespace Golestan.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var User = _context.Users.FirstOrDefault(U => U.Id == model.Id && U.Hashed_password == model.Password);
+            var user = _context.Users.FirstOrDefault(u => u.Id == model.Id && u.Hashed_password == model.Password);
 
-            if (User == null)
+            if (user == null)
             {
                 ModelState.AddModelError("", "کد ملی یا رمز عبور اشتباه است.");
                 return View(model);
             }
 
-            var role = User.User_Roles.Any(UR => UR.roles.Name.ToString() == model.SelectedRole);
-
-            if (!role)
+            var hasRole = _context.User_Roles.Any(ur => ur.User_Id == user.Id && ur.roles.Name.ToString() == model.SelectedRole);
+            if (!hasRole)
             {
-                ModelState.AddModelError("", "نقش انتخاب شده با نقش های شما مطابقط نداره");
+                ModelState.AddModelError("", "نقش انتخاب‌شده با نقش‌های شما مطابقت ندارد.");
                 return View(model);
             }
-            if (model.SelectedRole == "ادمین")
+            if (model.SelectedRole == "Admin")//should be changef
             {
-                return RedirectToAction("Login", "Account");//this line most be change to addmin page
+                return View(model);
             }
-            else if (model.SelectedRole == "استاد")
+            if (model.SelectedRole == "Teacher")//should be changef
             {
-                return RedirectToAction("Login", "Account");//...........................teacher page
+                return View(model);
             }
-            else if (model.SelectedRole == "دانشجو")
+            if (model.SelectedRole == "Student")//should be changef
             {
-                return RedirectToAction("Login", "Account");//............................student page
+                return View(model);
             }
-            else { return View(model);}
-
+            return View(model);
         }
+
     }
 }

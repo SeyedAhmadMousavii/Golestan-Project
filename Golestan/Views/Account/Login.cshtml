@@ -1,4 +1,41 @@
-﻿
+﻿@model LoginModel
 @{
+    ViewData["Title"] = "ورود به سیستم";
+    ViewBag.Roles = new List<string> { "Student", "Teacher", "Admin" };
+    var roles = ViewBag.Roles as List<string>;
 }
-<>صفحه ورود</>
+
+
+<form asp-action="Login" asp-controller="Account" method="post">
+    <h2>ورود به سیستم</h2>
+
+    <input asp-for="Id" placeholder="کد" type="text" />
+    <span asp-validation-for="Id"></span>
+
+    <input asp-for="Password" placeholder="رمز عبور" type="password" />
+    <span asp-validation-for="Password"></span>
+
+    <select asp-for="SelectedRole">
+        <option value="">انتخاب نقش</option>
+        @foreach (var role in roles)
+        {
+            <option value="@role">@role</option>
+        }
+    </select>
+    <span asp-validation-for="SelectedRole"></span>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div style="color:red">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
+
+    <button type="submit">ورود</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
