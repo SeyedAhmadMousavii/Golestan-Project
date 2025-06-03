@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Golestan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250602143651_db")]
-    partial class db
+    [Migration("20250603054404_hwllo")]
+    partial class hwllo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,27 @@ namespace Golestan.Migrations
                             Id = 3,
                             Name = 3
                         });
+                });
+
+            modelBuilder.Entity("Golestan.Models.Students", b =>
+                {
+                    b.Property<int>("Student_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Student_Id"));
+
+                    b.Property<DateTime>("Enrollment_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("User_Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Student_Id");
+
+                    b.HasIndex("User_Id");
+
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("Golestan.Models.User_Role", b =>
@@ -123,6 +144,17 @@ namespace Golestan.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Golestan.Models.Students", b =>
+                {
+                    b.HasOne("Golestan.Models.Users", "users")
+                        .WithMany("students")
+                        .HasForeignKey("User_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("users");
+                });
+
             modelBuilder.Entity("Golestan.Models.User_Role", b =>
                 {
                     b.HasOne("Golestan.Models.Roles", "roles")
@@ -150,6 +182,8 @@ namespace Golestan.Migrations
             modelBuilder.Entity("Golestan.Models.Users", b =>
                 {
                     b.Navigation("User_Roles");
+
+                    b.Navigation("students");
                 });
 #pragma warning restore 612, 618
         }
