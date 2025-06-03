@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Golestan.Migrations
 {
     /// <inheritdoc />
-    public partial class hwllo : Migration
+    public partial class dAtA : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

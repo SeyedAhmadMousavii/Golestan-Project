@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Golestan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250603054404_hwllo")]
-    partial class hwllo
+    [Migration("20250603060643_dAtA")]
+    partial class dAtA
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
