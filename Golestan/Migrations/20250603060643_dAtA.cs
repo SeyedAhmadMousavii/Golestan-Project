@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Golestan.Migrations
 {
     /// <inheritdoc />
-    public partial class db : Migration
+    public partial class dAtA : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,6 +41,26 @@ namespace Golestan.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    Student_Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    User_Id = table.Column<int>(type: "int", nullable: false),
+                    Enrollment_Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.Student_Id);
+                    table.ForeignKey(
+                        name: "FK_Students_Users_User_Id",
+                        column: x => x.User_Id,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -88,6 +108,11 @@ namespace Golestan.Migrations
                 values: new object[] { 3, 10203040 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Students_User_Id",
+                table: "Students",
+                column: "User_Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_User_Roles_Role_Id",
                 table: "User_Roles",
                 column: "Role_Id");
@@ -96,6 +121,9 @@ namespace Golestan.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Students");
+
             migrationBuilder.DropTable(
                 name: "User_Roles");
 
