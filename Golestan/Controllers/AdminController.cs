@@ -17,7 +17,7 @@ namespace Golestan.Controllers
 
         public IActionResult Index()
         {
-            return View(); // مطمئن شو که View مربوطه ساخته شده (Views/Admin/Index.cshtml)
+            return View(); 
         }
 
         // افزودن درس
@@ -105,7 +105,7 @@ namespace Golestan.Controllers
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Admin");
         }
 
         // تخصیص استاد به کلاس
