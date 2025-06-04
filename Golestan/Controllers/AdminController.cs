@@ -21,6 +21,11 @@ namespace Golestan.Controllers
         }
 
         // افزودن درس
+        [HttpGet]
+        public IActionResult AddCourse()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> AddCourse(string title)
         {
@@ -31,6 +36,11 @@ namespace Golestan.Controllers
         }
 
         // افزودن کلاس برای درس
+        [HttpGet]
+        public IActionResult AddClass()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> AddClass(string name, int courseId)
         {
@@ -41,6 +51,11 @@ namespace Golestan.Controllers
         }
 
         // افزودن استاد
+        [HttpGet]
+        public IActionResult AddTeacher()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> AddTeacher(string fullName, string username, string password)
         {
@@ -65,6 +80,11 @@ namespace Golestan.Controllers
         }
 
         // افزودن دانشجو
+        [HttpGet]
+        public IActionResult AddStudent()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> AddStudent(string fullName, string username, string password)
         {
@@ -89,6 +109,11 @@ namespace Golestan.Controllers
         }
 
         // تخصیص استاد به کلاس
+        [HttpGet]
+        public IActionResult AssignTeacher()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> AssignTeacher(int classId, int teacherId)
         {
@@ -102,6 +127,11 @@ namespace Golestan.Controllers
         }
 
         // افزودن دانشجو به کلاس
+        [HttpGet]
+        public IActionResult AddStudentToClass()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> AddStudentToClass(int studentId, int classId)
         {
@@ -115,6 +145,11 @@ namespace Golestan.Controllers
         }
 
         // لغو تخصیص استاد از کلاس
+        [HttpGet]
+        public IActionResult RemoveTeacher()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> RemoveTeacher(int classId)
         {
@@ -128,6 +163,11 @@ namespace Golestan.Controllers
         }
 
         // لغو تخصیص دانشجو از کلاس
+        [HttpGet]
+        public IActionResult RemoveStudentFromClass()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> RemoveStudentFromClass(int studentId, int classId)
         {
@@ -141,6 +181,11 @@ namespace Golestan.Controllers
         }
 
         // حذف درس
+        [HttpGet]
+        public IActionResult DeleteCourse()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> DeleteCourse(int id)
         {
@@ -154,6 +199,11 @@ namespace Golestan.Controllers
         }
 
         // حذف کلاس
+        [HttpGet]
+        public IActionResult DeleteClass()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> DeleteClass(int id)
         {
@@ -167,6 +217,11 @@ namespace Golestan.Controllers
         }
 
         // حذف استاد
+        [HttpGet]
+        public IActionResult DeleteTeacher()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> DeleteTeacher(int id)
         {
@@ -180,6 +235,11 @@ namespace Golestan.Controllers
         }
 
         // حذف دانشجو
+        [HttpGet]
+        public IActionResult DeleteStudent()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> DeleteStudent(int id)
         {
