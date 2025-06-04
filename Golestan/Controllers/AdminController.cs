@@ -2,6 +2,7 @@
 using Golestan.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Golestan.Controllers
@@ -29,7 +30,7 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCourse(string title)
         {
-            var course = new Course { Title = title };
+            var course = new Courses { Title = title };
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -44,8 +45,8 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> AddClass(string name, int courseId)
         {
-            var classItem = new Class { Name = name, CourseId = courseId };
-            _context.Classes.Add(classItem);
+            var classItem = new Classrooms { Building = name, Id = courseId };
+            _context.Classrooms.Add(classItem);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
@@ -72,8 +73,8 @@ namespace Golestan.Controllers
             _context.User_Roles.Add(new User_Role { User_Id = user.Id, Role_Id = 2 });
             await _context.SaveChangesAsync();
 
-            var teacher = new Teacher { FullName = fullName, Username = username, Password = password, User_Id = user.Id };
-            _context.Teachers.Add(teacher);
+            var teacher = new Instructors {  User_Id = user.Id };
+            _context.Instructors.Add(teacher);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
@@ -101,7 +102,7 @@ namespace Golestan.Controllers
             _context.User_Roles.Add(new User_Role { User_Id = user.Id, Role_Id = 1 }); // RoleId = 1 = Student
             await _context.SaveChangesAsync();
 
-            var student = new Student { FullName = fullName, Username = username, Password = password, User_Id = user.Id };
+            var student = new Students {  User_Id = user.Id };
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
@@ -117,10 +118,10 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> AssignTeacher(int classId, int teacherId)
         {
-            var classItem = await _context.Classes.FindAsync(classId);
+            var classItem = await _context.Students.FindAsync(classId);
             if (classItem != null)
             {
-                classItem.TeacherId = teacherId;
+                classItem.Id = teacherId;
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
@@ -135,10 +136,10 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> AddStudentToClass(int studentId, int classId)
         {
-            bool exists = await _context.Student_Classes.AnyAsync(sc => sc.StudentId == studentId && sc.ClassId == classId);
+            bool exists = await _context.Classrooms.AnyAsync();
             if (!exists)
             {
-                _context.Student_Classes.Add(new Student_Class { StudentId = studentId, ClassId = classId });
+                _context.Classrooms.Add(new Classrooms { Id=classId });
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
@@ -153,10 +154,10 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveTeacher(int classId)
         {
-            var classItem = await _context.Classes.FindAsync(classId);
+            var classItem = await _context.Classrooms.FindAsync(classId);
             if (classItem != null)
             {
-                classItem.TeacherId = null;
+                classItem.Building = null;
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
@@ -171,10 +172,10 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveStudentFromClass(int studentId, int classId)
         {
-            var record = await _context.Student_Classes.FirstOrDefaultAsync(sc => sc.StudentId == studentId && sc.ClassId == classId);
+            var record = await _context.Classrooms.FirstOrDefaultAsync();
             if (record != null)
             {
-                _context.Student_Classes.Remove(record);
+                _context.Classrooms.Remove(record);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
@@ -207,10 +208,10 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteClass(int id)
         {
-            var classItem = await _context.Classes.FindAsync(id);
+            var classItem = await _context.Classrooms.FindAsync(id);
             if (classItem != null)
             {
-                _context.Classes.Remove(classItem);
+                _context.Classrooms.Remove(classItem);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
@@ -225,10 +226,10 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteTeacher(int id)
         {
-            var teacher = await _context.Teachers.FindAsync(id);
+            var teacher = await _context.Instructors.FindAsync(id);
             if (teacher != null)
             {
-                _context.Teachers.Remove(teacher);
+                _context.Instructors.Remove(teacher);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
