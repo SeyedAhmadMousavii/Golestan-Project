@@ -14,7 +14,7 @@ namespace Golestan.Models
         public Classrooms classrooms { get; set; }
         public int Time_Slot_Id {  get; set; }
         public Time_Slots time_slots { get; set; }
-        public List<Teaches> teaches { get; set; }
-        public List<Takes> takes { get; set; }
+        public Teaches teaches { get; set; }
+        public Takes takes { get; set; }
     }
 }//     Class Not Matched
