@@ -1,57 +1,72 @@
 ﻿using Golestan.Data;
 using Golestan.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Golestan.Controllers
 {
     public class AccountController : Controller
     {
         private readonly AppDbContext _context;
+
         public AccountController(AppDbContext context)
         {
             _context = context;
         }
+
         [HttpGet]
-        public async Task<IActionResult> Login()
+        public IActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
-        public IActionResult Login(LoginModel model)
+        public async Task<IActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid)
-            {
                 return View(model);
-            }
 
-            var user = _context.Users.FirstOrDefault(u => u.Id == model.Id && u.Hashed_password == model.Password);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == model.Id && u.Hashed_password == model.Password);
 
             if (user == null)
             {
-                ModelState.AddModelError("", "کد ملی یا رمز عبور اشتباه است.");
+                ModelState.AddModelError("", "کد یا رمز اشتباه است.");
                 return View(model);
             }
 
-            var hasRole = _context.User_Roles.Any(ur => ur.User_Id == user.Id && ur.roles.Name.ToString() == model.SelectedRole);
+
+            if (!Enum.TryParse<role>(model.SelectedRole, out var parsedRole))
+            {
+                ModelState.AddModelError("", "نقش انتخابی معتبر نیست.");
+                return View(model);
+            }
+
+            var hasRole = await _context.User_Roles
+                .Include(ur => ur.roles)
+                .AnyAsync(ur => ur.User_Id == user.Id && ur.roles.Name == parsedRole);
+
             if (!hasRole)
             {
                 ModelState.AddModelError("", "نقش انتخاب‌شده با نقش‌های شما مطابقت ندارد.");
                 return View(model);
             }
-            if (model.SelectedRole == "Admin")//should be changef
-            {
-                return View(model);
-            }
-            if (model.SelectedRole == "Teacher")//should be changef
-            {
-                return View(model);
-            }
-            if (model.SelectedRole == "Student")//should be changef
-            {
-                return View(model);
-            }
-            return View(model);
-        }
 
+
+
+            switch (model.SelectedRole)
+            {
+                case "Admin":
+                    return RedirectToAction("Index", "Admin");
+                case "Teacher":
+                    return RedirectToAction("Dashboard", "Teacher"); 
+                case "Student":
+                    return RedirectToAction("Dashboard", "Student"); 
+                default:
+                    ModelState.AddModelError("", "نقش نامعتبر است.");
+                    return View(model);
+            }
+        }
     }
 }

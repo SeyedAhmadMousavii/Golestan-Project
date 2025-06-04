@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Golestan.Data
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -11,7 +11,13 @@ namespace Golestan.Data
         public DbSet<Users> Users { get; set; }
         public DbSet<Roles> Roles { get; set; }
         public DbSet<User_Role> User_Roles { get; set; }
-        public DbSet<Students> Students { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Class> Classes { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Student_Class> Student_Classes { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -33,13 +39,27 @@ namespace Golestan.Data
                 new Roles { Id = 3, Name = role.Admin }
                 );
             ////////////////////////set relation between user and student
-            modelBuilder.Entity<Students>().HasOne(s => s.users)
+            modelBuilder.Entity<Student>().HasOne(s => s.users)
                                           .WithMany(u => u.students)
                                           .HasForeignKey(s => s.User_Id);
             ////////////////////////  default admin
             modelBuilder.Entity<Users>().HasData(new Users
             { Id = 10203040, First_name = "mananger", Last_name = "system", Email = "System@gmai", Hashed_password = "1234", Created_at = new DateTime(2000, 05, 01) });
             modelBuilder.Entity<User_Role>().HasData(new User_Role { User_Id = 10203040, Role_Id = 3 });
+
+            modelBuilder.Entity<Student_Class>()
+    .HasKey(sc => new { sc.StudentId, sc.ClassId });
+
+            modelBuilder.Entity<Student_Class>()
+                .HasOne(sc => sc.Student)
+                .WithMany(s => s.Student_Classes)
+                .HasForeignKey(sc => sc.StudentId);
+
+            modelBuilder.Entity<Student_Class>()
+                .HasOne(sc => sc.Class)
+                .WithMany(c => c.Student_Classes)
+                .HasForeignKey(sc => sc.ClassId);
+
         }
     }
 }

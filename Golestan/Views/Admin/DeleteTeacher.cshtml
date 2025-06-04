@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "حذف استاد";
+}
+
+<h2>حذف استاد</h2>
+
+<form method="post" action="/Admin/DeleteTeacher">
+    <label>شناسه استاد:</label>
+    <input type="number" name="id" required />
+
+    <button type="submit">حذف</button>
+</form>

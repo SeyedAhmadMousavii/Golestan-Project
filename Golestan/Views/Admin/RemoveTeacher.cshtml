@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "لغو تخصیص استاد از کلاس";
+}
+
+<h2>لغو تخصیص استاد از کلاس</h2>
+
+<form method="post" action="/Admin/RemoveTeacher">
+    <label>شناسه کلاس:</label>
+    <input type="number" name="classId" required />
+
+    <button type="submit">لغو تخصیص</button>
+</form>
