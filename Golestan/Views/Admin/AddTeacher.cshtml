@@ -1,56 +1,119 @@
-﻿@model List<Golestan.Models.Users>
-@{
-    ViewBag.Title = "افزودن استاد جدید";
+
+﻿@{
+    ViewData["Title"] = "افزودن استاد جدید";
 }
-<table>
-    <thead>
-        <tr>
-            <th>نام</th>
-            <th>ایمیل</th>
-            <th>عملیات</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            @foreach (var user in Model)
-            {
-                @if (user.Id == Model[0].Id)
-                {
 
-                }
-                else
-                {
-                    <tr>
-                        <td>@user.First_name</td>
-                        <td>@user.Email</td>
-                        <td>
-                            <form asp-action="AddTeacher" asp-controller="Admin" method="post" style="display:inline;">
-                                <input type="hidden" name="Id" value="@user.Id" />
-
-                                <label>شماره استاد:</label>
-                                <input type="number" name="TeachId" required />
-
-                                <label>حقوق:</label>
-                                <input type="number" name="salary" required />
-
-                                <select name="DepartID" id="DepartID" class="form-control">
-                                    <option value="">-- Select Department --</option>
-                                    <option value="111">کامپیوتر</option>
-                                    <option value="222">برق</option>
-                                    <option value="333">مکانیک</option>
-                                    <option value="444">معماری</option>
-                                </select>
-
-
-                                <button type="submit" onclick="return confirm('آیا مطمئن هستید؟')" style="background:none;border:none;color:blue;text-decoration:underline;cursor:pointer;">
-                                    اضافه
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                }
-            }
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>افزودن استاد جدید</title>
+    <style>
+        * {
+            box-sizing: border-box;
         }
-    </tbody>
-</table>
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: linear-gradient(to left, #3a6073, #16222a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+
+            .form-container h2 {
+                text-align: center;
+                margin-bottom: 1.8rem;
+                color: #2c3e50;
+            }
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.85rem;
+            margin-top: -0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: #2980b9;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+                background-color: #1c5980;
+            }
+
+        .alert {
+            background-color: #f8d7da;
+            color: #842029;
+            padding: 0.8rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form method="post" action="/Admin/AddTeacher">
+            <h2>افزودن استاد جدید</h2>
+
+            <label for="fullName">نام کامل:</label>
+            <input type="text" id="fullName" name="fullName" placeholder="نام کامل استاد را وارد کنید" required />
+
+            <label for="username">نام کاربری:</label>
+            <input type="text" id="username" name="username" placeholder="نام کاربری استاد را وارد کنید" required />
+
+            <label for="password">رمز عبور:</label>
+            <input type="password" id="password" name="password" placeholder="رمز عبور را وارد کنید" required />
+
+            <button type="submit">ثبت</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>
+

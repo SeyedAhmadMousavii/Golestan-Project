@@ -1,3 +1,4 @@
+
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace Golestan.Models
@@ -16,5 +17,6 @@ namespace Golestan.Models
         public Time_Slots time_slots { get; set; }
         public Teaches teaches { get; set; }
         public Takes takes { get; set; }
+
     }
 }//     Class Not Matched

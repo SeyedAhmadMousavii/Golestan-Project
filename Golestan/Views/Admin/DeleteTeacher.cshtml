@@ -1,31 +1,190 @@
-﻿@model List<Golestan.Models.Instructors>
 
-<table>
-    <thead>
-        <tr>
-            <th>شماره استادی</th>
-            <th>شناسه کاربر</th>
-            <th>عملیات</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            @foreach (var user in Model)
-            {
-                <tr>
-                    <td>@user.Instructor_Id</td>
-                    <td>@user.User_Id</td>@* most be User.First_Name*@
-                    <td>
-                        <form asp-action="DeleteTeacher" asp-controller="Admin" method="post" style="display:inline;">
-                            <input type="hidden" name="id" value="@user.Id" />
-                            <button type="submit" onclick="return confirm('آیا مطمئن هستید؟')" style="background:none;border:none;color:red;text-decoration:underline;cursor:pointer;">
-                                حذف
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            }
+﻿@{
+    ViewData["Title"] = "حذف استاد";
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>حذف استاد</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --danger-color: #e74c3c;
+            --danger-dark: #c0392b;
+            --danger-light: #fdecea;
         }
-    </tbody>
-</table>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #3a6073, #16222a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .delete-container {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 500px;
+            transition: transform 0.3s ease;
+        }
+
+            .delete-container:hover {
+                transform: translateY(-5px);
+            }
+
+        .delete-title {
+            color: var(--danger-color);
+            text-align: center;
+            margin-bottom: 1.8rem;
+            font-size: 1.8rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+            .delete-title:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 60px;
+                height: 3px;
+                background-color: var(--danger-color);
+            }
+
+        .alert-warning {
+            background-color: var(--danger-light);
+            color: var(--danger-color);
+            padding: 1.2rem;
+            border-radius: 8px;
+            border-right: 4px solid var(--danger-color);
+            margin-bottom: 2rem;
+            text-align: right;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+            .form-input:focus {
+                border-color: var(--danger-color);
+                box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+                outline: none;
+            }
+
+        .delete-btn {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+            .delete-btn:hover {
+                background-color: var(--danger-dark);
+                box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+            }
+
+            .delete-btn:active {
+                transform: scale(0.98);
+            }
+    </style>
+</head>
+<body>
+    <div class="delete-container">
+        <h2 class="delete-title">
+            <i class="fas fa-user-minus"></i>
+            حذف استاد
+        </h2>
+
+        <div class="alert-warning">
+            <i class="fas fa-exclamation-circle"></i>
+            <strong>هشدار جدی:</strong> با حذف استاد، تمام اطلاعات مربوط به کلاس‌ها، نمرات و سوابق تدریس ایشان نیز حذف خواهد شد. این عمل غیرقابل بازگشت است!
+        </div>
+
+        <form method="post" action="/Admin/DeleteTeacher" id="deleteTeacherForm">
+            <div class="form-group">
+                <label for="teacherId" class="form-label">شناسه استاد:</label>
+                <input type="number" id="teacherId" name="id"
+                       class="form-input"
+                       placeholder="مثال: 1024"
+                       required
+                       min="1">
+            </div>
+
+            <button type="submit" class="delete-btn">
+                <i class="fas fa-trash-alt"></i>
+                حذف استاد
+            </button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#deleteTeacherForm').submit(function(e) {
+                const teacherId = $('#teacherId').val().trim();
+
+                if (!teacherId || isNaN(teacherId)) {
+                    alert('لطفاً یک شناسه معتبر برای استاد وارد نمایید');
+                    return false;
+                }
+
+                const confirmation = confirm(`آیا از حذف استاد با شناسه ${teacherId} اطمینان دارید؟\nاین عمل تمام اطلاعات مرتبط را نیز حذف خواهد کرد!`);
+
+                if (!confirmation) {
+                    return false;
+                }
+
+                // نمایش انیمیشن قبل از ارسال فرم
+                $('.delete-btn').html('<i class="fas fa-spinner fa-spin"></i> در حال حذف...');
+                $('.delete-btn').prop('disabled', true);
+
+                return true;
+            });
+        });
+    </script>
+</body>
+</html>
+

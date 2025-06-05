@@ -1,15 +1,113 @@
 ﻿@{
-    ViewBag.Title = "تخصیص استاد به کلاس";
+    ViewData["Title"] = "تخصیص استاد به کلاس";
 }
 
-<h2>تخصیص استاد به کلاس</h2>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>تخصیص استاد به کلاس</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-<form method="post" action="/Admin/AssignTeacher">
-    <label>شناسه کلاس:</label>
-    <input type="number" name="classId" required />
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: linear-gradient(to left, #3a6073, #16222a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            direction: rtl;
+        }
 
-    <label>شناسه استاد:</label>
-    <input type="number" name="teacherId" required />
+        .form-container {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
 
-    <button type="submit">تخصیص</button>
-</form>
+            .form-container h2 {
+                text-align: center;
+                margin-bottom: 1.8rem;
+                color: #2c3e50;
+            }
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.85rem;
+            margin-top: -0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: #2980b9;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+                background-color: #1c5980;
+            }
+
+        .alert {
+            background-color: #f8d7da;
+            color: #842029;
+            padding: 0.8rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form method="post" action="/Admin/AssignTeacher">
+            <h2>تخصیص استاد به کلاس</h2>
+
+            <label for="classId">شناسه کلاس:</label>
+            <input type="number" id="classId" name="classId" placeholder="شناسه کلاس را وارد کنید" required />
+
+            <label for="teacherId">شناسه استاد:</label>
+            <input type="number" id="teacherId" name="teacherId" placeholder="شناسه استاد را وارد کنید" required />
+
+            <button type="submit">تخصیص</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>

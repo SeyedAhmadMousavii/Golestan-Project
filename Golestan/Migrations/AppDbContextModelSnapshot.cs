@@ -22,13 +22,16 @@ namespace Golestan.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+
             modelBuilder.Entity("Golestan.Models.Classrooms", b =>
+
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
 
                     b.Property<string>("Building")
                         .IsRequired()
@@ -81,12 +84,14 @@ namespace Golestan.Migrations
                 });
 
             modelBuilder.Entity("Golestan.Models.Departments", b =>
+
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
 
                     b.Property<decimal>("Budget")
                         .HasColumnType("decimal(18,2)");
@@ -96,10 +101,12 @@ namespace Golestan.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
 
                     b.ToTable("Departments");
 
@@ -164,6 +171,7 @@ namespace Golestan.Migrations
                     b.HasIndex("User_Id");
 
                     b.ToTable("Instructors");
+
                 });
 
             modelBuilder.Entity("Golestan.Models.Roles", b =>
@@ -198,6 +206,7 @@ namespace Golestan.Migrations
                             Name = 3
                         });
                 });
+
 
             modelBuilder.Entity("Golestan.Models.Sections", b =>
                 {
@@ -235,6 +244,7 @@ namespace Golestan.Migrations
                 });
 
             modelBuilder.Entity("Golestan.Models.Students", b =>
+
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,8 +255,10 @@ namespace Golestan.Migrations
                     b.Property<int>("Depatment_Id")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Enrollment_Date")
+
+                    b.Property<DateTime>("Created_at")
                         .HasColumnType("datetime2");
+
 
                     b.Property<int>("Student_Id")
                         .HasColumnType("int");
@@ -262,6 +274,7 @@ namespace Golestan.Migrations
 
                     b.ToTable("Students");
                 });
+
 
             modelBuilder.Entity("Golestan.Models.Takes", b =>
                 {
@@ -319,9 +332,10 @@ namespace Golestan.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Time_Slots");
+
                 });
 
-            modelBuilder.Entity("Golestan.Models.Users", b =>
+            modelBuilder.Entity("Teacher", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -329,40 +343,48 @@ namespace Golestan.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Created_at")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("First_name")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Hashed_password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("User_Id")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Last_name")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Teachers");
+                });
+
+            modelBuilder.Entity("User_Role", b =>
+                {
+                    b.Property<int>("User_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Role_Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("User_Id", "Role_Id");
+
+                    b.HasIndex("Role_Id");
+
+                    b.ToTable("User_Roles");
 
                     b.HasData(
                         new
                         {
-                            Id = 10203040,
-                            Created_at = new DateTime(2000, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "System@gmai",
-                            First_name = "mananger",
-                            Hashed_password = "1234",
-                            Last_name = "system"
+                            User_Id = 10203040,
+                            Role_Id = 3
                         });
                 });
+
 
             modelBuilder.Entity("User_Role", b =>
                 {
@@ -444,6 +466,7 @@ namespace Golestan.Migrations
                 });
 
             modelBuilder.Entity("Golestan.Models.Students", b =>
+
                 {
                     b.HasOne("Golestan.Models.Departments", "departments")
                         .WithMany("students")
@@ -461,6 +484,7 @@ namespace Golestan.Migrations
 
                     b.Navigation("departments");
                 });
+
 
             modelBuilder.Entity("Golestan.Models.Takes", b =>
                 {
@@ -498,6 +522,7 @@ namespace Golestan.Migrations
                     b.Navigation("instructors");
 
                     b.Navigation("sections");
+
                 });
 
             modelBuilder.Entity("User_Role", b =>
@@ -518,6 +543,7 @@ namespace Golestan.Migrations
 
                     b.Navigation("users");
                 });
+
 
             modelBuilder.Entity("Golestan.Models.Classrooms", b =>
                 {
@@ -542,6 +568,7 @@ namespace Golestan.Migrations
             modelBuilder.Entity("Golestan.Models.Instructors", b =>
                 {
                     b.Navigation("teaches");
+
                 });
 
             modelBuilder.Entity("Golestan.Models.Roles", b =>
@@ -575,6 +602,16 @@ namespace Golestan.Migrations
                     b.Navigation("instructors");
 
                     b.Navigation("students");
+                });
+
+            modelBuilder.Entity("Student", b =>
+                {
+                    b.Navigation("Student_Classes");
+                });
+
+            modelBuilder.Entity("Teacher", b =>
+                {
+                    b.Navigation("Classes");
                 });
 #pragma warning restore 612, 618
         }

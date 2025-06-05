@@ -1,3 +1,4 @@
+
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace Golestan.Models
@@ -15,5 +16,6 @@ namespace Golestan.Models
         public int Section_Id { get; set; }
         public Sections sections { get; set; }
         public Departments departments { get; set; }
+
     }
 }//     Class Not Matched
