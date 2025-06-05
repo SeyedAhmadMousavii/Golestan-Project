@@ -13,7 +13,6 @@ namespace Golestan.Data
         public DbSet<User_Role> User_Roles { get; set; }
         public DbSet<Students> Students { get; set; }
         public DbSet<Instructors> Instructors { get; set; }
-        public DbSet<Students> Students { get; set; }   
         public DbSet<Teaches> Teaches { get; set; }
         public DbSet<Takes> Takes { get; set; }
         public DbSet<Departments> Departments { get; set; }
