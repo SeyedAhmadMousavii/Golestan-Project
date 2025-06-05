@@ -20,6 +20,7 @@ namespace Golestan.Controllers
 
         public IActionResult Index()
         {
+
             return View(); 
         }
         //افزودن کاربر
@@ -35,8 +36,19 @@ namespace Golestan.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
+
         }
         // افزودن درس
+        [HttpGet]
+        public IActionResult AddCourse()
+        {
+            return View();
+        }
+
+            return View();
+        }
+
+   
         [HttpGet]
         public IActionResult AddCourse()
         {
@@ -50,13 +62,13 @@ namespace Golestan.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
         // افزودن کلاس برای درس
         [HttpGet]
         public IActionResult AddClass()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> AddClass(string name, int courseId)
         {
@@ -65,8 +77,8 @@ namespace Golestan.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
         // افزودن استاد
+
         [HttpGet]
         public IActionResult AddTeacher()
         {
@@ -96,6 +108,7 @@ namespace Golestan.Controllers
         }
 
         // افزودن دانشجو
+
         [HttpGet]
         public IActionResult AddStudent()
         {
@@ -111,6 +124,7 @@ namespace Golestan.Controllers
 
             return View(user);
         }
+  
         [HttpPost]
         public async Task<IActionResult> AddStudent(int Id,int StudID,int DepartID)
         {
@@ -150,12 +164,21 @@ namespace Golestan.Controllers
             return RedirectToAction("Index","Admin");
         }
 
+
+        [HttpGet]
+        public IActionResult AssignTeacher()
+        {
+            return View();
+        }
+
+
         // تخصیص استاد به کلاس
         [HttpGet]
         public IActionResult AssignTeacher()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> AssignTeacher(int classId, int teacherId)
         {
@@ -169,11 +192,13 @@ namespace Golestan.Controllers
         }
 
         // افزودن دانشجو به کلاس
+
         [HttpGet]
         public IActionResult AddStudentToClass()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> AddStudentToClass(int studentId, int classId)
         {
@@ -187,11 +212,13 @@ namespace Golestan.Controllers
         }
 
         // لغو تخصیص استاد از کلاس
+
         [HttpGet]
         public IActionResult RemoveTeacher()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> RemoveTeacher(int classId)
         {
@@ -205,11 +232,13 @@ namespace Golestan.Controllers
         }
 
         // لغو تخصیص دانشجو از کلاس
+
         [HttpGet]
         public IActionResult RemoveStudentFromClass()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> RemoveStudentFromClass(int studentId, int classId)
         {
@@ -223,11 +252,13 @@ namespace Golestan.Controllers
         }
 
         // حذف درس
+
         [HttpGet]
         public IActionResult DeleteCourse()
         {
             return View();
         }
+  
         [HttpPost]
         public async Task<IActionResult> DeleteCourse(int id)
         {
@@ -264,19 +295,21 @@ namespace Golestan.Controllers
                 {
                     _context.Instructors.RemoveRange(instructor);
                 }
-
-
+              
                 _context.Users.Remove(User);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
         }
+
         // حذف کلاس
+
         [HttpGet]
         public IActionResult DeleteClass()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> DeleteClass(int id)
         {
@@ -288,13 +321,15 @@ namespace Golestan.Controllers
             }
             return RedirectToAction("Index");
         }
-
+  
         // حذف استاد
+
         [HttpGet]
         public IActionResult DeleteTeacher()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> DeleteTeacher(int id)
         {
@@ -306,7 +341,12 @@ namespace Golestan.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        [HttpGet]
+        public IActionResult DeleteStudent()
+        {
+            return View();
+        }
+  
         // حذف دانشجو
         [HttpGet]
         public IActionResult DeleteStudent()
@@ -314,6 +354,7 @@ namespace Golestan.Controllers
             var user = _context.Students.ToList();
             return View(user);
         }
+
         [HttpPost]
         public async Task<IActionResult> DeleteStudent(int Id)
         {

@@ -1,12 +1,126 @@
 ﻿@{
-    ViewBag.Title = "حذف درس";
+    ViewData["Title"] = "حذف درس";
 }
 
-<h2>حذف درس</h2>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>حذف درس</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-<form method="post" action="/Admin/DeleteCourse">
-    <label>شناسه درس:</label>
-    <input type="number" name="id" required />
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: linear-gradient(to left, #3a6073, #16222a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            direction: rtl;
+        }
 
-    <button type="submit">حذف</button>
-</form>
+        .delete-container {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+            .delete-container h2 {
+                text-align: center;
+                margin-bottom: 1.8rem;
+                color: #e74c3c;
+            }
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #333;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
+        }
+
+        .warning-box {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+            padding: 0.8rem;
+            background-color: #fdecea;
+            border-radius: 10px;
+            border-right: 3px solid #e74c3c;
+        }
+
+        .delete-btn {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: #e74c3c;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+            .delete-btn:hover {
+                background-color: #c0392b;
+            }
+    </style>
+</head>
+<body>
+    <div class="delete-container">
+        <form method="post" action="/Admin/DeleteCourse" onsubmit="return confirmDelete()">
+            <h2>حذف درس</h2>
+
+            <div class="warning-box">
+                <i class="fa fa-exclamation-triangle"></i>
+                توجه: با حذف درس، تمام اطلاعات مرتبط نیز حذف خواهند شد!
+            </div>
+
+            <label for="courseId">شناسه درس:</label>
+            <input type="number" id="courseId" name="id" placeholder="شناسه درس را وارد کنید" required />
+
+            <button type="submit" class="delete-btn">
+                حذف درس
+            </button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function confirmDelete() {
+            const courseId = $('#courseId').val();
+            if (!courseId) {
+                alert('لطفاً شناسه درس را وارد نمایید');
+                return false;
+            }
+            return confirm(`آیا از حذف درس با شناسه ${courseId} مطمئن هستید؟\nاین عمل غیرقابل بازگشت است!`);
+        }
+    </script>
+</body>
+</html>

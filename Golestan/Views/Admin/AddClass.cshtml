@@ -2,14 +2,96 @@
     ViewBag.Title = "افزودن کلاس جدید";
 }
 
-<h2>افزودن کلاس جدید</h2>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>افزودن کلاس جدید</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-<form method="post" action="/Admin/AddClass">
-    <label>نام کلاس:</label>
-    <input type="text" name="name" required />
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: linear-gradient(to left, #3a6073, #16222a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            direction: rtl;
+        }
 
-    <label>شناسه درس:</label>
-    <input type="number" name="courseId" required />
+        .form-container {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
 
-    <button type="submit">افزودن</button>
-</form>
+        h2 {
+            text-align: center;
+            margin-bottom: 1.8rem;
+            color: #2c3e50;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: #2980b9;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1c5980;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form method="post" action="/Admin/AddClass">
+            <h2>افزودن کلاس جدید</h2>
+
+            <label>نام کلاس:</label>
+            <input type="text" name="name" required />
+
+            <label>شناسه درس:</label>
+            <input type="number" name="courseId" required />
+
+            <button type="submit">افزودن</button>
+        </form>
+    </div>
+</body>
+</html>

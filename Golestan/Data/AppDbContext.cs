@@ -136,6 +136,7 @@ namespace Golestan.Data
                 Budget = 50000000
             });
 
+
             modelBuilder.Entity<Departments>().HasData(new Departments
             {
                 Id = 222,
@@ -159,6 +160,7 @@ namespace Golestan.Data
                 Building = "4457",
                 Budget = 25000000
             });
+
         }
     }
 }

@@ -1,31 +1,150 @@
-﻿@model List<Golestan.Models.Students>
 
-<table>
-    <thead>
-        <tr>
-            <th>شماره دانشجویی</th>
-			<th>شناسه کاربر</th>
-            <th>عملیات</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            @foreach (var user in Model)
-            {
-                <tr>
-                    <td>@user.Student_Id</td>
-                    <td>@user.User_Id</td>@* most be User.First_Name*@
-                    <td>
-                        <form asp-action="DeleteStudent" asp-controller="Admin" method="post" style="display:inline;">
-                            <input type="hidden" name="id" value="@user.Id" />
-                            <button type="submit" onclick="return confirm('آیا مطمئن هستید؟')" style="background:none;border:none;color:red;text-decoration:underline;cursor:pointer;">
-                                حذف
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            }
+﻿@{
+    ViewData["Title"] = "حذف دانشجو";
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>حذف دانشجو</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-    </tbody>
-</table>
+
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: linear-gradient(to left, #3a6073, #16222a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .delete-form {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        .delete-header {
+            color: #e74c3c;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .alert-danger {
+            background-color: #fdecea;
+            color: #e74c3c;
+            padding: 1rem;
+            border-radius: 10px;
+            border-right: 4px solid #e74c3c;
+            margin-bottom: 1.5rem;
+            text-align: right;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: right;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+            input[type="number"]:focus {
+                border-color: #e74c3c;
+                box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+                outline: none;
+            }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: bold;
+        }
+
+            .btn-delete:hover {
+                background-color: #c0392b;
+                transform: translateY(-2px);
+            }
+
+            .btn-delete:active {
+                transform: translateY(0);
+            }
+
+        .fa-triangle-exclamation {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="delete-form">
+        <h2 class="delete-header">حذف دانشجو</h2>
+
+        <div class="alert-danger">
+            <i class="fas fa-triangle-exclamation"></i>
+            هشدار: با حذف دانشجو، تمام اطلاعات مرتبط از جمله نمرات و حضور و غیاب نیز حذف خواهند شد!
+        </div>
+
+        <form method="post" action="/Admin/DeleteStudent" id="deleteForm">
+            <div class="form-group">
+                <label for="studentId">شناسه دانشجو:</label>
+                <input type="number" id="studentId" name="id"
+                       placeholder="شناسه دانشجو را وارد نمایید"
+                       required
+                       min="1">
+            </div>
+
+            <button type="submit" class="btn-delete">
+                حذف دانشجو
+            </button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#deleteForm').submit(function(e) {
+                const studentId = $('#studentId').val();
+
+                if (!studentId) {
+                    alert('لطفاً شناسه دانشجو را وارد نمایید');
+                    return false;
+                }
+
+                return confirm(`آیا از حذف دانشجو با شناسه ${studentId} اطمینان دارید؟\nاین عمل غیرقابل بازگشت خواهد بود!`);
+            });
+        });
+    </script>
+</body>
+</html>
+

@@ -1,9 +1,25 @@
 ﻿@{
-    ViewBag.Title = "پنل مدیریت";
+    ViewData["Title"] = "پنل مدیریت";
 }
 
-<h2>پنل مدیریت</h2>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>پنل مدیریت سیستم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --danger-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+        }
 
+<<<<<<< Updated upstream
 <ul>
     <li><a href="/Admin/AddUser">افزودن کاربر جدید</a></li>
     <li><a href="/Admin/AddCourse">افزودن درس جدید</a></li>
@@ -21,3 +37,254 @@
     <li><a href="/Admin/DeleteStudent">حذف دانشجو</a></li>
 </ul>
  
+=======
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazir', Tahoma, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            direction: rtl;
+            padding: 20px;
+        }
+
+        .admin-panel {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: linear-gradient(to right, #3a6073, #16222a);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+            .panel-header h2 {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
+
+            .panel-header::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(to right, var(--primary-color), var(--success-color));
+            }
+
+        .panel-body {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .action-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
+            overflow: hidden;
+        }
+
+            .action-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            }
+
+        .card-header {
+            padding: 15px 20px;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .add {
+            background-color: var(--success-color);
+        }
+
+        .assign {
+            background-color: var(--primary-color);
+        }
+
+        .delete {
+            background-color: var(--danger-color);
+        }
+
+        .manage {
+            background-color: var(--warning-color);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .action-link {
+            display: block;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .action-link:hover {
+                background-color: #dfe6e9;
+                transform: translateX(-5px);
+            }
+
+            .action-link i {
+                width: 25px;
+                text-align: center;
+            }
+
+        .add-link {
+            border-right: 4px solid var(--success-color);
+        }
+
+        .assign-link {
+            border-right: 4px solid var(--primary-color);
+        }
+
+        .delete-link {
+            border-right: 4px solid var(--danger-color);
+        }
+
+        .manage-link {
+            border-right: 4px solid var(--warning-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-panel">
+        <div class="panel-header">
+            <h2><i class="fas fa-cogs"></i> پنل مدیریت سیستم</h2>
+            <p>مدیریت کامل بخش‌های مختلف سامانه</p>
+        </div>
+
+        <div class="panel-body">
+            <!-- بخش افزودن -->
+            <div class="action-card">
+                <div class="card-header add">
+                    <i class="fas fa-plus-circle"></i>
+                    عملیات افزودن
+                </div>
+                <div class="card-body">
+                    <a href="/Admin/AddCourse" class="action-link add-link">
+                        <i class="fas fa-book"></i>
+                        افزودن درس جدید
+                    </a>
+                    <a href="/Admin/AddClass" class="action-link add-link">
+                        <i class="fas fa-chalkboard"></i>
+                        افزودن کلاس جدید
+                    </a>
+                    <a href="/Admin/AddTeacher" class="action-link add-link">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        افزودن استاد جدید
+                    </a>
+                    <a href="/Admin/AddStudent" class="action-link add-link">
+                        <i class="fas fa-user-graduate"></i>
+                        افزودن دانشجوی جدید
+                    </a>
+                </div>
+            </div>
+
+            <!-- بخش تخصیص -->
+            <div class="action-card">
+                <div class="card-header assign">
+                    <i class="fas fa-link"></i>
+                    عملیات تخصیص
+                </div>
+                <div class="card-body">
+                    <a href="/Admin/AssignTeacher" class="action-link assign-link">
+                        <i class="fas fa-user-tie"></i>
+                        تخصیص استاد به کلاس
+                    </a>
+                    <a href="/Admin/AddStudentToClass" class="action-link assign-link">
+                        <i class="fas fa-users"></i>
+                        افزودن دانشجو به کلاس
+                    </a>
+                </div>
+            </div>
+
+            <!-- بخش مدیریت -->
+            <div class="action-card">
+                <div class="card-header manage">
+                    <i class="fas fa-exchange-alt"></i>
+                    عملیات مدیریت
+                </div>
+                <div class="card-body">
+                    <a href="/Admin/RemoveTeacher" class="action-link manage-link">
+                        <i class="fas fa-user-slash"></i>
+                        لغو تخصیص استاد از کلاس
+                    </a>
+                    <a href="/Admin/RemoveStudentFromClass" class="action-link manage-link">
+                        <i class="fas fa-user-minus"></i>
+                        حذف دانشجو از کلاس
+                    </a>
+                </div>
+            </div>
+
+            <!-- بخش حذف -->
+            <div class="action-card">
+                <div class="card-header delete">
+                    <i class="fas fa-trash-alt"></i>
+                    عملیات حذف
+                </div>
+                <div class="card-body">
+                    <a href="/Admin/DeleteCourse" class="action-link delete-link">
+                        <i class="fas fa-book-dead"></i>
+                        حذف درس
+                    </a>
+                    <a href="/Admin/DeleteClass" class="action-link delete-link">
+                        <i class="fas fa-chalkboard"></i>
+                        حذف کلاس
+                    </a>
+                    <a href="/Admin/DeleteTeacher" class="action-link delete-link">
+                        <i class="fas fa-user-times"></i>
+                        حذف استاد
+                    </a>
+                    <a href="/Admin/DeleteStudent" class="action-link delete-link">
+                        <i class="fas fa-user-shield"></i>
+                        حذف دانشجو
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        ‌
+        document.querySelectorAll('.action-link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(-5px)';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body>
+</html>
+>>>>>>> Stashed changes
