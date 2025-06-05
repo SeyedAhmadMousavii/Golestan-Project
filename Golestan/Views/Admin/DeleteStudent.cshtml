@@ -1,12 +1,31 @@
-﻿@{
-    ViewBag.Title = "حذف دانشجو";
-}
+﻿@model List<Golestan.Models.Students>
 
-<h2>حذف دانشجو</h2>
-
-<form method="post" action="/Admin/DeleteStudent">
-    <label>شناسه دانشجو:</label>
-    <input type="number" name="id" required />
-
-    <button type="submit">حذف</button>
-</form>
+<table>
+    <thead>
+        <tr>
+            <th>شماره دانشجویی</th>
+			<th>شناسه کاربر</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Student_Id</td>
+                    <td>@user.User_Id</td>@* most be User.First_Name*@
+                    <td>
+                        <form asp-action="DeleteStudent" asp-controller="Admin" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="submit" onclick="return confirm('آیا مطمئن هستید؟')" style="background:none;border:none;color:red;text-decoration:underline;cursor:pointer;">
+                                حذف
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
