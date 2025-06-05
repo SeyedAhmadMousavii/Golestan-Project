@@ -1,6 +1,7 @@
 ﻿using Golestan.Data;
 using Golestan.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -20,7 +21,20 @@ namespace Golestan.Controllers
         {
             return View(); 
         }
-
+        //افزودن کاربر
+        [HttpGet]
+        public IActionResult AddUser()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddUser(string First_Name,string Last_Name,string Email,string Password)
+        {
+            var user = new Users { First_name=First_Name,Last_name=Last_Name,Email=Email,Hashed_password=Password };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
         // افزودن درس
         [HttpGet]
         public IActionResult AddCourse()
@@ -198,7 +212,24 @@ namespace Golestan.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        // حذف کاربر
+        [HttpGet]
+        public IActionResult DeleteUser()
+        {
+            var user = _context.Users.ToList();
+            return View(user);
+        }
+        [HttpPost]
+        public async  Task<IActionResult> DeleteUser(int id)
+        {
+            var User = await _context.Users.FindAsync(id);
+            if (User != null)
+            {
+                _context.Users.Remove(User);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
         // حذف کلاس
         [HttpGet]
         public IActionResult DeleteClass()

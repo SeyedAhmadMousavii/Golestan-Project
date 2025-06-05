@@ -11,6 +11,7 @@ namespace Golestan.Data
         public DbSet<Users> Users { get; set; }
         public DbSet<Roles> Roles { get; set; }
         public DbSet<User_Role> User_Roles { get; set; }
+        public DbSet<Students> Students { get; set; }
         public DbSet<Instructors> Instructors { get; set; }
         public DbSet<Students> Students { get; set; }   
         public DbSet<Teaches> Teaches { get; set; }
@@ -20,14 +21,6 @@ namespace Golestan.Data
         public DbSet<Courses> Courses { get; set; }
         public DbSet<Classrooms> Classrooms { get; set; }
         public DbSet<Time_Slots> Time_Slots { get; set; }
-
-
-        //public DbSet<Student> Student { get; set; }
-        //public DbSet<Course> Course { get; set; }
-        //public DbSet<Class> Classes { get; set; }
-        //public DbSet<Teacher> Teachers { get; set; }
-        //public DbSet<Student_Class> Student_Classes { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

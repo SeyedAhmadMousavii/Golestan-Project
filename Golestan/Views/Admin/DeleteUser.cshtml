@@ -1,0 +1,39 @@
+﻿@model List<Golestan.Models.Users>
+
+<table>
+    <thead>
+        <tr>
+            <th>نام</th>
+            <th>ایمیل</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var user in Model)
+            {
+                @if (user.Id == Model[0].Id)
+                {
+                    
+                }
+                else
+                {
+                    <tr>
+                    <td>@user.First_name</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <form asp-action="DeleteUser" asp-controller="Admin" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="submit" onclick="return confirm('آیا مطمئن هستید؟')" style="background:none;border:none;color:red;text-decoration:underline;cursor:pointer;">
+                                حذف
+                            </button>
+                        </form>
+                    </td>
+                </tr> 
+                }
+                 
+            }
+        }
+    </tbody>
+</table>
