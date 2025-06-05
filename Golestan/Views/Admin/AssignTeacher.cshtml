@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "تخصیص استاد به کلاس";
+}
+
+<h2>تخصیص استاد به کلاس</h2>
+
+<form method="post" action="/Admin/AssignTeacher">
+    <label>شناسه کلاس:</label>
+    <input type="number" name="classId" required />
+
+    <label>شناسه استاد:</label>
+    <input type="number" name="teacherId" required />
+
+    <button type="submit">تخصیص</button>
+</form>

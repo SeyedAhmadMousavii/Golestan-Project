@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "افزودن دانشجو به کلاس";
+}
+
+<h2>افزودن دانشجو به کلاس</h2>
+
+<form method="post" action="/Admin/AddStudentToClass">
+    <label>شناسه دانشجو:</label>
+    <input type="number" name="studentId" required />
+
+    <label>شناسه کلاس:</label>
+    <input type="number" name="classId" required />
+
+    <button type="submit">افزودن</button>
+</form>

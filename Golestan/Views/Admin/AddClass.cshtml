@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "افزودن کلاس جدید";
+}
+
+<h2>افزودن کلاس جدید</h2>
+
+<form method="post" action="/Admin/AddClass">
+    <label>نام کلاس:</label>
+    <input type="text" name="name" required />
+
+    <label>شناسه درس:</label>
+    <input type="number" name="courseId" required />
+
+    <button type="submit">افزودن</button>
+</form>

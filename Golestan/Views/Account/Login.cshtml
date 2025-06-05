@@ -5,37 +5,139 @@
     var roles = ViewBag.Roles as List<string>;
 }
 
-
-<form asp-action="Login" asp-controller="Account" method="post">
-    <h2>ورود به سیستم</h2>
-
-    <input asp-for="Id" placeholder="کد" type="text" />
-    <span asp-validation-for="Id"></span>
-
-    <input asp-for="Password" placeholder="رمز عبور" type="password" />
-    <span asp-validation-for="Password"></span>
-
-    <select asp-for="SelectedRole">
-        <option value="">انتخاب نقش</option>
-        @foreach (var role in roles)
-        {
-            <option value="@role">@role</option>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>ورود به سیستم</title>
+    <style>
+        * {
+            box-sizing: border-box;
         }
-    </select>
-    <span asp-validation-for="SelectedRole"></span>
-    @if (!ViewData.ModelState.IsValid)
-    {
-        <div style="color:red">
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <p>@error.ErrorMessage</p>
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: linear-gradient(to left, #3a6073, #16222a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+
+            .login-container h2 {
+                text-align: center;
+                margin-bottom: 1.8rem;
+                color: #2c3e50;
             }
-        </div>
-    }
 
-    <button type="submit">ورود</button>
-</form>
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #333;
+            font-weight: bold;
+        }
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+            input:focus,
+            select:focus {
+                outline: none;
+                border-color: #2980b9;
+                box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+            }
+
+        .error-message {
+            color: red;
+            font-size: 0.85rem;
+            margin-top: -0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: #2980b9;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+                background-color: #1c5980;
+            }
+
+        .alert {
+            background-color: #f8d7da;
+            color: #842029;
+            padding: 0.8rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <form asp-action="Login" asp-controller="Account" method="post">
+            <h2>ورود به سیستم</h2>
+
+            <label asp-for="Id">کد کاربری</label>
+            <input asp-for="Id" type="text" placeholder="کد کاربری را وارد کنید" />
+            <span asp-validation-for="Id" class="error-message"></span>
+
+            <label asp-for="Password">رمز عبور</label>
+            <input asp-for="Password" type="password" placeholder="رمز عبور را وارد کنید" />
+            <span asp-validation-for="Password" class="error-message"></span>
+
+            <label asp-for="SelectedRole">نقش</label>
+            <select asp-for="SelectedRole">
+                <option value="">انتخاب نقش</option>
+                @foreach (var role in roles)
+                {
+                    <option value="@role">@role</option>
+                }
+            </select>
+            <span asp-validation-for="SelectedRole" class="error-message"></span>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <p>@error.ErrorMessage</p>
+                    }
+                </div>
+            }
+
+            <button type="submit">ورود</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
