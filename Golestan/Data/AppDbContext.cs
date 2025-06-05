@@ -127,6 +127,38 @@ namespace Golestan.Data
             modelBuilder.Entity<Users>().HasData(new Users
             { Id = 10203040, First_name = "mananger", Last_name = "system", Email = "System@gmai", Hashed_password = "1234", Created_at = new DateTime(2000, 05, 01) });
             modelBuilder.Entity<User_Role>().HasData(new User_Role { User_Id = 10203040, Role_Id = 3 });
+
+            modelBuilder.Entity<Departments>().HasData(new Departments
+            {
+                Id = 111,
+                Name = "کامپیوتر",
+                Building = "0015",
+                Budget = 50000000
+            });
+
+            modelBuilder.Entity<Departments>().HasData(new Departments
+            {
+                Id = 222,
+                Name = "مکانیک",
+                Building = "0154",
+                Budget = 100000000
+            });
+
+            modelBuilder.Entity<Departments>().HasData(new Departments
+            {
+                Id = 333,
+                Name = "برق",
+                Building = "1023",
+                Budget = 150000000
+            });
+
+            modelBuilder.Entity<Departments>().HasData(new Departments
+            {
+                Id = 444,
+                Name = "معماری",
+                Building = "4457",
+                Budget = 25000000
+            });
         }
     }
 }

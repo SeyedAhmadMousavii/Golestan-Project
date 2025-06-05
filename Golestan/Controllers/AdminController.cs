@@ -100,11 +100,21 @@ namespace Golestan.Controllers
         public IActionResult AddStudent()
         {
             var user = _context.Users.ToList();
+            var departments = _context.Departments
+                                      .Select(d => new SelectListItem
+                                      {
+                                          Value = d.Id.ToString(),
+                                          Text = d.Name
+                                      }).ToList();
+
+            ViewBag.Departments = departments;
+
             return View(user);
         }
         [HttpPost]
         public async Task<IActionResult> AddStudent(int Id,int StudID,int DepartID)
         {
+    
             var user = await _context.Users.FindAsync(Id);
             bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == Id && ur.Role_Id == 2);
             if (user == null)
@@ -241,6 +251,20 @@ namespace Golestan.Controllers
             var User = await _context.Users.FindAsync(id);
             if (User != null)
             {
+                var students = _context.Students.Where(s => s.User_Id == id).ToList();
+
+                if (students.Any())
+                {
+                    _context.Students.RemoveRange(students);
+                }
+                var instructor = _context.Instructors.Where(s => s.User_Id == id).ToList();
+
+                if (instructor.Any())
+                {
+                    _context.Instructors.RemoveRange(instructor);
+                }
+
+
                 _context.Users.Remove(User);
                 await _context.SaveChangesAsync();
             }
