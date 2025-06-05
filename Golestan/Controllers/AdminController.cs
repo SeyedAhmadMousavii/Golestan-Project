@@ -3,6 +3,7 @@ using Golestan.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -98,27 +99,42 @@ namespace Golestan.Controllers
         [HttpGet]
         public IActionResult AddStudent()
         {
-            return View();
+            var user = _context.Users.ToList();
+            return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> AddStudent(string fullName, string username, string password)
+        public async Task<IActionResult> AddStudent(int Id,int StudID,int DepartID)
         {
-            var user = new Users
+            var user = await _context.Users.FindAsync(Id);
+            bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == Id && ur.Role_Id == 2);
+            if (user == null)
             {
-                First_name = fullName,
-                Email = username,
-                Hashed_password = password,
-                Created_at = DateTime.Now
-            };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+                //adding error message
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                if (user.User_Roles!=null || !alreadyExists )
+                {
+                    var newUserRole = new User_Role
+                    {
+                        User_Id = Id,
+                        Role_Id = 2
+                    };
+                    _context.User_Roles.Add(newUserRole);
+                    _context.SaveChanges();
+                }
 
-            _context.User_Roles.Add(new User_Role { User_Id = user.Id, Role_Id = 1 }); // RoleId = 1 = Student
-            await _context.SaveChangesAsync();
-
-            var student = new Students {  User_Id = user.Id };
-            _context.Students.Add(student);
-            await _context.SaveChangesAsync();
+                var student = new Students
+                {
+                    User_Id = Id,
+                    Student_Id = StudID,
+                    Depatment_Id = DepartID,
+                    Enrollment_Date = DateTime.Now
+                };
+                _context.Students.Add(student);
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction("Index","Admin");
         }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Golestan.Migrations
 {
     /// <inheritdoc />
-    public partial class dsat : Migration
+    public partial class hifalf : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -146,6 +146,7 @@ namespace Golestan.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Student_Id = table.Column<int>(type: "int", nullable: false),
                     User_Id = table.Column<int>(type: "int", nullable: false),
                     Enrollment_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Depatment_Id = table.Column<int>(type: "int", nullable: false)
@@ -330,12 +331,14 @@ namespace Golestan.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Takes_Section_Id",
                 table: "Takes",
-                column: "Section_Id");
+                column: "Section_Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teaches_Section_Id",
                 table: "Teaches",
-                column: "Section_Id");
+                column: "Section_Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_Roles_Role_Id",

@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "افزودن دانشجوی جدید";
 }
-
+@*
 <h2>افزودن دانشجوی جدید</h2>
 
 <form method="post" action="/Admin/AddStudent">
@@ -15,4 +15,51 @@
     <input type="password" name="password" required />
 
     <button type="submit">ثبت</button>
-</form>
+</form> *@
+@model List<Golestan.Models.Users>
+
+<table>
+    <thead>
+        <tr>
+            <th>نام</th>
+            <th>ایمیل</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var user in Model)
+            {
+                @if (user.Id == Model[0].Id)
+                {
+  
+                }
+                else
+                {
+                    <tr>
+                        <td>@user.First_name</td>
+                        <td>@user.Email</td>
+                        <td>
+                            <form asp-action="AddStudent" asp-controller="Admin" method="post" style="display:inline;">
+                                <input type="hidden" name="Id" value="@user.Id" />
+
+                                <label>شماره دانشجویی:</label>
+                                <input type="number" name="StudId" required />
+
+                                <label>شماره دانشکده:</label>
+                                <input type="number" name="DepartId" required />
+
+                                <button type="submit" onclick="return confirm('آیا مطمئن هستید؟')" style="background:none;border:none;color:blue;text-decoration:underline;cursor:pointer;">
+                                    اضافه
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+
+            }
+        }
+    </tbody>
+</table>
+
