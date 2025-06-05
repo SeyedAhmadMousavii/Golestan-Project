@@ -47,8 +47,22 @@
                                 <label>شماره دانشجویی:</label>
                                 <input type="number" name="StudId" required />
 
-                                <label>شماره دانشکده:</label>
-                                <input type="number" name="DepartId" required />
+                                @* <label>شماره دانشکده:</label>
+                                <input type="number" name="DepartId" required /> *@
+
+                                @* <label for="DepatId">دانشکده</label>
+                                <select asp-for="مم" asp-items="ViewBag.Departments" class="form-control">
+                                    <option value="">-- Select Department --</option>
+                                </select> *@
+
+                                <select name="DepartID" id="DepartID" class="form-control">
+                                    <option value="">-- Select Department --</option>
+                                    <option value="111">کامپیوتر</option>
+                                    <option value="222">برق</option>
+                                    <option value="333">مکانیک</option>
+                                    <option value="444">معماری</option>
+                                </select>
+
 
                                 <button type="submit" onclick="return confirm('آیا مطمئن هستید؟')" style="background:none;border:none;color:blue;text-decoration:underline;cursor:pointer;">
                                     اضافه
