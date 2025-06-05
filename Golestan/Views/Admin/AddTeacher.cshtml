@@ -1,18 +1,56 @@
-﻿@{
+﻿@model List<Golestan.Models.Users>
+@{
     ViewBag.Title = "افزودن استاد جدید";
 }
+<table>
+    <thead>
+        <tr>
+            <th>نام</th>
+            <th>ایمیل</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var user in Model)
+            {
+                @if (user.Id == Model[0].Id)
+                {
 
-<h2>افزودن استاد جدید</h2>
+                }
+                else
+                {
+                    <tr>
+                        <td>@user.First_name</td>
+                        <td>@user.Email</td>
+                        <td>
+                            <form asp-action="AddTeacher" asp-controller="Admin" method="post" style="display:inline;">
+                                <input type="hidden" name="Id" value="@user.Id" />
 
-<form method="post" action="/Admin/AddTeacher">
-    <label>نام کامل:</label>
-    <input type="text" name="fullName" required />
+                                <label>شماره استاد:</label>
+                                <input type="number" name="TeachId" required />
 
-    <label>نام کاربری:</label>
-    <input type="text" name="username" required />
+                                <label>حقوق:</label>
+                                <input type="number" name="salary" required />
 
-    <label>رمز عبور:</label>
-    <input type="password" name="password" required />
+                                <select name="DepartID" id="DepartID" class="form-control">
+                                    <option value="">-- Select Department --</option>
+                                    <option value="111">کامپیوتر</option>
+                                    <option value="222">برق</option>
+                                    <option value="333">مکانیک</option>
+                                    <option value="444">معماری</option>
+                                </select>
 
-    <button type="submit">ثبت</button>
-</form>
+
+                                <button type="submit" onclick="return confirm('آیا مطمئن هستید؟')" style="background:none;border:none;color:blue;text-decoration:underline;cursor:pointer;">
+                                    اضافه
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>

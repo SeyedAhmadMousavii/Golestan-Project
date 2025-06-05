@@ -1,21 +1,6 @@
 ﻿@{
     ViewBag.Title = "افزودن دانشجوی جدید";
 }
-@*
-<h2>افزودن دانشجوی جدید</h2>
-
-<form method="post" action="/Admin/AddStudent">
-    <label>نام کامل:</label>
-    <input type="text" name="fullName" required />
-
-    <label>نام کاربری:</label>
-    <input type="text" name="username" required />
-
-    <label>رمز عبور:</label>
-    <input type="password" name="password" required />
-
-    <button type="submit">ثبت</button>
-</form> *@
 @model List<Golestan.Models.Users>
 
 <table>
@@ -47,14 +32,6 @@
                                 <label>شماره دانشجویی:</label>
                                 <input type="number" name="StudId" required />
 
-                                @* <label>شماره دانشکده:</label>
-                                <input type="number" name="DepartId" required /> *@
-
-                                @* <label for="DepatId">دانشکده</label>
-                                <select asp-for="مم" asp-items="ViewBag.Departments" class="form-control">
-                                    <option value="">-- Select Department --</option>
-                                </select> *@
-
                                 <select name="DepartID" id="DepartID" class="form-control">
                                     <option value="">-- Select Department --</option>
                                     <option value="111">کامپیوتر</option>
@@ -71,7 +48,6 @@
                         </td>
                     </tr>
                 }
-
             }
         }
     </tbody>
