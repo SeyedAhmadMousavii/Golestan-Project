@@ -1,4 +1,6 @@
-﻿public class Class
+﻿using System.ComponentModel.DataAnnotations;
+
+public class Class
 {
     public int Id { get; set; }
     public string Name { get; set; }

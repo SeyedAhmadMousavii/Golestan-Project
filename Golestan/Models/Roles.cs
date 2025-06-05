@@ -1,4 +1,6 @@
-﻿namespace Golestan.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Golestan.Models
 {
     public enum role
     {
@@ -8,6 +10,7 @@
     }
     public class Roles
     {
+        [Key]
         public int Id { get; set; }
         public role Name { get; set; }
         public List<User_Role> User_Roles { get; set; }

@@ -1,7 +1,10 @@
 ﻿using Golestan.Data;
 using Golestan.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Golestan.Controllers
@@ -17,17 +20,30 @@ namespace Golestan.Controllers
 
         public IActionResult Index()
         {
-<<<<<<< Updated upstream
-            return View(); // مطمئن شو که View مربوطه ساخته شده (Views/Admin/Index.cshtml)
-        }
 
+            return View(); 
+        }
+        //افزودن کاربر
+        [HttpGet]
+        public IActionResult AddUser()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddUser(string First_Name,string Last_Name,string Email,string Password)
+        {
+            var user = new Users { First_name=First_Name,Last_name=Last_Name,Email=Email,Hashed_password=Password };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+
+        }
         // افزودن درس
         [HttpGet]
         public IActionResult AddCourse()
         {
             return View();
         }
-=======
 
             return View();
         }
@@ -38,53 +54,36 @@ namespace Golestan.Controllers
         {
             return View();
         }
-
->>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> AddCourse(string title)
         {
-            var course = new Course { Title = title };
+            var course = new Courses { Title = title };
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
-<<<<<<< Updated upstream
         // افزودن کلاس برای درس
-=======
-
->>>>>>> Stashed changes
         [HttpGet]
         public IActionResult AddClass()
         {
             return View();
         }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> AddClass(string name, int courseId)
         {
-            var classItem = new Class { Name = name, CourseId = courseId };
-            _context.Classes.Add(classItem);
+            var classItem = new Classrooms { Building = name, Id = courseId };
+            _context.Classrooms.Add(classItem);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
-<<<<<<< Updated upstream
         // افزودن استاد
-=======
->>>>>>> Stashed changes
+
         [HttpGet]
         public IActionResult AddTeacher()
         {
             return View();
         }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> AddTeacher(string fullName, string username, string password)
         {
@@ -101,46 +100,66 @@ namespace Golestan.Controllers
             _context.User_Roles.Add(new User_Role { User_Id = user.Id, Role_Id = 2 });
             await _context.SaveChangesAsync();
 
-            var teacher = new Teacher { FullName = fullName, Username = username, Password = password, User_Id = user.Id };
-            _context.Teachers.Add(teacher);
+            var teacher = new Instructors {  User_Id = user.Id };
+            _context.Instructors.Add(teacher);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
 
-<<<<<<< Updated upstream
         // افزودن دانشجو
-=======
 
->>>>>>> Stashed changes
         [HttpGet]
         public IActionResult AddStudent()
         {
-            return View();
+            var user = _context.Users.ToList();
+            var departments = _context.Departments
+                                      .Select(d => new SelectListItem
+                                      {
+                                          Value = d.Id.ToString(),
+                                          Text = d.Name
+                                      }).ToList();
+
+            ViewBag.Departments = departments;
+
+            return View(user);
         }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
+  
         [HttpPost]
-        public async Task<IActionResult> AddStudent(string fullName, string username, string password)
+        public async Task<IActionResult> AddStudent(int Id,int StudID,int DepartID)
         {
-            var user = new Users
+    
+            var user = await _context.Users.FindAsync(Id);
+            bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == Id && ur.Role_Id == 2);
+            if (user == null)
             {
-                First_name = fullName,
-                Email = username,
-                Hashed_password = password,
-                Created_at = DateTime.Now
-            };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+                //adding error message
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                if (user.User_Roles!=null || !alreadyExists )
+                {
+                    var newUserRole = new User_Role
+                    {
+                        User_Id = Id,
+                        Role_Id = 2
+                    };
+                    _context.User_Roles.Add(newUserRole);
+                    _context.SaveChanges();
+                }
 
-            _context.User_Roles.Add(new User_Role { User_Id = user.Id, Role_Id = 1 }); // RoleId = 1 = Student
-            await _context.SaveChangesAsync();
-
-            var student = new Student { FullName = fullName, Username = username, Password = password, User_Id = user.Id };
-            _context.Students.Add(student);
-            await _context.SaveChangesAsync();
+                var student = new Students
+                {
+                    User_Id = Id,
+                    Student_Id = StudID,
+                    Depatment_Id = DepartID,
+                    Enrollment_Date = DateTime.Now,
+                    User=user
+                };
+                _context.Students.Add(student);
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction("Index","Admin");
         }
@@ -152,117 +171,94 @@ namespace Golestan.Controllers
             return View();
         }
 
-<<<<<<< Updated upstream
+
         // تخصیص استاد به کلاس
         [HttpGet]
         public IActionResult AssignTeacher()
         {
             return View();
         }
-=======
->>>>>>> Stashed changes
+
         [HttpPost]
         public async Task<IActionResult> AssignTeacher(int classId, int teacherId)
         {
-            var classItem = await _context.Classes.FindAsync(classId);
+            var classItem = await _context.Students.FindAsync(classId);
             if (classItem != null)
             {
-                classItem.TeacherId = teacherId;
+                classItem.Id = teacherId;
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
         }
 
-<<<<<<< Updated upstream
         // افزودن دانشجو به کلاس
-=======
 
->>>>>>> Stashed changes
         [HttpGet]
         public IActionResult AddStudentToClass()
         {
             return View();
         }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> AddStudentToClass(int studentId, int classId)
         {
-            bool exists = await _context.Student_Classes.AnyAsync(sc => sc.StudentId == studentId && sc.ClassId == classId);
+            bool exists = await _context.Classrooms.AnyAsync();
             if (!exists)
             {
-                _context.Student_Classes.Add(new Student_Class { StudentId = studentId, ClassId = classId });
+                _context.Classrooms.Add(new Classrooms { Id=classId });
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
         }
 
-<<<<<<< Updated upstream
         // لغو تخصیص استاد از کلاس
-=======
->>>>>>> Stashed changes
+
         [HttpGet]
         public IActionResult RemoveTeacher()
         {
             return View();
         }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> RemoveTeacher(int classId)
         {
-            var classItem = await _context.Classes.FindAsync(classId);
+            var classItem = await _context.Classrooms.FindAsync(classId);
             if (classItem != null)
             {
-                classItem.TeacherId = null;
+                classItem.Building = null;
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
         }
 
-<<<<<<< Updated upstream
         // لغو تخصیص دانشجو از کلاس
-=======
 
->>>>>>> Stashed changes
         [HttpGet]
         public IActionResult RemoveStudentFromClass()
         {
             return View();
         }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> RemoveStudentFromClass(int studentId, int classId)
         {
-            var record = await _context.Student_Classes.FirstOrDefaultAsync(sc => sc.StudentId == studentId && sc.ClassId == classId);
+            var record = await _context.Classrooms.FirstOrDefaultAsync();
             if (record != null)
             {
-                _context.Student_Classes.Remove(record);
+                _context.Classrooms.Remove(record);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
         }
 
-<<<<<<< Updated upstream
         // حذف درس
-=======
->>>>>>> Stashed changes
+
         [HttpGet]
         public IActionResult DeleteCourse()
         {
             return View();
         }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
+  
         [HttpPost]
         public async Task<IActionResult> DeleteCourse(int id)
         {
@@ -274,53 +270,73 @@ namespace Golestan.Controllers
             }
             return RedirectToAction("Index");
         }
+        // حذف کاربر
+        [HttpGet]
+        public IActionResult DeleteUser()
+        {
+            var user = _context.Users.ToList();
+            return View(user);
+        }
+        [HttpPost]
+        public async  Task<IActionResult> DeleteUser(int id)
+        {
+            var User = await _context.Users.FindAsync(id);
+            if (User != null)
+            {
+                var students = _context.Students.Where(s => s.User_Id == id).ToList();
 
-<<<<<<< Updated upstream
+                if (students.Any())
+                {
+                    _context.Students.RemoveRange(students);
+                }
+                var instructor = _context.Instructors.Where(s => s.User_Id == id).ToList();
+
+                if (instructor.Any())
+                {
+                    _context.Instructors.RemoveRange(instructor);
+                }
+              
+                _context.Users.Remove(User);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
         // حذف کلاس
-=======
 
->>>>>>> Stashed changes
         [HttpGet]
         public IActionResult DeleteClass()
         {
             return View();
         }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> DeleteClass(int id)
         {
-            var classItem = await _context.Classes.FindAsync(id);
+            var classItem = await _context.Classrooms.FindAsync(id);
             if (classItem != null)
             {
-                _context.Classes.Remove(classItem);
+                _context.Classrooms.Remove(classItem);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
         }
-
-<<<<<<< Updated upstream
+  
         // حذف استاد
-=======
->>>>>>> Stashed changes
+
         [HttpGet]
         public IActionResult DeleteTeacher()
         {
             return View();
         }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> DeleteTeacher(int id)
         {
-            var teacher = await _context.Teachers.FindAsync(id);
+            var teacher = await _context.Instructors.FindAsync(id);
             if (teacher != null)
             {
-                _context.Teachers.Remove(teacher);
+                _context.Instructors.Remove(teacher);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
@@ -330,23 +346,22 @@ namespace Golestan.Controllers
         {
             return View();
         }
-
-<<<<<<< Updated upstream
+  
         // حذف دانشجو
         [HttpGet]
         public IActionResult DeleteStudent()
         {
-            return View();
+            var user = _context.Students.ToList();
+            return View(user);
         }
-=======
->>>>>>> Stashed changes
+
         [HttpPost]
-        public async Task<IActionResult> DeleteStudent(int id)
+        public async Task<IActionResult> DeleteStudent(int Id)
         {
-            var student = await _context.Students.FindAsync(id);
-            if (student != null)
+            var Student = await _context.Students.FindAsync(Id);
+            if (Student != null)
             {
-                _context.Students.Remove(student);
+                _context.Students.Remove(Student);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");

@@ -12,7 +12,8 @@ namespace Golestan.Models
         public string Email { get; set; }
         public string Hashed_password { get; set; }
         public List<User_Role> User_Roles { get; set; }
-        public ICollection<Student> students { get; set; }
+        public List<Students> students { get; set; }
+        public List<Instructors> instructors { get; set; }
 
     }
 }

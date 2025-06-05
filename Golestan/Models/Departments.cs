@@ -1,7 +1,12 @@
-﻿namespace Golestan.Models
+
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Golestan.Models
 {
     public class Departments
     {
+        [Key]
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Building { get; set; }
