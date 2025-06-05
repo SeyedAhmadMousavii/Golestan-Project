@@ -215,6 +215,9 @@ namespace Golestan.Migrations
                     b.Property<DateTime>("Enrollment_Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Student_Id")
+                        .HasColumnType("int");
+
                     b.Property<int>("User_Id")
                         .HasColumnType("int");
 

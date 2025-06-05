@@ -127,9 +127,6 @@ namespace Golestan.Data
             modelBuilder.Entity<Users>().HasData(new Users
             { Id = 10203040, First_name = "mananger", Last_name = "system", Email = "System@gmai", Hashed_password = "1234", Created_at = new DateTime(2000, 05, 01) });
             modelBuilder.Entity<User_Role>().HasData(new User_Role { User_Id = 10203040, Role_Id = 3 });
-
-            
-
         }
     }
 }

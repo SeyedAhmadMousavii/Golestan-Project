@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Golestan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250604221321_dsat")]
-    partial class dsat
+    [Migration("20250605084103_hifalf")]
+    partial class hifalf
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -218,6 +218,9 @@ namespace Golestan.Migrations
                     b.Property<DateTime>("Enrollment_Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Student_Id")
+                        .HasColumnType("int");
+
                     b.Property<int>("User_Id")
                         .HasColumnType("int");
 
@@ -243,7 +246,8 @@ namespace Golestan.Migrations
 
                     b.HasKey("Student_Id", "Section_Id");
 
-                    b.HasIndex("Section_Id");
+                    b.HasIndex("Section_Id")
+                        .IsUnique();
 
                     b.ToTable("Takes");
                 });
@@ -258,7 +262,8 @@ namespace Golestan.Migrations
 
                     b.HasKey("Instructor_Id", "Section_Id");
 
-                    b.HasIndex("Section_Id");
+                    b.HasIndex("Section_Id")
+                        .IsUnique();
 
                     b.ToTable("Teaches");
                 });
@@ -430,8 +435,8 @@ namespace Golestan.Migrations
             modelBuilder.Entity("Golestan.Models.Takes", b =>
                 {
                     b.HasOne("Golestan.Models.Sections", "sections")
-                        .WithMany("takes")
-                        .HasForeignKey("Section_Id")
+                        .WithOne("takes")
+                        .HasForeignKey("Golestan.Models.Takes", "Section_Id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -455,8 +460,8 @@ namespace Golestan.Migrations
                         .IsRequired();
 
                     b.HasOne("Golestan.Models.Sections", "sections")
-                        .WithMany("teaches")
-                        .HasForeignKey("Section_Id")
+                        .WithOne("teaches")
+                        .HasForeignKey("Golestan.Models.Teaches", "Section_Id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -516,9 +521,11 @@ namespace Golestan.Migrations
 
             modelBuilder.Entity("Golestan.Models.Sections", b =>
                 {
-                    b.Navigation("takes");
+                    b.Navigation("takes")
+                        .IsRequired();
 
-                    b.Navigation("teaches");
+                    b.Navigation("teaches")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Golestan.Models.Students", b =>
