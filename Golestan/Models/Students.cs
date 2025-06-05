@@ -12,6 +12,6 @@ namespace Golestan.Models
         public DateTime Enrollment_Date { get; set; }
         public int Depatment_Id { get; set; }
         public Departments departments { get; set; }
-        public List<Takes>takes { get; set; }
+        public List<Takes> takes { get; set; }
     }
 }//     Class Not Matched

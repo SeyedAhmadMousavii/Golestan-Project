@@ -140,7 +140,8 @@ namespace Golestan.Controllers
                     User_Id = Id,
                     Student_Id = StudID,
                     Depatment_Id = DepartID,
-                    Enrollment_Date = DateTime.Now
+                    Enrollment_Date = DateTime.Now,
+                    User=user
                 };
                 _context.Students.Add(student);
                 await _context.SaveChangesAsync();
@@ -310,15 +311,16 @@ namespace Golestan.Controllers
         [HttpGet]
         public IActionResult DeleteStudent()
         {
-            return View();
+            var user = _context.Students.ToList();
+            return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> DeleteStudent(int id)
+        public async Task<IActionResult> DeleteStudent(int Id)
         {
-            var student = await _context.Students.FindAsync(id);
-            if (student != null)
+            var Student = await _context.Students.FindAsync(Id);
+            if (Student != null)
             {
-                _context.Students.Remove(student);
+                _context.Students.Remove(Student);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
