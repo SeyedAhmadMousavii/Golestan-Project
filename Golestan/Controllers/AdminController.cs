@@ -17,6 +17,7 @@ namespace Golestan.Controllers
 
         public IActionResult Index()
         {
+<<<<<<< Updated upstream
             return View(); // مطمئن شو که View مربوطه ساخته شده (Views/Admin/Index.cshtml)
         }
 
@@ -26,6 +27,19 @@ namespace Golestan.Controllers
         {
             return View();
         }
+=======
+
+            return View();
+        }
+
+   
+        [HttpGet]
+        public IActionResult AddCourse()
+        {
+            return View();
+        }
+
+>>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> AddCourse(string title)
         {
@@ -35,12 +49,20 @@ namespace Golestan.Controllers
             return RedirectToAction("Index");
         }
 
+<<<<<<< Updated upstream
         // افزودن کلاس برای درس
+=======
+
+>>>>>>> Stashed changes
         [HttpGet]
         public IActionResult AddClass()
         {
             return View();
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> AddClass(string name, int courseId)
         {
@@ -50,12 +72,19 @@ namespace Golestan.Controllers
             return RedirectToAction("Index");
         }
 
+<<<<<<< Updated upstream
         // افزودن استاد
+=======
+>>>>>>> Stashed changes
         [HttpGet]
         public IActionResult AddTeacher()
         {
             return View();
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> AddTeacher(string fullName, string username, string password)
         {
@@ -79,12 +108,20 @@ namespace Golestan.Controllers
             return RedirectToAction("Index");
         }
 
+<<<<<<< Updated upstream
         // افزودن دانشجو
+=======
+
+>>>>>>> Stashed changes
         [HttpGet]
         public IActionResult AddStudent()
         {
             return View();
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> AddStudent(string fullName, string username, string password)
         {
@@ -105,15 +142,25 @@ namespace Golestan.Controllers
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Admin");
         }
 
+
+        [HttpGet]
+        public IActionResult AssignTeacher()
+        {
+            return View();
+        }
+
+<<<<<<< Updated upstream
         // تخصیص استاد به کلاس
         [HttpGet]
         public IActionResult AssignTeacher()
         {
             return View();
         }
+=======
+>>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> AssignTeacher(int classId, int teacherId)
         {
@@ -126,12 +173,20 @@ namespace Golestan.Controllers
             return RedirectToAction("Index");
         }
 
+<<<<<<< Updated upstream
         // افزودن دانشجو به کلاس
+=======
+
+>>>>>>> Stashed changes
         [HttpGet]
         public IActionResult AddStudentToClass()
         {
             return View();
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> AddStudentToClass(int studentId, int classId)
         {
@@ -144,12 +199,19 @@ namespace Golestan.Controllers
             return RedirectToAction("Index");
         }
 
+<<<<<<< Updated upstream
         // لغو تخصیص استاد از کلاس
+=======
+>>>>>>> Stashed changes
         [HttpGet]
         public IActionResult RemoveTeacher()
         {
             return View();
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> RemoveTeacher(int classId)
         {
@@ -162,12 +224,20 @@ namespace Golestan.Controllers
             return RedirectToAction("Index");
         }
 
+<<<<<<< Updated upstream
         // لغو تخصیص دانشجو از کلاس
+=======
+
+>>>>>>> Stashed changes
         [HttpGet]
         public IActionResult RemoveStudentFromClass()
         {
             return View();
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> RemoveStudentFromClass(int studentId, int classId)
         {
@@ -180,12 +250,19 @@ namespace Golestan.Controllers
             return RedirectToAction("Index");
         }
 
+<<<<<<< Updated upstream
         // حذف درس
+=======
+>>>>>>> Stashed changes
         [HttpGet]
         public IActionResult DeleteCourse()
         {
             return View();
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> DeleteCourse(int id)
         {
@@ -198,12 +275,20 @@ namespace Golestan.Controllers
             return RedirectToAction("Index");
         }
 
+<<<<<<< Updated upstream
         // حذف کلاس
+=======
+
+>>>>>>> Stashed changes
         [HttpGet]
         public IActionResult DeleteClass()
         {
             return View();
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> DeleteClass(int id)
         {
@@ -216,12 +301,19 @@ namespace Golestan.Controllers
             return RedirectToAction("Index");
         }
 
+<<<<<<< Updated upstream
         // حذف استاد
+=======
+>>>>>>> Stashed changes
         [HttpGet]
         public IActionResult DeleteTeacher()
         {
             return View();
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> DeleteTeacher(int id)
         {
@@ -233,13 +325,21 @@ namespace Golestan.Controllers
             }
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public IActionResult DeleteStudent()
+        {
+            return View();
+        }
 
+<<<<<<< Updated upstream
         // حذف دانشجو
         [HttpGet]
         public IActionResult DeleteStudent()
         {
             return View();
         }
+=======
+>>>>>>> Stashed changes
         [HttpPost]
         public async Task<IActionResult> DeleteStudent(int id)
         {
