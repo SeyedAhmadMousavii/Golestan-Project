@@ -11,7 +11,20 @@ namespace Golestan.Data
         public DbSet<Users> Users { get; set; }
         public DbSet<Roles> Roles { get; set; }
         public DbSet<User_Role> User_Roles { get; set; }
+<<<<<<< Updated upstream
         public DbSet<Students> Students { get; set; }
+=======
+        public DbSet<Instructors> Instructors { get; set; }
+        public DbSet<Students> Students { get; set; }   
+        public DbSet<Teaches> Teaches { get; set; }
+        public DbSet<Takes> Takes { get; set; }
+        public DbSet<Departments> Departments { get; set; }
+        public DbSet<Sections> Sections { get; set; }
+        public DbSet<Courses> Courses { get; set; }
+        public DbSet<Classrooms> Classrooms { get; set; }
+        public DbSet<Time_Slots> Time_Slots { get; set; }
+
+>>>>>>> Stashed changes
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "افزودن کاربر جدید";
+}
+
+<h2>افزودن کاربر جدید</h2>
+
+
+<form method="post" action="/Admin/AddUser">
+
+    <label>نام کاربر:</label>
+    <input type="text" name="First_Name" required />
+
+    <label>نام خانوادگی کاربر:</label>
+    <input type="text" name="Last_Name" required />
+
+    <label>ایمیل کاربر:</label>
+    <input type="text" name="Email" required />
+
+    <label>رمز ورود کاربر:</label>
+    <input type="text" name="Password" required />
+
+    <button type="submit">افزودن</button>
+</form>
