@@ -87,8 +87,8 @@ namespace Golestan.Data
 
 
             modelBuilder.Entity<Teaches>().HasOne(t => t.sections)
-                                          .WithMany(i => i.teaches)
-                                          .HasForeignKey(t => t.Section_Id)
+                                          .WithOne(i => i.teaches)
+                                          .HasForeignKey<Teaches>(t => t.Section_Id)
                                           .OnDelete(DeleteBehavior.NoAction);
 
 
@@ -102,8 +102,8 @@ namespace Golestan.Data
                                         .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Takes>().HasOne(t => t.sections)
-                                        .WithMany(s => s.takes)
-                                        .HasForeignKey(t=>t.Section_Id)
+                                        .WithOne(s => s.takes)
+                                        .HasForeignKey<Takes>(t=>t.Section_Id)
                                         .OnDelete(DeleteBehavior.NoAction);
 
 
