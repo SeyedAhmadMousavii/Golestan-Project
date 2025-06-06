@@ -44,16 +44,6 @@ namespace Golestan.Controllers
         {
             return View();
         }
-
-            return View();
-        }
-
-   
-        [HttpGet]
-        public IActionResult AddCourse()
-        {
-            return View();
-        }
         [HttpPost]
         public async Task<IActionResult> AddCourse(string title)
         {
@@ -165,11 +155,6 @@ namespace Golestan.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult AssignTeacher()
-        {
-            return View();
-        }
 
 
         // تخصیص استاد به کلاس
@@ -342,11 +327,6 @@ namespace Golestan.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public IActionResult DeleteStudent()
-        {
-            return View();
-        }
-  
         // حذف دانشجو
         [HttpGet]
         public IActionResult DeleteStudent()
