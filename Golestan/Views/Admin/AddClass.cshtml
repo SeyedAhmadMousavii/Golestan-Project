@@ -47,7 +47,9 @@
         }
 
         input[type="text"],
-        input[type="number"] {
+        input[type="number"],
+        input[type="time"],
+        select {
             width: 100%;
             padding: 0.6rem;
             margin-bottom: 1.2rem;
@@ -56,11 +58,12 @@
             font-size: 1rem;
         }
 
-        input:focus {
-            outline: none;
-            border-color: #2980b9;
-            box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
-        }
+            input:focus,
+            select:focus {
+                outline: none;
+                border-color: #2980b9;
+                box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+            }
 
         button {
             width: 100%;
@@ -74,9 +77,9 @@
             transition: background-color 0.3s ease;
         }
 
-        button:hover {
-            background-color: #1c5980;
-        }
+            button:hover {
+                background-color: #1c5980;
+            }
     </style>
 </head>
 <body>
@@ -89,6 +92,21 @@
 
             <label>شناسه درس:</label>
             <input type="number" name="courseId" required />
+
+            <label>زمان شروع کلاس:</label>
+            <input type="time" name="startTime" required />
+
+            <label>زمان پایان کلاس:</label>
+            <input type="time" name="endTime" required />
+
+            <label>مکان کلاس (دانشکده):</label>
+            <select name="location" required>
+                <option value="">-- انتخاب کنید --</option>
+                <option value="کامپیوتر">دانشکده کامپیوتر</option>
+                <option value="مکانیک">دانشکده مکانیک</option>
+                <option value="برق">دانشکده برق</option>
+                <option value="معماری">دانشکده معماری</option>
+            </select>
 
             <button type="submit">افزودن</button>
         </form>

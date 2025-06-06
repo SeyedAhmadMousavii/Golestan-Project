@@ -39,7 +39,6 @@ namespace Golestan.Controllers
 
         }
         // افزودن درس
-
         [HttpGet]
         public IActionResult AddCourse()
         {
@@ -350,7 +349,7 @@ namespace Golestan.Controllers
             }
             return RedirectToAction("Index");
         }
-        
+
         // حذف دانشجو
         [HttpGet]
         public IActionResult DeleteStudent()
