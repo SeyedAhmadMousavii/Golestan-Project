@@ -60,9 +60,16 @@ namespace Golestan.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddClass(string name, int courseId)
+        public async Task<IActionResult> AddClass(string name, int courseId, TimeSpan startTime, TimeSpan endTime, string location)
         {
-            var classItem = new Classrooms { Building = name, Id = courseId };
+            var classItem = new Classrooms
+            {
+                Building = name,
+                Id = courseId,
+                StartTime = startTime,
+                EndTime = endTime,
+                Location = location
+            };
             _context.Classrooms.Add(classItem);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
