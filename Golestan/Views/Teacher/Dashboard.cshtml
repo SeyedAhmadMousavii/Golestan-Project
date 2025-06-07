@@ -1,4 +1,121 @@
-﻿@{
-    ViewData["Title"] = "داشبورد استاد";
+﻿@model IEnumerable<Golestan.Models.Sections>
+
+@{
+    ViewBag.Title = "داشبورد استاد";
+    Layout = null; // اگر از Layout استفاده نمی‌کنید
 }
-<h2>@ViewBag.Message</h2>
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <style>
+        .login-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .no-classes {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        .class-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .class-item {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .class-item:hover {
+            background-color: #e9f7ef;
+            border-color: #c8e6c9;
+        }
+
+        .class-info {
+            flex-grow: 1;
+        }
+
+        .class-code, .class-title {
+            display: block;
+            margin-bottom: 5px;
+            color: #34495e;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .btn-details {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-details:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>کلاس‌های من</h2>
+        
+        @if (!Model.Any())
+        {
+            <p class="no-classes">هیچ کلاسی برای نمایش وجود ندارد.</p>
+        }
+        else
+        {
+            <ul class="class-list">
+                @foreach (var section in Model)
+                {
+                    <li class="class-item">
+                        <div class="class-info">
+                            <span class="class-code">
+                               <strong>کد کلاس: @(section.Id)</strong> 
+                            </span>
+                            <span class="class-title">
+                                <strong>درس:</strong> @(section.courses?.Title ?? "بدون عنوان")
+                            </span>
+                        </div>
+                        <div class="class-actions">
+                            @Html.ActionLink("جزئیات", "ClassDetails", "Teacher", 
+                            new { id = section.Id }, 
+                            new { @class = "btn btn-details" })
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</body>
+</html>

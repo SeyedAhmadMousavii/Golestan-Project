@@ -128,6 +128,11 @@ namespace Golestan.Data
             { Id = 10203040, First_name = "mananger", Last_name = "system", Email = "System@gmai", Hashed_password = "1234", Created_at = new DateTime(2000, 05, 01) });
             modelBuilder.Entity<User_Role>().HasData(new User_Role { User_Id = 10203040, Role_Id = 3 });
 
+            modelBuilder.Entity<Users>().HasData(new Users
+            { Id = 40302010, First_name = "mananger1", Last_name = "system1", Email = "System1@gmai", Hashed_password = "4321", Created_at = new DateTime(2000, 05, 01) });
+            modelBuilder.Entity<User_Role>().HasData(new User_Role { User_Id = 40302010, Role_Id = 2 });
+
+
             modelBuilder.Entity<Departments>().HasData(new Departments
             {
                 Id = 111,
