@@ -1,13 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Golestan.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace Golestan.Controllers
+public class TeacherController : Controller
 {
-    public class TeacherController : Controller
+    private readonly AppDbContext _context;
+
+    public TeacherController(AppDbContext context)
     {
-        public IActionResult Dashboard()
-        {
-            ViewBag.Message = "به داشبورد استاد خوش آمدید.";
-            return View();
-        }
+        _context = context;
     }
+
+    // نمایش لیست کلاس‌های استاد
+    public async Task<IActionResult> ClassList()
+    {
+        int teacherId = Convert.ToInt32(HttpContext.Session.GetString("TeacherId"));
+
+        var classes = await _context.Sections
+            .Where(s => s.Instructor_Id == teacherId)
+            .Include(s => s.courses)
+            .ToListAsync();
+
+        return View("ClassList", classes);
+    }
+
 }
