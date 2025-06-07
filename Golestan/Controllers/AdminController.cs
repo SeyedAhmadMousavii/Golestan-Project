@@ -79,29 +79,54 @@ namespace Golestan.Controllers
         [HttpGet]
         public IActionResult AddTeacher()
         {
-            return View();
+            var user = _context.Users.ToList();
+            var departments = _context.Departments
+                                      .Select(d => new SelectListItem
+                                      {
+                                          Value = d.Id.ToString(),
+                                          Text = d.Name
+                                      }).ToList();
+
+            ViewBag.Departments = departments;
+
+            return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> AddTeacher(string fullName, string username, string password)
+        public async Task<IActionResult> AddTeacher(int Id,int TeachId, decimal salary, int DepartId)
         {
-            var user = new Users
+            var user = await _context.Users.FindAsync(Id);
+            bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == Id && ur.Role_Id == 1);
+            if (user == null)
             {
-                First_name = fullName,
-                Email = username,
-                Hashed_password = password,
-                Created_at = DateTime.Now
-            };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+                //adding error message
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                if (user.User_Roles != null || !alreadyExists)
+                {
+                    var newUserRole = new User_Role
+                    {
+                        User_Id = Id,
+                        Role_Id = 1
+                    };
+                    _context.User_Roles.Add(newUserRole);
+                    _context.SaveChanges();
+                }
 
-            _context.User_Roles.Add(new User_Role { User_Id = user.Id, Role_Id = 2 });
-            await _context.SaveChangesAsync();
+                var instructor = new Instructors
+                {
+                    User_Id = Id,
+                    Instructor_Id = TeachId,
+                    Department_Id = DepartId,
+                    Hire_Date = DateTime.Now,
+                    User = user
+                };
+                _context.Instructors.Add(instructor);
+                await _context.SaveChangesAsync();
+            }
 
-            var teacher = new Instructors {  User_Id = user.Id };
-            _context.Instructors.Add(teacher);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Admin");
         }
 
         // افزودن دانشجو
@@ -160,9 +185,6 @@ namespace Golestan.Controllers
 
             return RedirectToAction("Index","Admin");
         }
-
-
-
 
         // تخصیص استاد به کلاس
         [HttpGet]
@@ -319,7 +341,8 @@ namespace Golestan.Controllers
         [HttpGet]
         public IActionResult DeleteTeacher()
         {
-            return View();
+            var user = _context.Instructors.ToList();
+            return View(user);
         }
 
         [HttpPost]
@@ -333,7 +356,7 @@ namespace Golestan.Controllers
             }
             return RedirectToAction("Index");
         }
-        [HttpGet]
+
         // حذف دانشجو
         [HttpGet]
         public IActionResult DeleteStudent()
