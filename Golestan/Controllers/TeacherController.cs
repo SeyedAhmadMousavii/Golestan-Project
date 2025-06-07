@@ -12,13 +12,14 @@ public class TeacherController : Controller
     }
 
     // نمایش لیست کلاس‌های استاد
-    public async Task<IActionResult> ClassList()
+    [HttpGet]
+    public async Task<IActionResult> Dashboard()
     {
         int teacherId = Convert.ToInt32(HttpContext.Session.GetString("TeacherId"));
 
-        var classes = await _context.Sections
+        var classes = await _context.Teaches
             .Where(s => s.Instructor_Id == teacherId)
-            .Include(s => s.courses)
+            .Include(s => s.sections)
             .ToListAsync();
 
         return View("ClassList", classes);
