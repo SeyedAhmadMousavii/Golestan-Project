@@ -7,6 +7,7 @@ namespace Golestan.Controllers
         public IActionResult Dashboard()
         {
             ViewBag.Message = "به داشبورد دانشجو خوش آمدید.";
+
             return View();
         }
     }
