@@ -18,9 +18,6 @@ namespace Golestan.Models
 
         [DataType(DataType.Time)]
         public TimeSpan EndTime { get; set; }
-
-        public string Location { get; set; } // دانشکده مربوطه
-
         public List<Sections> sections { get; set; }
     }
 }
