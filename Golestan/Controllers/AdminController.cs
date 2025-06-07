@@ -30,9 +30,16 @@ namespace Golestan.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddUser(string First_Name,string Last_Name,string Email,string Password)
+        public async Task<IActionResult> AddUser(int UserId,string First_Name,string Last_Name,string Email,string Password)
         {
-            var user = new Users { First_name=First_Name,Last_name=Last_Name,Email=Email,Hashed_password=Password };
+            var user = new Users 
+            { 
+                UserId=UserId,
+                First_name=First_Name,
+                Last_name=Last_Name,
+                Email=Email,
+                Hashed_password=Password 
+            };
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -45,9 +52,18 @@ namespace Golestan.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddCourse(string title)
+        public async Task<IActionResult> AddCourse(int id,string title,string code,string unit,string description,DateTime final,int DepartID)
         {
-            var course = new Courses { Title = title };
+            var course = new Courses 
+            { 
+                  Title = title
+                , CoursId = id
+                , Code = code
+                , Unit = unit
+                ,Description = description
+                ,Final_Exam_Date = final
+                ,Department_Id=DepartID
+            };
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -60,10 +76,21 @@ namespace Golestan.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddClass(string name, int courseId)
+        public async Task<IActionResult> AddClass(int SID,int year,int semester, int courseId,int TimeId,int classs)
         {
-            var classItem = new Classrooms { Building = name, Id = courseId };
-            _context.Classrooms.Add(classItem);
+            var user =await _context.Courses.FirstOrDefaultAsync(c=>c.CoursId==courseId);
+
+            var classItem = new Sections
+            {
+                SectionId= SID,
+                Course_Id = user.Id,
+                Semester =semester,
+                year = year,
+                Time_Slot_Id = TimeId,
+                Classroom_Id= classs
+
+            };
+            _context.Sections.Add(classItem);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
@@ -72,23 +99,13 @@ namespace Golestan.Controllers
         [HttpGet]
         public IActionResult AddTeacher()
         {
-            var user = _context.Users.ToList();
-            var departments = _context.Departments
-                                      .Select(d => new SelectListItem
-                                      {
-                                          Value = d.Id.ToString(),
-                                          Text = d.Name
-                                      }).ToList();
-
-            ViewBag.Departments = departments;
-
-            return View(user);
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> AddTeacher(int Id,int TeachId, decimal salary, int DepartId)
         {
-            var user = await _context.Users.FindAsync(Id);
-            bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == Id && ur.Role_Id == 1);
+            var user = await _context.Users.FirstOrDefaultAsync(u=>u.UserId==Id);
+            bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == user.Id && ur.Role_Id == 1);
             if (user == null)
             {
                 //adding error message
@@ -100,8 +117,8 @@ namespace Golestan.Controllers
                 {
                     var newUserRole = new User_Role
                     {
-                        User_Id = Id,
-                        Role_Id = 1
+                        User_Id = user.Id,
+                        Role_Id = 2
                     };
                     _context.User_Roles.Add(newUserRole);
                     _context.SaveChanges();
@@ -109,9 +126,10 @@ namespace Golestan.Controllers
 
                 var instructor = new Instructors
                 {
-                    User_Id = Id,
+                    User_Id = user.Id,
                     Instructor_Id = TeachId,
                     Department_Id = DepartId,
+                    Salary = salary,
                     Hire_Date = DateTime.Now,
                     User = user
                 };
@@ -127,25 +145,15 @@ namespace Golestan.Controllers
         [HttpGet]
         public IActionResult AddStudent()
         {
-            var user = _context.Users.ToList();
-            var departments = _context.Departments
-                                      .Select(d => new SelectListItem
-                                      {
-                                          Value = d.Id.ToString(),
-                                          Text = d.Name
-                                      }).ToList();
-
-            ViewBag.Departments = departments;
-
-            return View(user);
+            return View();
         }
   
         [HttpPost]
         public async Task<IActionResult> AddStudent(int Id,int StudID,int DepartID)
         {
     
-            var user = await _context.Users.FindAsync(Id);
-            bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == Id && ur.Role_Id == 2);
+            var user = await _context.Users.FirstOrDefaultAsync(u=>u.UserId==Id);
+            bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == user.Id && ur.Role_Id == 2);
             if (user == null)
             {
                 //adding error message
@@ -157,8 +165,8 @@ namespace Golestan.Controllers
                 {
                     var newUserRole = new User_Role
                     {
-                        User_Id = Id,
-                        Role_Id = 2
+                        User_Id = user.Id,
+                        Role_Id = 1
                     };
                     _context.User_Roles.Add(newUserRole);
                     _context.SaveChanges();
@@ -166,7 +174,7 @@ namespace Golestan.Controllers
 
                 var student = new Students
                 {
-                    User_Id = Id,
+                    User_Id = user.Id,
                     Student_Id = StudID,
                     Depatment_Id = DepartID,
                     Enrollment_Date = DateTime.Now,
@@ -269,7 +277,7 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteCourse(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
+            var course = await _context.Courses.FirstOrDefaultAsync(x=>x.CoursId==id);
             if (course != null)
             {
                 _context.Courses.Remove(course);
@@ -287,7 +295,7 @@ namespace Golestan.Controllers
         [HttpPost]
         public async  Task<IActionResult> DeleteUser(int id)
         {
-            var User = await _context.Users.FindAsync(id);
+            var User = await _context.Users.FirstOrDefaultAsync(u=>u.UserId==id);
             if (User != null)
             {
                 var students = _context.Students.Where(s => s.User_Id == id).ToList();
@@ -320,10 +328,10 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteClass(int id)
         {
-            var classItem = await _context.Classrooms.FindAsync(id);
+            var classItem = await _context.Sections.FirstOrDefaultAsync(c=>c.SectionId==id);
             if (classItem != null)
             {
-                _context.Classrooms.Remove(classItem);
+                _context.Sections.Remove(classItem);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
@@ -341,7 +349,7 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteTeacher(int id)
         {
-            var teacher = await _context.Instructors.FindAsync(id);
+            var teacher = await _context.Instructors.FirstOrDefaultAsync(i=>i.Instructor_Id==id);
             if (teacher != null)
             {
                 _context.Instructors.Remove(teacher);
@@ -361,7 +369,7 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteStudent(int Id)
         {
-            var Student = await _context.Students.FindAsync(Id);
+            var Student = await _context.Students.FirstOrDefaultAsync(s=>s.Student_Id==Id);
             if (Student != null)
             {
                 _context.Students.Remove(Student);

@@ -6,6 +6,7 @@ namespace Golestan.Models
     {
         [Key]
         public int Id { get; set; }
+        public int UserId { get; set; }
         public DateTime Created_at { get; set; }
         public string First_name { get; set; }
         public string Last_name { get; set; }
