@@ -100,7 +100,7 @@ namespace Golestan.Data
 
 
             //                                       Courses raletion with Department
-            modelBuilder.Entity<Courses>().HasKey(c => new { c.Department_Id });
+            modelBuilder.Entity<Courses>().HasKey(c => c.Id);
 
             modelBuilder.Entity<Courses>().HasOne(c => c.departments)
                                           .WithMany(d => d.courses)
@@ -111,8 +111,8 @@ namespace Golestan.Data
             modelBuilder.Entity<Sections>().HasKey(s=>s.Id);
 
             modelBuilder.Entity<Sections>().HasOne(s => s.courses)
-                                           .WithOne(c => c.sections)
-                                           .HasForeignKey<Sections>(s=>s.Course_Id);
+                                           .WithOne(c => c.section)
+                                           .HasForeignKey<Sections>(s => s.Course_Id);
 
             modelBuilder.Entity<Sections>().HasOne(s => s.classrooms)
                                            .WithMany(c => c.sections)
@@ -125,8 +125,19 @@ namespace Golestan.Data
 
             ////////////////////////  default admin
             modelBuilder.Entity<Users>().HasData(new Users
-            { Id = 10203040, First_name = "mananger", Last_name = "system", Email = "System@gmai", Hashed_password = "1234", Created_at = new DateTime(2000, 05, 01) });
+            { Id = 10203040,UserId=10203040, First_name = "mananger", Last_name = "system", Email = "System@gmai", Hashed_password = "1234", Created_at = new DateTime(2000, 05, 01) });
             modelBuilder.Entity<User_Role>().HasData(new User_Role { User_Id = 10203040, Role_Id = 3 });
+            ///////               default teacher
+            modelBuilder.Entity<Users>().HasData(new Users
+            { Id = 10, UserId = 10203050, First_name = "Teacher", Last_name = "T", Email = "@teach", Hashed_password = "1234", Created_at = new DateTime(2000, 05, 11) });
+            modelBuilder.Entity<User_Role>().HasData(new User_Role { User_Id = 10, Role_Id = 2 });
+            //                     default student
+            modelBuilder.Entity<Users>().HasData(new Users
+            { Id = 20, UserId = 10203060, First_name = "Student", Last_name = "S", Email = "@Styd", Hashed_password = "1234", Created_at = new DateTime(2000, 05, 21) });
+            modelBuilder.Entity<User_Role>().HasData(new User_Role { User_Id = 20, Role_Id = 1 });
+
+
+            //                                      defauld Department
 
             modelBuilder.Entity<Users>().HasData(new Users
             { Id = 40302010, First_name = "mananger1", Last_name = "system1", Email = "System1@gmai", Hashed_password = "4321", Created_at = new DateTime(2000, 05, 01) });
@@ -166,6 +177,285 @@ namespace Golestan.Data
                 Budget = 25000000
             });
 
+            //                                           default class
+
+            modelBuilder.Entity<Classrooms>().HasData(new Classrooms
+            {
+                Id=11,
+                Building= "کلاس 11",
+                Room_Number=1,
+                Capacity=20
+            });
+            modelBuilder.Entity<Classrooms>().HasData(new Classrooms
+            {
+                Id = 22,
+                Building = "کلاس 22",
+                Room_Number = 2,
+                Capacity = 25
+            });
+            modelBuilder.Entity<Classrooms>().HasData(new Classrooms
+            {
+                Id = 33,
+                Building = "کلاس 33",
+                Room_Number = 3,
+                Capacity = 15
+            });
+            modelBuilder.Entity<Classrooms>().HasData(new Classrooms
+            {
+                Id = 44,
+                Building = "کلاس 44",
+                Room_Number = 4,
+                Capacity = 30
+            });
+            modelBuilder.Entity<Classrooms>().HasData(new Classrooms
+            {
+                Id = 55,
+                Building = "کلاس 55",
+                Room_Number = 5,
+                Capacity = 50
+            });
+
+            //                                         default time
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 1,
+                Day = "شنبه",
+                Start_Time = new DateTime(1, 1, 1, 7, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 9, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 2,
+                Day = "شنبه",
+                Start_Time = new DateTime(1, 1, 1, 9, 0, 0),
+                End_Time = new DateTime(1, 1, 1, 10, 30, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 3,
+                Day = "شنبه",
+                Start_Time = new DateTime(1, 1, 1, 10, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 12, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 4,
+                Day = "شنبه",
+                Start_Time = new DateTime(1, 1, 1, 14, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 16, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 5,
+                Day = "شنبه",
+                Start_Time = new DateTime(1, 1, 1, 16, 0, 0),
+                End_Time = new DateTime(1, 1, 1, 17, 30, 0)
+            });
+            //یکشنبه
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 6,
+                Day = "یکشنبه",
+                Start_Time = new DateTime(1, 1, 1, 7, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 9, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 7,
+                Day = "یکشنبه",
+                Start_Time = new DateTime(1, 1, 1, 9, 0, 0),
+                End_Time = new DateTime(1, 1, 1, 10, 30, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 8,
+                Day = "یکشنبه",
+                Start_Time = new DateTime(1, 1, 1, 10, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 12, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 9,
+                Day = "یکشنبه",
+                Start_Time = new DateTime(1, 1, 1, 14, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 16, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 10,
+                Day = "یکشنبه",
+                Start_Time = new DateTime(1, 1, 1, 16, 0, 0),
+                End_Time = new DateTime(1, 1, 1, 17, 30, 0)
+            });
+            // دوشنبه
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 11,
+                Day = "دوشنبه",
+                Start_Time = new DateTime(1, 1, 1, 7, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 9, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 12,
+                Day = "دوشنبه",
+                Start_Time = new DateTime(1, 1, 1, 9, 0, 0),
+                End_Time = new DateTime(1, 1, 1, 10, 30, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 13,
+                Day = "دوشنبه",
+                Start_Time = new DateTime(1, 1, 1, 10, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 12, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 14,
+                Day = "دوشنبه",
+                Start_Time = new DateTime(1, 1, 1, 14, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 16, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 15,
+                Day = "دوشنبه",
+                Start_Time = new DateTime(1, 1, 1, 16, 0, 0),
+                End_Time = new DateTime(1, 1, 1, 17, 30, 0)
+            });
+            // سه شنبه
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 16,
+                Day = "سه شنبه",
+                Start_Time = new DateTime(1, 1, 1, 7, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 9, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 17,
+                Day = "سه شنبه",
+                Start_Time = new DateTime(1, 1, 1, 9, 0, 0),
+                End_Time = new DateTime(1, 1, 1, 10, 30, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 18,
+                Day = "سه شنبه",
+                Start_Time = new DateTime(1, 1, 1, 10, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 12, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 19,
+                Day = "سه شنبه",
+                Start_Time = new DateTime(1, 1, 1, 14, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 16, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 20,
+                Day = "سه شنبه",
+                Start_Time = new DateTime(1, 1, 1, 16, 0, 0),
+                End_Time = new DateTime(1, 1, 1, 17, 30, 0)
+            });
+            //چهارشنبه
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 21,
+                Day = "چهارشنبه",
+                Start_Time = new DateTime(1, 1, 1, 7, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 9, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 22,
+                Day = "چهارشنبه",
+                Start_Time = new DateTime(1, 1, 1, 9, 0, 0),
+                End_Time = new DateTime(1, 1, 1, 10, 30, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 23,
+                Day = "چهارشنبه",
+                Start_Time = new DateTime(1, 1, 1, 10, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 12, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 24,
+                Day = "چهارشنبه",
+                Start_Time = new DateTime(1, 1, 1, 14, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 16, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id =25,
+                Day = "چهارشنبه",
+                Start_Time = new DateTime(1, 1, 1, 16, 0, 0),
+                End_Time = new DateTime(1, 1, 1, 17, 30, 0)
+            });
+            //پنجشنبه
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 26,
+                Day = "پنجشنبه",
+                Start_Time = new DateTime(1, 1, 1, 7, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 9, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 27,
+                Day = "پنجشنبه",
+                Start_Time = new DateTime(1, 1, 1, 9, 0, 0),
+                End_Time = new DateTime(1, 1, 1, 10, 30, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 28,
+                Day = "پنجشنبه",
+                Start_Time = new DateTime(1, 1, 1, 10, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 12, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id =29,
+                Day = "پنجشنبه",
+                Start_Time = new DateTime(1, 1, 1, 14, 30, 0),
+                End_Time = new DateTime(1, 1, 1, 16, 0, 0)
+            });
+
+            modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
+            {
+                Id = 30,
+                Day = "پنجشنبه",
+                Start_Time = new DateTime(1, 1, 1, 16, 0, 0),
+                End_Time = new DateTime(1, 1, 1, 17, 30, 0)
+            });
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Golestan.Models
     {
         [Key]
         public int Id { get; set; }
+        public int SectionId { get; set; }
         public int Course_Id {  get; set; }
         public Courses courses { get; set; }
         public int Semester {  get; set; }
