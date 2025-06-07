@@ -1,6 +1,8 @@
 ﻿using Golestan.Data;
+using Golestan.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 public class TeacherController : Controller
 {
@@ -11,18 +13,15 @@ public class TeacherController : Controller
         _context = context;
     }
 
-    // نمایش لیست کلاس‌های استاد
-    [HttpGet]
-    public async Task<IActionResult> Dashboard()
+    public IActionResult Dashboard(int teacherId)
     {
-        int teacherId = Convert.ToInt32(HttpContext.Session.GetString("TeacherId"));
+        var sections = _context.Sections
+            .Include(s => s.courses)
+            .Include(s => s.teaches)
+                .ThenInclude(t => t.instructors)
+            .Where(s => s.teaches.Instructor_Id == teacherId)
+            .ToList();
 
-        var classes = await _context.Teaches
-            .Where(s => s.Instructor_Id == teacherId)
-            .Include(s => s.sections)
-            .ToListAsync();
-
-        return View("ClassList", classes);
+        return View(sections);
     }
-
 }

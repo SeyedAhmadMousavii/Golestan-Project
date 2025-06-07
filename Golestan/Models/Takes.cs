@@ -10,6 +10,6 @@ namespace Golestan.Models
         public Students students { get; set; }
         public int Section_Id {  get; set; }
         public Sections sections { get; set; }
-        public int Grade {  get; set; }
+        public string Grade {  get; set; }
     }
 }//     Class Not Matched

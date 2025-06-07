@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Golestan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250607162456_aa")]
-    partial class aa
+    [Migration("20250607185239_Golestan")]
+    partial class Golestan
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,8 +40,14 @@ namespace Golestan.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("time");
+
                     b.Property<int>("Room_Number")
                         .HasColumnType("int");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
@@ -53,35 +59,45 @@ namespace Golestan.Migrations
                             Id = 11,
                             Building = "کلاس 11",
                             Capacity = 20,
-                            Room_Number = 1
+                            EndTime = new TimeSpan(0, 0, 0, 0, 0),
+                            Room_Number = 1,
+                            StartTime = new TimeSpan(0, 0, 0, 0, 0)
                         },
                         new
                         {
                             Id = 22,
                             Building = "کلاس 22",
                             Capacity = 25,
-                            Room_Number = 2
+                            EndTime = new TimeSpan(0, 0, 0, 0, 0),
+                            Room_Number = 2,
+                            StartTime = new TimeSpan(0, 0, 0, 0, 0)
                         },
                         new
                         {
                             Id = 33,
                             Building = "کلاس 33",
                             Capacity = 15,
-                            Room_Number = 3
+                            EndTime = new TimeSpan(0, 0, 0, 0, 0),
+                            Room_Number = 3,
+                            StartTime = new TimeSpan(0, 0, 0, 0, 0)
                         },
                         new
                         {
                             Id = 44,
                             Building = "کلاس 44",
                             Capacity = 30,
-                            Room_Number = 4
+                            EndTime = new TimeSpan(0, 0, 0, 0, 0),
+                            Room_Number = 4,
+                            StartTime = new TimeSpan(0, 0, 0, 0, 0)
                         },
                         new
                         {
                             Id = 55,
                             Building = "کلاس 55",
                             Capacity = 50,
-                            Room_Number = 5
+                            EndTime = new TimeSpan(0, 0, 0, 0, 0),
+                            Room_Number = 5,
+                            StartTime = new TimeSpan(0, 0, 0, 0, 0)
                         });
                 });
 
@@ -648,6 +664,16 @@ namespace Golestan.Migrations
                             Hashed_password = "1234",
                             Last_name = "S",
                             UserId = 10203060
+                        },
+                        new
+                        {
+                            Id = 40302010,
+                            Created_at = new DateTime(2000, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "System1@gmai",
+                            First_name = "mananger1",
+                            Hashed_password = "4321",
+                            Last_name = "system1",
+                            UserId = 0
                         });
                 });
 
@@ -680,6 +706,11 @@ namespace Golestan.Migrations
                         {
                             User_Id = 20,
                             Role_Id = 1
+                        },
+                        new
+                        {
+                            User_Id = 40302010,
+                            Role_Id = 2
                         });
                 });
 
