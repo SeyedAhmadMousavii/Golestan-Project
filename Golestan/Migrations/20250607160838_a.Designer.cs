@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Golestan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250605084103_hifalf")]
-    partial class hifalf
+    [Migration("20250607160838_a")]
+    partial class a
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,16 +46,62 @@ namespace Golestan.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Classrooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 11,
+                            Building = "کلاس 11",
+                            Capacity = 20,
+                            Room_Number = 1
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Building = "کلاس 22",
+                            Capacity = 25,
+                            Room_Number = 2
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Building = "کلاس 33",
+                            Capacity = 15,
+                            Room_Number = 3
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Building = "کلاس 44",
+                            Capacity = 30,
+                            Room_Number = 4
+                        },
+                        new
+                        {
+                            Id = 55,
+                            Building = "کلاس 55",
+                            Capacity = 50,
+                            Room_Number = 5
+                        });
                 });
 
             modelBuilder.Entity("Golestan.Models.Courses", b =>
                 {
-                    b.Property<int>("Department_Id")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CoursId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Department_Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -63,12 +109,6 @@ namespace Golestan.Migrations
 
                     b.Property<DateTime>("Final_Exam_Date")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Section_Id")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -78,7 +118,12 @@ namespace Golestan.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Department_Id");
+                    b.Property<int?>("section_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Department_Id");
 
                     b.ToTable("Courses");
                 });
@@ -105,6 +150,36 @@ namespace Golestan.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 111,
+                            Budget = 50000000m,
+                            Building = "0015",
+                            Name = "کامپیوتر"
+                        },
+                        new
+                        {
+                            Id = 222,
+                            Budget = 100000000m,
+                            Building = "0154",
+                            Name = "مکانیک"
+                        },
+                        new
+                        {
+                            Id = 333,
+                            Budget = 150000000m,
+                            Building = "1023",
+                            Name = "برق"
+                        },
+                        new
+                        {
+                            Id = 444,
+                            Budget = 25000000m,
+                            Building = "4457",
+                            Name = "معماری"
+                        });
                 });
 
             modelBuilder.Entity("Golestan.Models.Instructors", b =>
@@ -120,6 +195,9 @@ namespace Golestan.Migrations
 
                     b.Property<DateTime>("Hire_Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Instructor_Id")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
@@ -289,6 +367,218 @@ namespace Golestan.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Time_Slots");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Day = "شنبه",
+                            End_Time = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 7, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Day = "شنبه",
+                            End_Time = new DateTime(1, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Day = "شنبه",
+                            End_Time = new DateTime(1, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Day = "شنبه",
+                            End_Time = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 14, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Day = "شنبه",
+                            End_Time = new DateTime(1, 1, 1, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Day = "یکشنبه",
+                            End_Time = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 7, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Day = "یکشنبه",
+                            End_Time = new DateTime(1, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Day = "یکشنبه",
+                            End_Time = new DateTime(1, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Day = "یکشنبه",
+                            End_Time = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 14, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Day = "یکشنبه",
+                            End_Time = new DateTime(1, 1, 1, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Day = "دوشنبه",
+                            End_Time = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 7, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Day = "دوشنبه",
+                            End_Time = new DateTime(1, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Day = "دوشنبه",
+                            End_Time = new DateTime(1, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Day = "دوشنبه",
+                            End_Time = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 14, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Day = "دوشنبه",
+                            End_Time = new DateTime(1, 1, 1, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Day = "سه شنبه",
+                            End_Time = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 7, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Day = "سه شنبه",
+                            End_Time = new DateTime(1, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Day = "سه شنبه",
+                            End_Time = new DateTime(1, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Day = "سه شنبه",
+                            End_Time = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 14, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Day = "سه شنبه",
+                            End_Time = new DateTime(1, 1, 1, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Day = "چهارشنبه",
+                            End_Time = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 7, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Day = "چهارشنبه",
+                            End_Time = new DateTime(1, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Day = "چهارشنبه",
+                            End_Time = new DateTime(1, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Day = "چهارشنبه",
+                            End_Time = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 14, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Day = "چهارشنبه",
+                            End_Time = new DateTime(1, 1, 1, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Day = "پنجشنبه",
+                            End_Time = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 7, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Day = "پنجشنبه",
+                            End_Time = new DateTime(1, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Day = "پنجشنبه",
+                            End_Time = new DateTime(1, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 10, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Day = "پنجشنبه",
+                            End_Time = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 14, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Day = "پنجشنبه",
+                            End_Time = new DateTime(1, 1, 1, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start_Time = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Golestan.Models.Users", b =>
@@ -318,6 +608,9 @@ namespace Golestan.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -330,7 +623,28 @@ namespace Golestan.Migrations
                             Email = "System@gmai",
                             First_name = "mananger",
                             Hashed_password = "1234",
-                            Last_name = "system"
+                            Last_name = "system",
+                            UserId = 10203040
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Created_at = new DateTime(2000, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "@teach",
+                            First_name = "Teacher",
+                            Hashed_password = "1234",
+                            Last_name = "T",
+                            UserId = 10203050
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Created_at = new DateTime(2000, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "@Styd",
+                            First_name = "Student",
+                            Hashed_password = "1234",
+                            Last_name = "S",
+                            UserId = 10203060
                         });
                 });
 
@@ -353,6 +667,16 @@ namespace Golestan.Migrations
                         {
                             User_Id = 10203040,
                             Role_Id = 3
+                        },
+                        new
+                        {
+                            User_Id = 10,
+                            Role_Id = 2
+                        },
+                        new
+                        {
+                            User_Id = 20,
+                            Role_Id = 1
                         });
                 });
 
@@ -395,7 +719,7 @@ namespace Golestan.Migrations
                         .IsRequired();
 
                     b.HasOne("Golestan.Models.Courses", "courses")
-                        .WithOne("sections")
+                        .WithOne("section")
                         .HasForeignKey("Golestan.Models.Sections", "Course_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -496,8 +820,7 @@ namespace Golestan.Migrations
 
             modelBuilder.Entity("Golestan.Models.Courses", b =>
                 {
-                    b.Navigation("sections")
-                        .IsRequired();
+                    b.Navigation("section");
                 });
 
             modelBuilder.Entity("Golestan.Models.Departments", b =>

@@ -1,4 +1,4 @@
-
+@model List<Golestan.Models.Users>
 ﻿@{
     ViewData["Title"] = "افزودن استاد جدید";
 }
@@ -100,14 +100,22 @@
         <form method="post" action="/Admin/AddTeacher">
             <h2>افزودن استاد جدید</h2>
 
-            <label for="fullName">نام کامل:</label>
-            <input type="text" id="fullName" name="fullName" placeholder="نام کامل استاد را وارد کنید" required />
+            <label for="Id">شناسه کاربر:</label>
+            <input type="text" id="Id" name="Id" placeholder="شناسه کاربر را وارد کنید" required />
 
-            <label for="username">نام کاربری:</label>
-            <input type="text" id="username" name="username" placeholder="نام کاربری استاد را وارد کنید" required />
+            <label for="TeachId">نام کاربری:</label>
+            <input type="text" id="TeachId" name="TeachId" placeholder="شناسه استاد را وارد کنید" required />
 
-            <label for="password">رمز عبور:</label>
-            <input type="password" id="password" name="password" placeholder="رمز عبور را وارد کنید" required />
+            <label for="salary">دستمزد:</label>
+            <input type="text" id="salary" name="salary" placeholder="دستمزد را وارد کنید" required />
+
+            <select name="DepartID" id="DepartID" class="form-control">
+                <option value="">-- Select Department --</option>
+                <option value="111">کامپیوتر</option>
+                <option value="222">برق</option>
+                <option value="333">مکانیک</option>
+                <option value="444">معماری</option>
+            </select>
 
             <button type="submit">ثبت</button>
         </form>

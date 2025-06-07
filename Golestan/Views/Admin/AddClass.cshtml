@@ -87,25 +87,69 @@
         <form method="post" action="/Admin/AddClass">
             <h2>افزودن کلاس جدید</h2>
 
-            <label>نام کلاس:</label>
-            <input type="text" name="name" required />
+            <label>شناسه:</label>
+            <input type="number" name="SID" required />
+
+            <label>سال:</label>
+            <input type="number" name="year" required />
+
+            <label>ترم:</label>
+            <input type="number" name="semester" required />
 
             <label>شناسه درس:</label>
             <input type="number" name="courseId" required />
 
-            <label>زمان شروع کلاس:</label>
+            @* <label>زمان شروع کلاس:</label>
             <input type="time" name="startTime" required />
 
             <label>زمان پایان کلاس:</label>
-            <input type="time" name="endTime" required />
+            <input type="time" name="endTime" required /> *@
 
-            <label>مکان کلاس (دانشکده):</label>
-            <select name="location" required>
+            <label> زمان کلاس:</label>
+            <select name="TimeId" id="TimeId" required>
                 <option value="">-- انتخاب کنید --</option>
-                <option value="کامپیوتر">دانشکده کامپیوتر</option>
-                <option value="مکانیک">دانشکده مکانیک</option>
-                <option value="برق">دانشکده برق</option>
-                <option value="معماری">دانشکده معماری</option>
+                <option value="1">شنبه 7:30-9</option>
+                <option value="2">شنبه 9-10:30</option>
+                <option value="3">شنبه 10:30-12</option>
+                <option value="4">شنبه 14:30-16</option>
+                <option value="5">شنبه 16-17:30</option>
+                <option value="6">یکشنبه 7:30-9</option>
+                <option value="7">یکشنبه 9-10:30</option>
+                <option value="8">یکشنبه 10:30-12</option>
+                <option value="9">یکشنبه 14:30-16</option>
+                <option value="10">یکشنبه 16-17:30</option>
+                <option value="11">دوشنبه 7:30-9</option>
+                <option value="12">دوشنبه 9-10:30</option>
+                <option value="13">دوشنبه 10:30-12</option>
+                <option value="14">دوشنبه 14:30-16</option>
+                <option value="15">دوشنبه 16-17:30</option>
+                <option value="16">سه شنبه 7:30-9</option>
+                <option value="17">سه شنبه 9-10:30</option>
+                <option value="18">سه شنبه 10:30-12</option>
+                <option value="19">سه شنبه 14:30-16</option>
+                <option value="20">سه شنبه 16-17:30</option>
+                <option value="21">چهارشنبه 7:30-9</option>
+                <option value="22">چهارشنبه 9-10:30</option>
+                <option value="23">چهارشنبه 10:30-12</option>
+                <option value="24">چهارشنبه 14:30-16</option>
+                <option value="25">چهارشنبه 16-17:30</option>
+                <option value="26">پنجشنبه 7:30-9</option>
+                <option value="27">پنجشنبه 9-10:30</option>
+                <option value="28">پنجشنبه 10:30-12</option>
+                <option value="29">پنجشنبه 14:30-16</option>
+                <option value="30">پنجشنبه 16-17:30</option>
+                
+            </select>
+            
+
+            <label>مکان کلاس:</label>
+            <select name="classs" id="classs" required>
+                <option value="">-- انتخاب کنید --</option>
+                <option value="11">کلاس 11</option>
+                <option value="22">کلاس 22</option>
+                <option value="33">کلاس 33</option>
+                <option value="44">کلاس 44</option>
+                <option value="55">کلاس 55</option>
             </select>
 
             <button type="submit">افزودن</button>
