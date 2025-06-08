@@ -1,0 +1,75 @@
+﻿@model List<Golestan.Models.Sections>
+
+@{
+    ViewBag.Title = "کلاس‌های من";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>کلاس‌های من</title>
+    <style>
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: linear-gradient(to left, #3a6073, #16222a);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #f4f4f4;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>لیست کلاس‌های من</h2>
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li>
+                    <strong>کلاس @item.Id</strong> - درس: @item.courses?.Title
+                   
+                    <a href="/Teacher/ClassDetails/@item.Id">مشاهده دانشجویان</a>
+                </li>
+            }
+        </ul>
+    </div>
+</body>
+</html>

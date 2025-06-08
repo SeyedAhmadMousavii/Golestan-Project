@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Golestan.Migrations
 {
     /// <inheritdoc />
-    public partial class a : Migration
+    public partial class Golestan : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,9 @@ namespace Golestan.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Building = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Room_Number = table.Column<int>(type: "int", nullable: false),
-                    Capacity = table.Column<int>(type: "int", nullable: false)
+                    Capacity = table.Column<int>(type: "int", nullable: false),
+                    StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    EndTime = table.Column<TimeSpan>(type: "time", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -202,6 +204,7 @@ namespace Golestan.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    SectionId = table.Column<int>(type: "int", nullable: false),
                     Course_Id = table.Column<int>(type: "int", nullable: false),
                     Semester = table.Column<int>(type: "int", nullable: false),
                     year = table.Column<int>(type: "int", nullable: false),
@@ -278,14 +281,14 @@ namespace Golestan.Migrations
 
             migrationBuilder.InsertData(
                 table: "Classrooms",
-                columns: new[] { "Id", "Building", "Capacity", "Room_Number" },
+                columns: new[] { "Id", "Building", "Capacity", "EndTime", "Room_Number", "StartTime" },
                 values: new object[,]
                 {
-                    { 11, "کلاس 11", 20, 1 },
-                    { 22, "کلاس 22", 25, 2 },
-                    { 33, "کلاس 33", 15, 3 },
-                    { 44, "کلاس 44", 30, 4 },
-                    { 55, "کلاس 55", 50, 5 }
+                    { 11, "کلاس 11", 20, new TimeSpan(0, 0, 0, 0, 0), 1, new TimeSpan(0, 0, 0, 0, 0) },
+                    { 22, "کلاس 22", 25, new TimeSpan(0, 0, 0, 0, 0), 2, new TimeSpan(0, 0, 0, 0, 0) },
+                    { 33, "کلاس 33", 15, new TimeSpan(0, 0, 0, 0, 0), 3, new TimeSpan(0, 0, 0, 0, 0) },
+                    { 44, "کلاس 44", 30, new TimeSpan(0, 0, 0, 0, 0), 4, new TimeSpan(0, 0, 0, 0, 0) },
+                    { 55, "کلاس 55", 50, new TimeSpan(0, 0, 0, 0, 0), 5, new TimeSpan(0, 0, 0, 0, 0) }
                 });
 
             migrationBuilder.InsertData(
@@ -353,7 +356,8 @@ namespace Golestan.Migrations
                 {
                     { 10, new DateTime(2000, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "@teach", "Teacher", "1234", "T", 10203050 },
                     { 20, new DateTime(2000, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "@Styd", "Student", "1234", "S", 10203060 },
-                    { 10203040, new DateTime(2000, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "System@gmai", "mananger", "1234", "system", 10203040 }
+                    { 10203040, new DateTime(2000, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "System@gmai", "mananger", "1234", "system", 10203040 },
+                    { 40302010, new DateTime(2000, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "System1@gmai", "mananger1", "4321", "system1", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -363,7 +367,8 @@ namespace Golestan.Migrations
                 {
                     { 2, 10 },
                     { 1, 20 },
-                    { 3, 10203040 }
+                    { 3, 10203040 },
+                    { 2, 40302010 }
                 });
 
             migrationBuilder.CreateIndex(

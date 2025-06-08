@@ -1,0 +1,13 @@
+﻿@model List<dynamic> 
+
+<h2>ریز نمرات من</h2>
+<table>
+    <tr><th>درس</th><th>نمره</th></tr>
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>@item.CourseTitle</td>
+            <td>@item.Grade</td>
+        </tr>
+    }
+</table>
