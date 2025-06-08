@@ -104,6 +104,12 @@
             <label for="teacherId">شناسه استاد:</label>
             <input type="number" id="teacherId" name="teacherId" placeholder="شناسه استاد را وارد کنید" required />
 
+
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }
+
             <button type="submit">تخصیص</button>
         </form>
     </div>

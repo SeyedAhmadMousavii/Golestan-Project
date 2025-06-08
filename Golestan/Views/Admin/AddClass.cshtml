@@ -99,12 +99,6 @@
             <label>شناسه درس:</label>
             <input type="number" name="courseId" required />
 
-            @* <label>زمان شروع کلاس:</label>
-            <input type="time" name="startTime" required />
-
-            <label>زمان پایان کلاس:</label>
-            <input type="time" name="endTime" required /> *@
-
             <label> زمان کلاس:</label>
             <select name="TimeId" id="TimeId" required>
                 <option value="">-- انتخاب کنید --</option>
@@ -151,6 +145,11 @@
                 <option value="44">کلاس 44</option>
                 <option value="55">کلاس 55</option>
             </select>
+
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }
 
             <button type="submit">افزودن</button>
         </form>

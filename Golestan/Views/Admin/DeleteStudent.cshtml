@@ -124,6 +124,11 @@
                        min="1">
             </div>
 
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }
+
             <button type="submit" class="btn-delete">
                 حذف دانشجو
             </button>

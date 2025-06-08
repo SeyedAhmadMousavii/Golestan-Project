@@ -102,6 +102,11 @@
             <label for="classId">شناسه کلاس:</label>
             <input type="number" id="classId" name="classId" placeholder="شناسه کلاس را وارد کنید" required />
 
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }
+
             <button type="submit">لغو تخصیص</button>
         </form>
     </div>

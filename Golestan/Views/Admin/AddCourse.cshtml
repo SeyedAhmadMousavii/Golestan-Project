@@ -48,7 +48,7 @@
             font-weight: bold;
         }
 
-        input[type="text"] {
+        input[type="text"], input[type="number"],input[type="time"],select {
             width: 100%;
             padding: 0.6rem;
             margin-bottom: 1.2rem;
@@ -57,7 +57,7 @@
             font-size: 1rem;
         }
 
-        input:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: #2980b9;
             box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
@@ -126,8 +126,10 @@
                 <option value="444">معماری</option>
             </select>
 
-            @*<label for="clas">کلاس درس:</label>
-            <input type="number" id="clas" name="clas" placeholder="ایدی کلاس درس را وارد کنید" required />*@
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }
 
             <button type="submit">افزودن</button>
         </form>
