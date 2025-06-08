@@ -12,16 +12,29 @@ public class TeacherController : Controller
     {
         _context = context;
     }
-
-    public IActionResult Dashboard(int teacherId)
+    [HttpGet]
+    public IActionResult Dashboard(int id)//
     {
-        var sections = _context.Sections
-            .Include(s => s.courses)
-            .Include(s => s.teaches)
-                .ThenInclude(t => t.instructors)
-            .Where(s => s.teaches.Instructor_Id == teacherId)
-            .ToList();
+        var teacher = _context.Instructors.FirstOrDefault(t => t.User_Id == id);
 
-        return View(sections);
+
+        //var sections = _context.Sections
+        //    .Include(s => s.courses)
+        //    .Include(s => s.teaches)
+        //    .ThenInclude(t => t.instructors)
+        //    .Where(s => s.teaches.Instructor_Id == id)
+        //    .ToList();
+
+
+        var sectionIds = _context.Teaches
+        .Where(t => t.Instructor_Id == teacher.Id)
+        .Select(t => t.Section_Id)
+        .ToList();
+
+        var sections = _context.Sections
+        .Where(s => sectionIds.Contains(s.Id))
+        .ToList();
+
+        return View(sections);//
     }
 }

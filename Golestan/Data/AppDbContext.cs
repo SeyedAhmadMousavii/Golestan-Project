@@ -94,8 +94,8 @@ namespace Golestan.Data
                                         .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Takes>().HasOne(t => t.sections)
-                                        .WithOne(s => s.takes)
-                                        .HasForeignKey<Takes>(t=>t.Section_Id)
+                                        .WithMany(s => s.takes)
+                                        .HasForeignKey(t=>t.Section_Id)
                                         .OnDelete(DeleteBehavior.NoAction);
 
 

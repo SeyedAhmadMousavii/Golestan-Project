@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Golestan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250607185239_Golestan")]
-    partial class Golestan
+    [Migration("20250608080323_as")]
+    partial class @as
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -338,13 +338,13 @@ namespace Golestan.Migrations
                     b.Property<int>("Section_Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("Grade")
-                        .HasColumnType("int");
+                    b.Property<string>("Grade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Student_Id", "Section_Id");
 
-                    b.HasIndex("Section_Id")
-                        .IsUnique();
+                    b.HasIndex("Section_Id");
 
                     b.ToTable("Takes");
                 });
@@ -793,8 +793,8 @@ namespace Golestan.Migrations
             modelBuilder.Entity("Golestan.Models.Takes", b =>
                 {
                     b.HasOne("Golestan.Models.Sections", "sections")
-                        .WithOne("takes")
-                        .HasForeignKey("Golestan.Models.Takes", "Section_Id")
+                        .WithMany("takes")
+                        .HasForeignKey("Section_Id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -878,8 +878,7 @@ namespace Golestan.Migrations
 
             modelBuilder.Entity("Golestan.Models.Sections", b =>
                 {
-                    b.Navigation("takes")
-                        .IsRequired();
+                    b.Navigation("takes");
 
                     b.Navigation("teaches")
                         .IsRequired();
