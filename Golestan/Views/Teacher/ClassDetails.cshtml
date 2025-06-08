@@ -60,7 +60,7 @@
             background-color: #f0f8ff;
         }
 
-    input[type="number"] {
+    input[type="text"] {
         width: 80px;
         padding: 6px 10px;
         border: 1px solid #ccc;
@@ -70,7 +70,7 @@
         transition: border-color 0.3s;
     }
 
-        input[type="number"]:focus {
+        input[type="text"]:focus {
             outline: none;
             border-color: #2980b9;
             box-shadow: 0 0 5px #2980b9;
@@ -107,10 +107,39 @@
             form button[style*="crimson"]:hover {
                 background-color: #c0392b;
             }
+
+    .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        text-align: center;
+    }
+
+    .alert-success {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+    }
+
+    .alert-danger {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+    }
 </style>
 
 <div class="login-container">
-    <h2>کلاس: @Model.Section.SectionId - درس: @Model.courses.Title</h2>
+    <h2>کلاس: @Model.Section.Id - درس: @Model.courses.Title</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
 
     <h3>دانشجوها</h3>
     <table>
@@ -125,21 +154,25 @@
         <tbody>
             @foreach (var s in Model.Students)
             {
+                var take = Model.Takes.FirstOrDefault(t => t.Student_Id == s.Student_Id);
+                var grade = take != null ? take.Grade : "";
+
                 <tr>
                     <td>@s.Student_Id</td>
                     <td>@s.User.First_name @s.User.Last_name</td>
                     <td>
-                        <form method="post" action="/Teacher/SubmitGrade">
+                        <form method="post" asp-action="SubmitGrade">
                             <input type="hidden" name="StudentId" value="@s.Student_Id" />
-                            <input type="hidden" name="SectionId" value="@Model.Section.SectionId" />
-                            <input type="number" name="Grade" value="@s.takes" min="0" max="20" step="0.1" required />
+                            <input type="hidden" name="SectionId" value="@Model.Section.Id" />
+                            <input type="text" name="Grade" value="@grade" required />
                             <button type="submit">ثبت نمره</button>
                         </form>
                     </td>
                     <td>
-                        <form method="post" action="/Teacher/RemoveStudent">
+                        <form method="post" asp-action="RemoveStudent"
+                              onsubmit="return confirm('آیا از حذف این دانشجو مطمئن هستید؟');">
                             <input type="hidden" name="StudentId" value="@s.Student_Id" />
-                            <input type="hidden" name="SectionId" value="@Model.Section.SectionId" />
+                            <input type="hidden" name="SectionId" value="@Model.Section.Id" />
                             <button type="submit" style="background-color: crimson;">حذف</button>
                         </form>
                     </td>
