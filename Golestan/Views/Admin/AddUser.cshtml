@@ -1,29 +1,4 @@
-﻿@*  @{
-    ViewBag.Title = "افزودن کاربر جدید";
-}
-
-<h2>افزودن کاربر جدید</h2>
-
-
-<form method="post" action="/Admin/AddUser">
-
-    <label>شناسه کاربر:</label>
-    <input type="number" name="UserId" required />
-
-    <label>نام کاربر:</label>
-    <input type="text" name="First_Name" required />
-
-    <label>نام خانوادگی کاربر:</label>
-    <input type="text" name="Last_Name" required />
-
-    <label>ایمیل کاربر:</label>
-    <input type="text" name="Email" required />
-
-    <label>رمز ورود کاربر:</label>
-    <input type="text" name="Password" required />
-
-    <button type="submit">افزودن</button>
-</form> *@
+﻿
 @{
     ViewData["Title"] = "افزودن کاربر جدید";
 }
@@ -140,6 +115,12 @@
             <input type="text" name="Password" required />
 
             <button type="submit">افزودن</button>
+
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }
+
         </form>
     </div>
 

@@ -153,6 +153,11 @@
                        min="1">
             </div>
 
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }
+
             <button type="submit" class="delete-btn">
                 <i class="fas fa-trash-alt"></i>
                 حذف استاد

@@ -114,6 +114,11 @@
                 <option value="444">معماری</option>
             </select>
 
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }
+
             <button type="submit">ثبت</button>
         </form>
     </div>
