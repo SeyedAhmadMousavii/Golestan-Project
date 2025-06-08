@@ -22,6 +22,6 @@ namespace Golestan.Models
         public Time_Slots time_slots { get; set; }
 
         public Teaches teaches { get; set; }
-        public Takes takes { get; set; }
+        public List<Takes> takes { get; set; }
     }
 }

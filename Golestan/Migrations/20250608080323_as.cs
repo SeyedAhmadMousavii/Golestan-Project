@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Golestan.Migrations
 {
     /// <inheritdoc />
-    public partial class Golestan : Migration
+    public partial class @as : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -240,7 +240,7 @@ namespace Golestan.Migrations
                 {
                     Student_Id = table.Column<int>(type: "int", nullable: false),
                     Section_Id = table.Column<int>(type: "int", nullable: false),
-                    Grade = table.Column<int>(type: "int", nullable: false)
+                    Grade = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -415,8 +415,7 @@ namespace Golestan.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Takes_Section_Id",
                 table: "Takes",
-                column: "Section_Id",
-                unique: true);
+                column: "Section_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teaches_Section_Id",

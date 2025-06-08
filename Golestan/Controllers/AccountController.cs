@@ -53,14 +53,12 @@ namespace Golestan.Controllers
                 return View(model);
             }
 
-
-
             switch (model.SelectedRole)
             {
                 case "Admin":
                     return RedirectToAction("Index", "Admin");
                 case "Teacher":
-                    return RedirectToAction("Dashboard", "Teacher"); 
+                    return RedirectToAction("Dashboard", "Teacher", new { id = user.Id }); 
                 case "Student":
                     return RedirectToAction("Dashboard", "Student"); 
                 default:

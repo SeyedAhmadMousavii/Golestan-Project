@@ -78,12 +78,13 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> AddClass(int SID,int year,int semester, int courseId,int TimeId,int classs)
         {
-            var user =await _context.Courses.FirstOrDefaultAsync(c=>c.CoursId==courseId);
+            var cours =await _context.Courses.FirstOrDefaultAsync(c=>c.CoursId==courseId);
 
             var classItem = new Sections
             {
                 SectionId= SID,
-                Course_Id = user.Id,
+                Course_Id = cours.Id,
+                courses=cours,
                 Semester =semester,
                 year = year,
                 Time_Slot_Id = TimeId,
@@ -197,10 +198,25 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> AssignTeacher(int classId, int teacherId)
         {
-            var classItem = await _context.Students.FindAsync(classId);
-            if (classItem != null)
+            var classItem = await _context.Sections.FirstOrDefaultAsync(c=>c.SectionId==classId);
+
+            var instructor = await _context.Instructors.FirstOrDefaultAsync(i=>i.Instructor_Id==teacherId);
+
+            bool hasvalid = _context.Teaches.Any(t => t.Instructor_Id == classItem.Id && t.Section_Id == instructor.Id);
+
+            if(classItem == null || instructor == null)
             {
-                classItem.Id = teacherId;
+                return NotFound();
+            }
+            if (!hasvalid)
+            {
+                var teach = new Teaches 
+                {
+                    Section_Id = classItem.Id,
+                    Instructor_Id = instructor.Id
+                };
+                _context.Teaches.Add(teach);
+                _context.Instructors.Find(instructor.Id).teaches.Add(teach);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
@@ -217,10 +233,22 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> AddStudentToClass(int studentId, int classId)
         {
-            bool exists = await _context.Classrooms.AnyAsync();
-            if (!exists)
+            var section = await _context.Sections.FirstOrDefaultAsync(s=>s.SectionId==classId);
+            var student = await _context.Students.FirstOrDefaultAsync(S=>S.Student_Id==studentId);
+
+            Console.WriteLine($"----- suid{section.Id} cuid{student.Id}------------");
+
+            if (section!=null && student!=null)
             {
-                _context.Classrooms.Add(new Classrooms { Id=classId });
+                var takess = new Takes
+                {
+                    Section_Id = section.Id,
+                    Student_Id = student.Id,
+                    Grade = "0"
+                };
+                //student.takes.Add(takess);
+                //section.takes.Add(takess);
+                _context.Takes.Add(takess);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
@@ -237,10 +265,21 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveTeacher(int classId)
         {
-            var classItem = await _context.Classrooms.FindAsync(classId);
+            var classItem = await _context.Sections.FirstOrDefaultAsync(s=>s.SectionId==classId);
+            var teach = await _context.Teaches.FirstOrDefaultAsync(t => t.Section_Id == classItem.Id);
+            
             if (classItem != null)
             {
-                classItem.Building = null;
+                classItem.teaches = null;
+
+                var ins = _context.Instructors.Where(i => i.teaches.Contains(teach));
+                foreach(var i in ins)
+                {
+                    i.teaches.Remove(teach);
+                }
+
+                
+                _context.Teaches.Remove(teach);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
@@ -257,10 +296,13 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveStudentFromClass(int studentId, int classId)
         {
-            var record = await _context.Classrooms.FirstOrDefaultAsync();
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.Student_Id == studentId);
+            var section = await _context.Sections.FirstOrDefaultAsync(s => s.SectionId == classId);
+
+            var record = await _context.Takes.FirstOrDefaultAsync(t=> t.Section_Id==section.Id && t.Student_Id==student.Id);
             if (record != null)
             {
-                _context.Classrooms.Remove(record);
+                _context.Takes.Remove(record);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
