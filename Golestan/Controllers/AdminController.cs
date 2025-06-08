@@ -52,11 +52,11 @@ namespace Golestan.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddCourse(int id,string title,string code,string unit,string description,DateTime final,int DepartID)
+        public async Task<IActionResult> AddCourse(int id,string Title,string code,string unit,string description,DateTime final,int DepartID)
         {
             var course = new Courses 
             { 
-                  Title = title
+                  Title = Title
                 , CoursId = id
                 , Code = code
                 , Unit = unit
@@ -85,6 +85,20 @@ namespace Golestan.Controllers
                 SectionId= SID,
                 Course_Id = cours.Id,
                 courses=cours,
+                //new Courses 
+                //{
+                //    Id=cours.Id,
+                //    CoursId=cours.CoursId,
+                //    Title=cours.Title,
+                //    Code=cours.Code,
+                //    Unit=cours.Unit,
+                //    Description=cours.Description,
+                //    Final_Exam_Date= cours.Final_Exam_Date,
+                //    Department_Id=cours.departments.Id,
+                //    departments=cours.departments,
+                //    section_id=cours.section_id ,
+                //    section=cours.section,
+                //},
                 Semester =semester,
                 year = year,
                 Time_Slot_Id = TimeId,
@@ -106,7 +120,7 @@ namespace Golestan.Controllers
         public async Task<IActionResult> AddTeacher(int Id,int TeachId, decimal salary, int DepartId)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u=>u.UserId==Id);
-            bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == user.Id && ur.Role_Id == 1);
+            bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == user.Id && ur.Role_Id == 2);
             if (user == null)
             {
                 //adding error message
@@ -154,7 +168,7 @@ namespace Golestan.Controllers
         {
     
             var user = await _context.Users.FirstOrDefaultAsync(u=>u.UserId==Id);
-            bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == user.Id && ur.Role_Id == 2);
+            bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == user.Id && ur.Role_Id == 1);
             if (user == null)
             {
                 //adding error message
