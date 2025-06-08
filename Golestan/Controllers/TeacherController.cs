@@ -143,3 +143,4 @@ public class TeacherController : Controller
         return RedirectToAction("ClassDetails", new { id = SectionId });
     }
 }
+//
