@@ -28,6 +28,11 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Account}/{action=Login}/{id?}");
+
+    endpoints.MapControllerRoute(
+        name: "teacher",
+        pattern: "Teacher/{action=Dashboard}/{id?}",
+        defaults: new { controller = "Teacher" });
 });
 
 app.Run();

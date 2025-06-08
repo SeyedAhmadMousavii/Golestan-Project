@@ -17,8 +17,22 @@ public class TeacherController : Controller
     [HttpGet]
     public  IActionResult Dashboard(int id)//
     {
+
         var teacher = _context.Instructors.FirstOrDefault(t => t.User_Id == id);
-        
+        //var teacher = _context.Instructors.FirstOrDefault(t => t.Id == id);
+
+
+        //var sections = _context.Sections
+        //    .Include(s => s.courses)
+        //    .Include(s => s.teaches)
+        //    .ThenInclude(t => t.instructors)
+        //    .Where(s => s.teaches.Instructor_Id == id)
+        //    .ToList();
+
+        if (teacher == null)
+        {
+            return Content("استاد پیدا نشد");
+        }
 
         var sectionIds = _context.Teaches
         .Where(t => t.Instructor_Id == teacher.Id)
