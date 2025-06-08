@@ -4,11 +4,116 @@
     ViewBag.Title = "جزئیات کلاس";
 }
 
+<style>
+    body {
+        font-family: "Tahoma", sans-serif;
+        background-color: #f9fafb;
+        color: #333;
+        padding: 20px;
+        direction: rtl;
+    }
+
+    .login-container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        border-radius: 8px;
+        padding: 30px 40px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-weight: 700;
+        font-size: 28px;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 8px;
+    }
+
+    h3 {
+        color: #34495e;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        font-weight: 600;
+        font-size: 22px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 16px;
+    }
+
+        table thead tr {
+            background-color: #3498db;
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tbody tr:hover {
+            background-color: #f0f8ff;
+        }
+
+    input[type="number"] {
+        width: 80px;
+        padding: 6px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        text-align: center;
+        transition: border-color 0.3s;
+    }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 5px #2980b9;
+        }
+
+    button {
+        padding: 8px 16px;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        color: white;
+    }
+
+        button[type="submit"] {
+            background-color: #27ae60;
+            margin-left: 10px;
+        }
+
+            button[type="submit"]:hover {
+                background-color: #219150;
+            }
+
+    form {
+        display: inline-block;
+        margin: 0;
+    }
+
+        form button[style*="crimson"] {
+            background-color: #e74c3c;
+        }
+
+            form button[style*="crimson"]:hover {
+                background-color: #c0392b;
+            }
+</style>
+
 <div class="login-container">
     <h2>کلاس: @Model.Section.SectionId - درس: @Model.courses.Title</h2>
 
     <h3>دانشجوها</h3>
-    <table style="width:100%; border-collapse: collapse;">
+    <table>
         <thead>
             <tr>
                 <th>کد</th>
@@ -20,9 +125,9 @@
         <tbody>
             @foreach (var s in Model.Students)
             {
-                <tr style="border-bottom: 1px solid #ccc;">
+                <tr>
                     <td>@s.Student_Id</td>
-                    <td>@s.User.First_name @s.User.Last_name</td>  
+                    <td>@s.User.First_name @s.User.Last_name</td>
                     <td>
                         <form method="post" action="/Teacher/SubmitGrade">
                             <input type="hidden" name="StudentId" value="@s.Student_Id" />
