@@ -215,7 +215,7 @@ namespace Golestan.Data
                 Capacity = 50
             });
 
-            //default time
+            //                                         default time
 
             modelBuilder.Entity<Time_Slots>().HasData(new Time_Slots
             {

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Golestan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250608080323_as")]
-    partial class @as
+    [Migration("20250608141311_new")]
+    partial class @new
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
