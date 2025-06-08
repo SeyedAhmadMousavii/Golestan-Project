@@ -109,7 +109,7 @@ namespace Golestan.Controllers
             }
             if(year<DateTime.Now.Year ||semester<1||semester>3)
             {
-                ViewBag.ErrorMessage = "سال یه ترم کلاس اشتباه است";
+                ViewBag.ErrorMessage = "سال یا ترم کلاس اشتباه است";
                 return View();
             }
             if (isvalidlocation)
