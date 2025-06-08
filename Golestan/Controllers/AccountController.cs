@@ -58,7 +58,13 @@ namespace Golestan.Controllers
                 case "Admin":
                     return RedirectToAction("Index", "Admin");
                 case "Teacher":
-                    return RedirectToAction("Dashboard", "Teacher", new { id = user.Id }); 
+                    var teacher = await _context.Instructors.FirstOrDefaultAsync(t => t.User_Id == user.Id);
+                    if (teacher == null)
+                    {
+                        ModelState.AddModelError("", "هیچ اطلاعاتی برای استاد یافت نشد.");
+                        return View(model);
+                    }
+                    return RedirectToAction("Dashboard", "Teacher", new { id = teacher.Id });
                 case "Student":
                     return RedirectToAction("Dashboard", "Student"); 
                 default:
