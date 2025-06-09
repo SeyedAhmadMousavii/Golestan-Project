@@ -92,7 +92,7 @@ namespace Golestan.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddClass(int SID,int year,int semester, int courseId,int TimeId,int classs)
+        public async Task<IActionResult> AddClass(int SID,int year,int semester, int courseId,int TimeId,int classs, int capacity)
         {
             var cours =await _context.Courses.FirstOrDefaultAsync(c=>c.CoursId==courseId);
             if (cours == null) { ViewBag.ErrorMessage = "کلاس پیدا نشد";return View(); }
@@ -132,7 +132,9 @@ namespace Golestan.Controllers
                 Semester =semester,
                 year = year,
                 Time_Slot_Id = TimeId,
-                Classroom_Id= classs
+                Classroom_Id= classs,
+                Capacity = capacity
+                
 
             };
             _context.Sections.Add(classItem);
@@ -147,7 +149,7 @@ namespace Golestan.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddTeacher(int Id,int TeachId, decimal salary, int DepartId)
+        public async Task<IActionResult> AddTeacher(int Id,int TeachId, decimal salary, int DepartId, DateTime date)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u=>u.UserId==Id);
             if (user == null)
@@ -187,8 +189,9 @@ namespace Golestan.Controllers
                 Instructor_Id = TeachId,
                 Department_Id = DepartId,
                 Salary = salary,
-               Hire_Date = DateTime.Now,
-                User = user
+                Hire_Date = date,
+                User = user,
+
             };
             _context.Instructors.Add(instructor);
             await _context.SaveChangesAsync();
