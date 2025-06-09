@@ -128,6 +128,7 @@ namespace Golestan.Controllers
                 SectionId= SID,
                 Course_Id = cours.Id,
                 courses=cours,
+                coursetitle=cours.Title,
                 Semester =semester,
                 year = year,
                 Time_Slot_Id = TimeId,
@@ -372,6 +373,20 @@ namespace Golestan.Controllers
                 ViewBag.ErrorMessage = "دانشجو مال دانشکده دیگری است";
                 return View();
             }
+            var teaches = _context.Teaches.FirstOrDefault(t => t.Section_Id == section.Id);
+            var instructor = _context.Instructors.FirstOrDefault(i=>i.Id==teaches.Instructor_Id);
+            if(teaches == null || instructor == null)
+            {
+                ViewBag.ErrorMessage = "این کلاس استاد ندارد";
+                return View();
+            }
+            if (instructor.User_Id == student.User_Id)
+            {
+                ViewBag.ErrorMessage = "استاد نمی تواند دانشجوی خود باشد";
+                return View();
+            }
+
+
 
 
             try

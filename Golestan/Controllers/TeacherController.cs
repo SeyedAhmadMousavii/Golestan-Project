@@ -76,29 +76,43 @@ public class TeacherController : Controller
     {
         try
         {
-           
+            var student =await _context.Students.FirstOrDefaultAsync(s=>s.Student_Id==StudentId);
+            var section=await _context.Sections.FirstOrDefaultAsync(s=>s.Id==SectionId);
+
             if (string.IsNullOrWhiteSpace(Grade))
             {
                 TempData["Error"] = "نمره نمی‌تواند خالی باشد";
                 return RedirectToAction("ClassDetails", new { id = SectionId });
             }
 
-          
+
+            if (student == null)
+            {
+                ViewBag.ErrorMessage = "دانشجو پیدا نشد";
+                return View();
+            }
+            if (section == null)
+            {
+                ViewBag.ErrorMessage = "کلاس پیدا نشد";
+                return View();
+            }
+
+
             var take = await _context.Takes
-                .FirstOrDefaultAsync(t => t.Student_Id == StudentId && t.Section_Id == SectionId);
+                .FirstOrDefaultAsync(t => t.Student_Id == student.Id && t.Section_Id == section.Id);
 
             if (take != null)
             {
-                
+
                 take.Grade = Grade;
             }
             else
             {
-               
+
                 _context.Takes.Add(new Takes
                 {
-                    Student_Id = StudentId,
-                    Section_Id = SectionId,
+                    Student_Id = student.Id,
+                    Section_Id = section.Id,
                     Grade = Grade
                 });
             }
@@ -119,9 +133,24 @@ public class TeacherController : Controller
     {
         try
         {
-           
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.Student_Id == StudentId);
+            var section = await _context.Sections.FirstOrDefaultAsync(s => s.Id == SectionId);
+
+            if (student == null)
+            {
+                ViewBag.ErrorMessage = "دانشجو پیدا نشد";
+                return View();
+            }
+            if (section == null)
+            {
+                ViewBag.ErrorMessage = "کلاس پیدا نشد";
+                return View();
+            }
+
+
+
             var take = await _context.Takes
-                .FirstOrDefaultAsync(t => t.Student_Id == StudentId && t.Section_Id == SectionId);
+                .FirstOrDefaultAsync(t => t.Student_Id == student.Id && t.Section_Id == section.Id);
 
             if (take == null)
             {
@@ -143,3 +172,4 @@ public class TeacherController : Controller
         return RedirectToAction("ClassDetails", new { id = SectionId });
     }
 }
+//

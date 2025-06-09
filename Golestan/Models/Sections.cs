@@ -11,7 +11,7 @@ namespace Golestan.Models
 
         public int Course_Id { get; set; }
         public Courses courses { get; set; }
-
+        public string coursetitle {  get; set; }
         public int Semester { get; set; }
         public int year { get; set; }
 
