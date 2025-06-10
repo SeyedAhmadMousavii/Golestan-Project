@@ -16,7 +16,11 @@ public class StudentController : Controller
     public async Task<IActionResult> Dashboard(int id)
     {
         var student = _context.Students.FirstOrDefault(t => t.User_Id == id);
-
+        if (student==null)
+        {
+            ViewBag.ErrorMessage = "دانشجوی مورد نظر یاف نشد";
+            return RedirectToAction("Login", "Account");
+        }
         var takes = await _context.Takes
             .Where(t => t.Student_Id == student.Id)
             .Include(t => t.sections)
@@ -50,14 +54,11 @@ public class StudentController : Controller
         double totalPoints = 0;
         int totalUnits = 0;
 
-        foreach (var course in courseViewModels)
+
+        foreach(var i in courseViewModels)
         {
-            if (TryConvertGradeToPoint(course.Grade, out double point))
-            {
-                int.TryParse(course.Unit, out int unit);
-                totalPoints += point * unit;
-                totalUnits += unit;
-            }
+            totalPoints+= double.Parse(i.Grade)*int.Parse(i.Unit);
+            totalUnits += int.Parse(i.Unit);
         }
 
         double gpa = totalUnits > 0 ? totalPoints / totalUnits : 0;

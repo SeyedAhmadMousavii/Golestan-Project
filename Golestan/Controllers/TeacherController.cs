@@ -18,7 +18,11 @@ public class TeacherController : Controller
     public IActionResult Dashboard(int id)
     {
         var teacher = _context.Instructors.FirstOrDefault(t => t.User_Id == id);
-
+        if (teacher == null)
+        {
+            ViewBag.ErrorMessage = "استاد مورد نظر یاف نشد";
+            return RedirectToAction("Login", "Account");
+        }
         var sectionIds = _context.Teaches
             .Where(t => t.Instructor_Id == teacher.Id)
             .Select(t => t.Section_Id)
