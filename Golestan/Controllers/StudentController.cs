@@ -48,7 +48,11 @@ public class StudentController : Controller
             InstructorName = _context.Users.FirstOrDefault(u => u.Id == _context.Instructors.FirstOrDefault(i => i.teaches.Any(a => a.Section_Id == t.Section_Id)).User_Id).First_name + " " + _context.Users.FirstOrDefault(u => u.Id == _context.Instructors.FirstOrDefault(i => i.teaches.Any(a => a.Section_Id == t.Section_Id)).User_Id).Last_name,
             //t.sections.teaches?.instructors?.User?.Last_name ?? "نامعلوم",
             Grade = t.Grade,
+<<<<<<< HEAD
+
+=======
             IsPassed = double.TryParse(t.Grade,out double g) && g >= 12
+>>>>>>> 93f714f86a48d0116f97d18cb87fbd32e102d1cb
         }).ToList();
 
        
