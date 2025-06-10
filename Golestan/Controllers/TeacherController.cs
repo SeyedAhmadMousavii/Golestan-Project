@@ -86,6 +86,15 @@ public class TeacherController : Controller
             }
 
 
+            if (double.TryParse(Grade, out double Resualt))
+            {
+                if(Resualt<0 || Resualt > 20)
+                {
+                    Grade = "0";
+                }
+            }
+            else { Grade = "0"; }
+            
             if (student == null)
             {
                 ViewBag.ErrorMessage = "دانشجو پیدا نشد";

@@ -1,4 +1,4 @@
-﻿using Golestan.Data;
+using Golestan.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
