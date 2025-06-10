@@ -28,7 +28,7 @@ namespace Golestan.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == model.Id && u.Hashed_password == model.Password);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == model.Id && u.Hashed_password == model.Password);
 
             if (user == null)
             {
