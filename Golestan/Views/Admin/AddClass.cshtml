@@ -31,6 +31,7 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             width: 90%;
             max-width: 400px;
+            position: relative;
         }
 
         h2 {
@@ -65,7 +66,8 @@
                 box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
             }
 
-        button {
+        button,
+        .back-button {
             width: 100%;
             padding: 0.7rem;
             background-color: #2980b9;
@@ -75,14 +77,35 @@
             border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
         }
 
-            button:hover {
+            button:hover,
+            .back-button:hover {
                 background-color: #1c5980;
             }
+
+        .top-left-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: auto;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+        }
+
+        .alert {
+            color: red;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
+    <a href="@Url.Action("Index", "Admin")" class="back-button top-left-button">← بازگشت</a>
+
     <div class="form-container">
         <form method="post" action="/Admin/AddClass">
             <h2>افزودن کلاس جدید</h2>
@@ -132,13 +155,10 @@
                 <option value="28">پنجشنبه 10:30-12</option>
                 <option value="29">پنجشنبه 14:30-16</option>
                 <option value="30">پنجشنبه 16-17:30</option>
-                
             </select>
 
             <label>ظرفیت کلاس:</label>
             <input type="number" name="capacity" min="1" required />
-
-            
 
             <label>مکان کلاس:</label>
             <select name="classs" id="classs" required>
@@ -152,7 +172,7 @@
 
             @if (ViewBag.ErrorMessage != null)
             {
-                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+                <div class="alert">@ViewBag.ErrorMessage</div>
             }
 
             <button type="submit">افزودن</button>

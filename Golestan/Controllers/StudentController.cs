@@ -11,18 +11,19 @@ public class StudentController : Controller
         _context = context;
     }
 
-   
-    public async Task<IActionResult> MyCourses(int studentId)
+    [HttpGet]
+    public async Task<IActionResult> Dashboard(int studentId)
     {
+        var student = _context.Students.FirstOrDefault(t => t.User_Id == studentId);
         var takes = await _context.Takes
-    .Where(t => t.Student_Id == studentId)
-    .Include(t => t.sections)
-    .ThenInclude(s => s.courses)
-    .Include(t => t.sections.classrooms)
-    .Include(t => t.sections.time_slots)
-    .Include(t => t.sections.teaches)
-    .ThenInclude(t => t.instructors) 
-    .ToListAsync();
+        .Where(t => t.Student_Id == student.Id)
+        .Include(t => t.sections)
+        .ThenInclude(s => s.courses)
+        .Include(t => t.sections.classrooms)
+        .Include(t => t.sections.time_slots)
+        .Include(t => t.sections.teaches)
+        .ThenInclude(t => t.instructors) 
+        .ToListAsync();
 
 
         var courseViewModels = takes.Select(t => new StudentCourseViewModel
@@ -87,6 +88,6 @@ public class StudentController : Controller
             _context.Takes.Remove(take);
             await _context.SaveChangesAsync();
         }
-        return RedirectToAction("MyCourses", new { studentId });
+        return RedirectToAction("Dashboard", new { studentId });
     }
 }

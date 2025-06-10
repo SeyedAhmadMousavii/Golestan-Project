@@ -9,6 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <title>افزودن درس جدید</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
         * {
             box-sizing: border-box;
@@ -27,6 +28,7 @@
         }
 
         .form-container {
+            position: relative;
             background-color: #fff;
             padding: 2.5rem;
             border-radius: 20px;
@@ -48,7 +50,10 @@
             font-weight: bold;
         }
 
-        input[type="text"], input[type="number"],input[type="time"],select {
+        input[type="text"],
+        input[type="number"],
+        input[type="time"],
+        select {
             width: 100%;
             padding: 0.6rem;
             margin-bottom: 1.2rem;
@@ -57,11 +62,12 @@
             font-size: 1rem;
         }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: #2980b9;
-            box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
-        }
+            input:focus,
+            select:focus {
+                outline: none;
+                border-color: #2980b9;
+                box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+            }
 
         .error-message {
             color: red;
@@ -70,7 +76,7 @@
             margin-bottom: 0.8rem;
         }
 
-        button {
+        button[type="submit"] {
             width: 100%;
             padding: 0.7rem;
             background-color: #2980b9;
@@ -82,7 +88,22 @@
             transition: background-color 0.3s ease;
         }
 
-            button:hover {
+        .back-button {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: #2980b9;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+
+            button[type="submit"]:hover {
                 background-color: #1c5980;
             }
 
@@ -93,10 +114,24 @@
             border-radius: 10px;
             margin-bottom: 1rem;
         }
+
+       
+        .top-left-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: auto;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
+    <a href="@Url.Action("Index", "Admin")" class="back-button top-left-button">← بازگشت</a>
+
     <div class="form-container">
+
         <form method="post" action="/Admin/AddCourse">
             <h2>افزودن درس جدید</h2>
 
@@ -108,7 +143,7 @@
 
             <label for="code">کد درس:</label>
             <input type="text" id="code" name="code" placeholder="کد درس را وارد کنید" required />
-            
+
             <label for="unit">واحد درس:</label>
             <input type="text" id="unit" name="unit" placeholder="واحد درس را وارد کنید" required />
 
@@ -116,10 +151,11 @@
             <input type="text" id="description" name="description" placeholder="توضیحات درس را وارد کنید" required />
 
             <label for="final">زمان امتحان درس:</label>
-            <input type="time" id="final" name="final" placeholder="زمان امتحان درس را وارد کنید" required />
+            <input type="time" id="final" name="final" required />
 
-            <select name="DepartID" id="DepartID" class="form-control">
-                <option value="">-- Select Department --</option>
+            <label for="DepartID">گروه درسی:</label>
+            <select name="DepartID" id="DepartID" required>
+                <option value="">-- انتخاب کنید --</option>
                 <option value="111">کامپیوتر</option>
                 <option value="222">برق</option>
                 <option value="333">مکانیک</option>

@@ -12,7 +12,6 @@
             box-sizing: border-box;
         }
 
-
         body {
             margin: 0;
             padding: 0;
@@ -23,6 +22,7 @@
             align-items: center;
             min-height: 100vh;
             direction: rtl;
+            position: relative;
         }
 
         .form-container {
@@ -48,7 +48,7 @@
         }
 
         input[type="text"],
-        input[type="password"],select {
+        input[type="password"], select {
             width: 100%;
             padding: 0.6rem;
             margin-bottom: 1.2rem;
@@ -57,11 +57,11 @@
             font-size: 1rem;
         }
 
-        input:focus,select:focus {
-            outline: none;
-            border-color: #2980b9;
-            box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
-        }
+            input:focus, select:focus {
+                outline: none;
+                border-color: #2980b9;
+                box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+            }
 
         .error-message {
             color: red;
@@ -93,9 +93,31 @@
             border-radius: 10px;
             margin-bottom: 1rem;
         }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+            .back-button:hover {
+                background-color: #d0d3d4;
+            }
     </style>
 </head>
 <body>
+
+    <a class="back-button" href="/Admin/Index">بازگشت</a>
+
     <div class="form-container">
         <form method="post" action="/Admin/AddStudent">
             <h2>افزودن دانشجوی جدید</h2>
@@ -103,11 +125,12 @@
             <label for="Id">شناسه کاربر:</label>
             <input type="text" id="Id" name="Id" placeholder="شناسه کاربر را وارد کنید" required />
 
-            <label for="username">کد دانشجویی:</label>
+            <label for="StudID">کد دانشجویی:</label>
             <input type="text" id="StudID" name="StudID" placeholder="کد دانشجویی را وارد کنید" required />
 
-            <select name="DepartID" id="DepartID" class="form-control">
-                <option value="">-- Select Department --</option>
+            <label for="DepartID">دانشکده:</label>
+            <select name="DepartID" id="DepartID" class="form-control" required>
+                <option value="">-- انتخاب کنید --</option>
                 <option value="111">کامپیوتر</option>
                 <option value="222">برق</option>
                 <option value="333">مکانیک</option>
@@ -126,4 +149,3 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
-

@@ -1,43 +1,127 @@
 ﻿@model StudentCoursesPageViewModel
 
-<h2>دروس تخصیص داده شده</h2>
+@{
+    ViewBag.Title = "داشبورد دانشجو";
+    Layout = null;
+}
 
-<p>معدل کل: @Model.GPA.ToString("0.00")</p>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>عنوان درس</th>
-            <th>کد درس</th>
-            <th>واحد</th>
-            <th>تاریخ امتحان نهایی</th>
-            <th>کلاس</th>
-            <th>ساعت کلاس</th>
-            <th>نام استاد</th>
-            <th>نمره</th>
-            <th>عملیات</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var course in Model.Courses)
-        {
-            <tr>
-                <td>@course.CourseTitle</td>
-                <td>@course.CourseCode</td>
-                <td>@course.Unit</td>
-                <td>@course.FinalExamDate.ToShortDateString()</td>
-                <td>@course.ClassroomID</td>
-                <td>@course.TimeSlot</td>
-                <td>@course.InstructorName</td>
-                <td>@course.Grade</td>
-                <td>
-                    <form asp-action="RemoveCourse" method="post" style="display:inline;">
-                        <input type="hidden" name="studentId" value="@ViewBag.StudentId" />
-                        <input type="hidden" name="sectionId" value="@course.SectionId" />
-                        <button type="submit" class="btn btn-danger btn-sm">لغو تخصیص</button>
-                    </form>
-                </td>
-            </tr>
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <style>
+        .login-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-    </tbody>
-</table>
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .gpa {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+
+        .course-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .course-item {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+            .course-item:hover {
+                background-color: #e9f7ef;
+                border-color: #c8e6c9;
+            }
+
+        .course-details {
+            margin-bottom: 10px;
+        }
+
+            .course-details span {
+                display: block;
+                margin-bottom: 4px;
+                color: #34495e;
+            }
+
+        .btn-remove {
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+
+            .btn-remove:hover {
+                background-color: #c0392b;
+            }
+
+
+
+    </style>
+
+
+
+</head>
+<body>
+    <div class="login-container">
+        <h2>دروس تخصیص داده شده</h2>
+        <p class="gpa">معدل کل: @Model.GPA.ToString("0.00")</p>
+
+        @if (!Model.Courses.Any())
+        {
+            <p class="no-classes">هیچ درسی برای نمایش وجود ندارد.</p>
+        }
+        else
+        {
+            <ul class="course-list">
+                @foreach (var course in Model.Courses)
+                {
+                    <li class="course-item">
+                        <div class="course-details">
+                            <span><strong>عنوان درس:</strong> @course.CourseTitle</span>
+                            <span><strong>کد درس:</strong> @course.CourseCode</span>
+                            <span><strong>واحد:</strong> @course.Unit</span>
+                            <span><strong>تاریخ امتحان نهایی:</strong> @course.FinalExamDate.ToShortDateString()</span>
+                            <span><strong>کلاس:</strong> @course.ClassroomID</span>
+                            <span><strong>ساعت کلاس:</strong> @course.TimeSlot</span>
+                            <span><strong>نام استاد:</strong> @course.InstructorName</span>
+                            <span><strong>نمره:</strong> @course.Grade</span>
+                        </div>
+                        <form asp-action="RemoveCourse" method="post">
+                            <input type="hidden" name="studentId" value="@ViewBag.StudentId" />
+                            <input type="hidden" name="sectionId" value="@course.SectionId" />
+                            <button type="submit" class="btn-remove">لغو تخصیص</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</body>
+</html>

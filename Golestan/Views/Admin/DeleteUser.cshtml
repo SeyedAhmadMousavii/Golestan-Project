@@ -1,5 +1,5 @@
-﻿﻿@{
-ViewData["Title"] = "حذف کاربر";
+﻿@{
+    ViewData["Title"] = "حذف کاربر";
 }
 
 <!DOCTYPE html>
@@ -7,7 +7,7 @@ ViewData["Title"] = "حذف کاربر";
 <head>
     <meta charset="utf-8" />
     <title>حذف کاربر</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
         * {
             box-sizing: border-box;
@@ -26,6 +26,7 @@ ViewData["Title"] = "حذف کاربر";
         }
 
         .delete-form {
+            position: relative;
             background-color: #fff;
             padding: 2rem;
             border-radius: 15px;
@@ -34,6 +35,27 @@ ViewData["Title"] = "حذف کاربر";
             max-width: 450px;
             text-align: center;
         }
+
+        .btn-back {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #2980b9;
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 0;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+            z-index: 10;
+        }
+
+            .btn-back:hover {
+                background-color: #1c5980;
+            }
 
         .delete-header {
             color: #e74c3c;
@@ -103,24 +125,50 @@ ViewData["Title"] = "حذف کاربر";
         .fa-triangle-exclamation {
             margin-left: 5px;
         }
+
+        .back-button {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: #2980b9;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .top-left-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: auto;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
+    <a href="@Url.Action("Index", "Admin")" class="back-button top-left-button">← بازگشت</a>
+
     <div class="delete-form">
-        <h2 class="delete-header">حذف دانشجو</h2>
+        
+
+        <h2 class="delete-header">حذف کاربر</h2>
 
         <div class="alert-danger">
             <i class="fas fa-triangle-exclamation"></i>
-            هشدار: با حذف دانشجو، تمام اطلاعات مرتبط از جمله نمرات و حضور و غیاب نیز حذف خواهند شد!
+            هشدار: با حذف کاربر، تمام اطلاعات مرتبط از جمله نمرات و حضور و غیاب نیز حذف خواهند شد!
         </div>
 
         <form method="post" action="/Admin/DeleteUser" id="deleteForm">
             <div class="form-group">
-                <label for="studentId">شناسه کاربر:</label>
-                <input type="number" id="id" name="id"
-                       placeholder="شناسه کاربر را وارد نمایید"
-                       required
-                       min="1">
+                <label for="id">شناسه کاربر:</label>
+                <input type="number" id="id" name="id" placeholder="شناسه کاربر را وارد نمایید" required min="1" />
             </div>
 
             @if (ViewBag.ErrorMessage != null)
@@ -128,9 +176,7 @@ ViewData["Title"] = "حذف کاربر";
                 <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
             }
 
-            <button type="submit" class="btn-delete">
-                حذف کاربر
-            </button>
+            <button type="submit" class="btn-delete">حذف کاربر</button>
         </form>
     </div>
 
@@ -138,17 +184,14 @@ ViewData["Title"] = "حذف کاربر";
     <script>
         $(document).ready(function() {
             $('#deleteForm').submit(function(e) {
-                const studentId = $('#studentId').val();
-
-                if (!id) {
+                const userId = $('#id').val().trim();
+                if (!userId) {
                     alert('لطفاً شناسه کاربر را وارد نمایید');
                     return false;
                 }
-
-                return confirm(`آیا از حذف کاربر با شناسه ${studentId} اطمینان دارید؟\nاین عمل غیرقابل بازگشت خواهد بود!`);
+                return confirm(`آیا از حذف کاربر با شناسه ${userId} اطمینان دارید؟\nاین عمل غیرقابل بازگشت خواهد بود!`);
             });
         });
     </script>
 </body>
 </html>
-
