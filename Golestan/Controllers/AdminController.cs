@@ -162,7 +162,7 @@ namespace Golestan.Controllers
                 ViewBag.ErrorMessage = "کاربر پیدا نشد";
                 return View();
             }
-
+            
             bool alreadyExists = _context.User_Roles.Any(ur => ur.User_Id == user.Id && ur.Role_Id == 2);
         
             var isvalid = _context.Instructors.Any(i=>i.Instructor_Id==TeachId);
@@ -187,6 +187,13 @@ namespace Golestan.Controllers
                 _context.User_Roles.Add(newUserRole);
                 _context.SaveChanges();
             }
+            var department = _context.Departments.Find(DepartId);
+            if (department.Budget<salary)
+            {
+                ViewBag.ErrorMessage = "بودجه کافی نیست";
+                return View();
+            }
+
 
             var instructor = new Instructors
             { 
@@ -198,6 +205,7 @@ namespace Golestan.Controllers
                 User = user,
 
             };
+            department.Budget -= salary;
             _context.Instructors.Add(instructor);
             await _context.SaveChangesAsync();
 
@@ -617,6 +625,8 @@ namespace Golestan.Controllers
                 {
                     _context.Teaches.RemoveRange(teaches);
                 }
+                var department = _context.Departments.Find(teacher.Department_Id);
+                department.Budget += teacher.Salary;
                 _context.Instructors.Remove(teacher);
                 await _context.SaveChangesAsync();
             }
