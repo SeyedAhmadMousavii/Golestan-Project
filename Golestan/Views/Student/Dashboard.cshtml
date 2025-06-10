@@ -1,4 +1,43 @@
-﻿@page
-@model Golestan.Views.Student.DashboardModel
-@{
-}
+﻿@model StudentCoursesPageViewModel
+
+<h2>دروس تخصیص داده شده</h2>
+
+<p>معدل کل: @Model.GPA.ToString("0.00")</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>عنوان درس</th>
+            <th>کد درس</th>
+            <th>واحد</th>
+            <th>تاریخ امتحان نهایی</th>
+            <th>کلاس</th>
+            <th>ساعت کلاس</th>
+            <th>نام استاد</th>
+            <th>نمره</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model.Courses)
+        {
+            <tr>
+                <td>@course.CourseTitle</td>
+                <td>@course.CourseCode</td>
+                <td>@course.Unit</td>
+                <td>@course.FinalExamDate.ToShortDateString()</td>
+                <td>@course.ClassroomID</td>
+                <td>@course.TimeSlot</td>
+                <td>@course.InstructorName</td>
+                <td>@course.Grade</td>
+                <td>
+                    <form asp-action="RemoveCourse" method="post" style="display:inline;">
+                        <input type="hidden" name="studentId" value="@ViewBag.StudentId" />
+                        <input type="hidden" name="sectionId" value="@course.SectionId" />
+                        <button type="submit" class="btn btn-danger btn-sm">لغو تخصیص</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -60,7 +60,7 @@ namespace Golestan.Controllers
                 case "Teacher":
                     return RedirectToAction("Dashboard", "Teacher", new { id = user.Id }); 
                 case "Student":
-                    return RedirectToAction("Dashboard", "Student"); 
+                    return RedirectToAction("Dashboard", "Student" , new {id =  user.Id}); 
                 default:
                     ModelState.AddModelError("", "نقش نامعتبر است.");
                     return View(model);
