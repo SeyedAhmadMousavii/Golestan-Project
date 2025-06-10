@@ -61,12 +61,17 @@ namespace Golestan.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddCourse(int id,string Title,string code,string unit,string description,DateTime final,int DepartID)
+        public async Task<IActionResult> AddCourse(int id,string Title,string code,int unit,string description,DateTime final,int DepartID)
         {
             var isvalid = _context.Courses.Any(c=>c.CoursId == id);
             if (isvalid)
             {
                 ViewBag.ErrorMessage = "شناسه درس تکراریه";
+                return View();
+            }
+            if (unit > 4 || unit < 1)
+            {
+                ViewBag.ErrorMessage = "واحد نا معتبر است";
                 return View();
             }
          
@@ -75,7 +80,7 @@ namespace Golestan.Controllers
                   Title = Title
                 , CoursId = id
                 , Code = code
-                , Unit = unit
+                , Unit = unit.ToString()
                 ,Description = description
                 ,Final_Exam_Date = final
                 ,Department_Id=DepartID
@@ -101,7 +106,7 @@ namespace Golestan.Controllers
 
             var isvalidlocation = _context.Sections.Any(s=>s.Time_Slot_Id==TimeId && s.Classroom_Id==classs);
 
-            var isvalidcourse = _context.Sections.Any(s=>s.Course_Id==courseId);
+            var isvalidcourse = _context.Sections.Any(s=>s.Course_Id==cours.Id);
             if (isvalid)
             {
                 ViewBag.ErrorMessage = "شناسه کلاس تکراری است";
@@ -377,8 +382,14 @@ namespace Golestan.Controllers
                 return View();
             }
             var teaches = _context.Teaches.FirstOrDefault(t => t.Section_Id == section.Id);
+
+            if(teaches == null )
+            {
+                ViewBag.ErrorMessage = "این کلاس استاد ندارد";
+                return View();
+            }
             var instructor = _context.Instructors.FirstOrDefault(i=>i.Id==teaches.Instructor_Id);
-            if(teaches == null || instructor == null)
+            if (instructor == null)
             {
                 ViewBag.ErrorMessage = "این کلاس استاد ندارد";
                 return View();
@@ -426,6 +437,11 @@ namespace Golestan.Controllers
         public async Task<IActionResult> RemoveTeacher(int classId)
         {
             var classItem = await _context.Sections.FirstOrDefaultAsync(s=>s.SectionId==classId);
+            if (classItem == null)
+            {
+                ViewBag.ErrorMessage = "کلاس یافت نشد";
+                return View();
+            }
             var teach = await _context.Teaches.FirstOrDefaultAsync(t => t.Section_Id == classItem.Id);
             
             if (classItem != null)
@@ -457,8 +473,17 @@ namespace Golestan.Controllers
         public async Task<IActionResult> RemoveStudentFromClass(int studentId, int classId)
         {
             var student = await _context.Students.FirstOrDefaultAsync(s => s.Student_Id == studentId);
+            if (student == null)
+            {
+                ViewBag.ErrorMessage = "دانشجوی مورد نظر یاف نشد";
+                return View();
+            }
             var section = await _context.Sections.FirstOrDefaultAsync(s => s.SectionId == classId);
-
+            if (section == null)
+            {
+                ViewBag.ErrorMessage = "کلاس مورد نظر یافت نشد";
+                return View();
+            }
             var record = await _context.Takes.FirstOrDefaultAsync(t=> t.Section_Id==section.Id && t.Student_Id==student.Id);
             if (record != null)
             {
@@ -483,8 +508,12 @@ namespace Golestan.Controllers
             var course = await _context.Courses.FirstOrDefaultAsync(x=>x.CoursId==id);
             if (course != null)
             {
-                var section = _context.Sections.FirstOrDefault(s => s.Course_Id == course.Id);
-                DeleteClass(section.SectionId);
+                var section =await _context.Sections.FirstOrDefaultAsync(s => s.Course_Id == course.Id);
+                if(section != null)
+                {
+                    await DeleteClass(section.SectionId);
+                }
+                
                 _context.Courses.Remove(course);
                 await _context.SaveChangesAsync();
             }
@@ -501,6 +530,11 @@ namespace Golestan.Controllers
         public async  Task<IActionResult> DeleteUser(int id)
         {
             var User = await _context.Users.FirstOrDefaultAsync(u=>u.UserId==id);
+            if (User == null)
+            {
+                ViewBag.ErrorMessage = "کاربر یافت نشد";
+                return View();
+            }
             if (User != null)
             {
                 var students =await _context.Students.Where(s => s.User_Id == User.Id).ToListAsync();
@@ -509,7 +543,7 @@ namespace Golestan.Controllers
                 {
                     foreach(var i in students)
                     {
-                        DeleteStudent(i.Student_Id);
+                       await DeleteStudent(i.Student_Id);
                     }
                     _context.Students.RemoveRange(students);
                 }
@@ -519,7 +553,7 @@ namespace Golestan.Controllers
                 {
                     foreach(var i in instructor)
                     {
-                        DeleteTeacher(i.Instructor_Id);
+                       await DeleteTeacher(i.Instructor_Id);
                     }
                     _context.Instructors.RemoveRange(instructor);
                 }
