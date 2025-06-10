@@ -114,7 +114,7 @@ namespace Golestan.Controllers
             }
             if (isvalidlocation)
             {
-                ViewBag.ErrorMessage = "لوکیشن کلاس اشغال است";
+                ViewBag.ErrorMessage = "مکان کلاس اشغال است";
                 return View();
             }
             if (isvalidcourse)
@@ -483,6 +483,8 @@ namespace Golestan.Controllers
             var course = await _context.Courses.FirstOrDefaultAsync(x=>x.CoursId==id);
             if (course != null)
             {
+                var section = _context.Sections.FirstOrDefault(s => s.Course_Id == course.Id);
+                DeleteClass(section.SectionId);
                 _context.Courses.Remove(course);
                 await _context.SaveChangesAsync();
             }
@@ -501,16 +503,24 @@ namespace Golestan.Controllers
             var User = await _context.Users.FirstOrDefaultAsync(u=>u.UserId==id);
             if (User != null)
             {
-                var students = _context.Students.Where(s => s.User_Id == id).ToList();
+                var students =await _context.Students.Where(s => s.User_Id == User.Id).ToListAsync();
 
                 if (students.Any())
                 {
+                    foreach(var i in students)
+                    {
+                        DeleteStudent(i.Student_Id);
+                    }
                     _context.Students.RemoveRange(students);
                 }
-                var instructor = _context.Instructors.Where(s => s.User_Id == id).ToList();
+                var instructor =await _context.Instructors.Where(s => s.User_Id ==User.Id).ToListAsync();
 
                 if (instructor.Any())
                 {
+                    foreach(var i in instructor)
+                    {
+                        DeleteTeacher(i.Instructor_Id);
+                    }
                     _context.Instructors.RemoveRange(instructor);
                 }
               
@@ -534,6 +544,18 @@ namespace Golestan.Controllers
             var classItem = await _context.Sections.FirstOrDefaultAsync(c=>c.SectionId==id);
             if (classItem != null)
             {
+                var teaches =await _context.Teaches.Where(s => s.Section_Id ==classItem.Id).ToListAsync();
+
+                if (teaches.Any())
+                {
+                    _context.Teaches.RemoveRange(teaches);
+                }
+                var takes =await _context.Takes.Where(s => s.Section_Id == classItem.Id).ToListAsync();
+
+                if (takes.Any())
+                {
+                    _context.Takes.RemoveRange(takes);
+                }
                 _context.Sections.Remove(classItem);
                 await _context.SaveChangesAsync();
             }
@@ -555,6 +577,12 @@ namespace Golestan.Controllers
             var teacher = await _context.Instructors.FirstOrDefaultAsync(i=>i.Instructor_Id==id);
             if (teacher != null)
             {
+                var teaches = _context.Teaches.Where(s => s.Instructor_Id == teacher.Id).ToList();
+
+                if (teaches.Any())
+                {
+                    _context.Teaches.RemoveRange(teaches);
+                }
                 _context.Instructors.Remove(teacher);
                 await _context.SaveChangesAsync();
             }
@@ -575,6 +603,12 @@ namespace Golestan.Controllers
             var Student = await _context.Students.FirstOrDefaultAsync(s=>s.Student_Id==Id);
             if (Student != null)
             {
+                var takes = _context.Takes.Where(s => s.Student_Id == Student.Id).ToList();
+
+                if (takes.Any())
+                {
+                    _context.Takes.RemoveRange(takes);
+                }
                 _context.Students.Remove(Student);
                 await _context.SaveChangesAsync();
             }
