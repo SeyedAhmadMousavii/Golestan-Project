@@ -5,18 +5,25 @@
 namespace Golestan.Migrations
 {
     /// <inheritdoc />
-    public partial class Golestan1000 : Migration
+    public partial class G : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.AddColumn<int>(
+                name: "Capacity",
+                table: "Sections",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.DropColumn(
+                name: "Capacity",
+                table: "Sections");
         }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Golestan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250608141311_new")]
-    partial class @new
+    [Migration("20250609082234_Golestan 2000")]
+    partial class Golestan2000
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -285,6 +285,10 @@ namespace Golestan.Migrations
 
                     b.Property<int>("Time_Slot_Id")
                         .HasColumnType("int");
+
+                    b.Property<string>("coursetitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("year")
                         .HasColumnType("int");

@@ -268,6 +268,9 @@ namespace Golestan.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
                     b.Property<int>("Classroom_Id")
                         .HasColumnType("int");
 

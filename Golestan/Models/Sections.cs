@@ -17,7 +17,7 @@ namespace Golestan.Models
 
         public int Classroom_Id { get; set; }
         public Classrooms classrooms { get; set; }
-
+        public int Capacity { get; set; }
         public int Time_Slot_Id { get; set; }
         public Time_Slots time_slots { get; set; }
 
