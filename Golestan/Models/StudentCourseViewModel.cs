@@ -1,5 +1,6 @@
 ﻿public class StudentCourseViewModel
 {
+    public int StudentId {  get; set; }
     public int SectionId { get; set; }
     public string CourseTitle { get; set; }
     public string CourseCode { get; set; }

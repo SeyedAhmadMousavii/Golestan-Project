@@ -26,13 +26,13 @@
                 <td>@course.CourseCode</td>
                 <td>@course.Unit</td>
                 <td>@course.FinalExamDate.ToShortDateString()</td>
-                <td>@course.ClassroomID</td>
+                <td>@course.ClassroomID کلاس</td>
                 <td>@course.TimeSlot</td>
                 <td>@course.InstructorName</td>
                 <td>@course.Grade</td>
                 <td>
-                    <form asp-action="RemoveCourse" method="post" style="display:inline;">
-                        <input type="hidden" name="studentId" value="@ViewBag.StudentId" />
+                    <form asp-action="Dashboard" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@Model.Courses[0].SectionId" />
                         <input type="hidden" name="sectionId" value="@course.SectionId" />
                         <button type="submit" class="btn btn-danger btn-sm">لغو تخصیص</button>
                     </form>
