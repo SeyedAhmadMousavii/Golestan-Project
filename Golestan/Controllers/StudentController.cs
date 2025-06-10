@@ -1,111 +1,92 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Golestan.Models;
+﻿using Golestan.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using Golestan.Data;
 
-namespace Golestan.Controllers
+public class StudentController : Controller
 {
-    public class StudentController : Controller
+    private readonly AppDbContext _context;
+
+    public StudentController(AppDbContext context)
     {
-        private readonly AppDbContext _context;
-
-        public StudentController(AppDbContext context)
-        {
-            _context = context;
-        }
-
-      
-        public IActionResult Dashboard(int studentId)
-        {
-            
-            var courses = _context.Takes
-                .Include(t => t.sections)
-                    .ThenInclude(s => s.courses)
-                .Include(t => t.sections)
-                    .ThenInclude(s => s.teaches)
-                        .ThenInclude(te => te.instructors)
-                .Where(t => t.Student_Id == studentId)
-                .ToList();
-
-            return View(courses);
-        }
-
-     
-        public IActionResult CourseDetails(int takeId)
-        {
-            var take = _context.Takes
-                .Include(t => t.sections)
-                    .ThenInclude(s => s.courses)
-                .Include(t => t.sections)
-                    .ThenInclude(s => s.teaches)
-                        .ThenInclude(te => te.instructors)
-                .FirstOrDefault(t => t.Student_Id == takeId);
-
-            if (take == null) return NotFound();
-
-            return View(take);
-        }
+        _context = context;
+    }
 
    
-        public IActionResult Grades(int studentId)
+    public async Task<IActionResult> MyCourses(int studentId)
+    {
+        var takes = await _context.Takes
+    .Where(t => t.Student_Id == studentId)
+    .Include(t => t.sections)
+    .ThenInclude(s => s.courses)
+    .Include(t => t.sections.classrooms)
+    .Include(t => t.sections.time_slots)
+    .Include(t => t.sections.teaches)
+    .ThenInclude(t => t.instructors) 
+    .ToListAsync();
+
+
+        var courseViewModels = takes.Select(t => new StudentCourseViewModel
         {
-            var grades = _context.Takes
-                .Include(t => t.sections)
-                    .ThenInclude(s => s.courses)
-                .Where(t => t.Student_Id == studentId)
-                .Select(t => new {
-                    CourseTitle = t.sections.courses.Title,
-                    Grade = t.Grade
-                })
-                .ToList();
-
-            return View(grades);
-        }
-
-    
-        public IActionResult Profile(int studentId)
-        {
-            var student = _context.Students
-                .FirstOrDefault(s => s.Id == studentId);
-
-            if (student == null) return NotFound();
-
-           
-            var grades = _context.Takes
-                .Where(t => t.Student_Id == studentId)
-                .ToList();
-
-            double gpa = 0;
-            int count = 0;
-
-            foreach (var grade in grades)
-            {
-                if (double.TryParse(grade.Grade, out double val))
-                {
-                    gpa += val;
-                    count++;
-                }
-            }
-            gpa = count > 0 ? gpa / count : 0;
-
-            ViewBag.GPA = gpa;
-            ViewBag.PassedCoursesCount = grades.Count(g => double.TryParse(g.Grade, out double v) && v >= 10);
-
-            return View(student);
-        }
+            SectionId = t.Section_Id,
+            CourseTitle = t.sections.courses.Title,
+            CourseCode = t.sections.courses.Code,
+            Unit = t.sections.courses.Unit,
+            FinalExamDate = t.sections.courses.Final_Exam_Date,
+            ClassroomID = t.sections.classrooms.Id,
+            InstructorName = t.sections.teaches?.instructors?.User?.Last_name ?? "نامعلوم",
+            Grade = t.Grade
+        }).ToList();
 
        
-        [HttpPost]
-        public IActionResult CancelAssignment(int takeId)
+        double totalPoints = 0;
+        int totalUnits = 0;
+
+        foreach (var course in courseViewModels)
         {
-            var take = _context.Takes.Find(takeId);
-            if (take == null) return NotFound();
-
-            _context.Takes.Remove(take);
-            _context.SaveChanges();
-
-            return RedirectToAction("MyCourses", new { studentId = take.Student_Id });
+            if (TryConvertGradeToPoint(course.Grade, out double point))
+            {
+                int.TryParse(course.Unit, out int unit);
+                totalPoints += point * unit;
+                totalUnits += unit;
+            }
         }
+
+        double gpa = totalUnits > 0 ? totalPoints / totalUnits : 0;
+
+        var viewModel = new StudentCoursesPageViewModel
+        {
+            Courses = courseViewModels,
+            GPA = gpa
+        };
+
+        return View(viewModel);
+    }
+
+    private bool TryConvertGradeToPoint(string grade, out double point)
+    {
+        point = 0;
+        if (string.IsNullOrEmpty(grade)) return false;
+        switch (grade.ToUpper())
+        {
+            case "A": point = 4; return true;
+            case "B": point = 3; return true;
+            case "C": point = 2; return true;
+            case "D": point = 1; return true;
+            case "F": point = 0; return true;
+            default: return false;
+        }
+    }
+
+    // حذف تخصیص کلاس
+    [HttpPost]
+    public async Task<IActionResult> RemoveCourse(int studentId, int sectionId)
+    {
+        var take = await _context.Takes.FirstOrDefaultAsync(t => t.Student_Id == studentId && t.Section_Id == sectionId);
+        if (take != null)
+        {
+            _context.Takes.Remove(take);
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToAction("MyCourses", new { studentId });
     }
 }
