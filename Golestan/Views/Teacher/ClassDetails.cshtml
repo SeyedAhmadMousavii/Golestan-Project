@@ -154,7 +154,7 @@
         <tbody>
             @foreach (var s in Model.Students)
             {
-                var take = Model.Takes.FirstOrDefault(t => t.Student_Id == s.Student_Id);
+                var take = Model.Takes.FirstOrDefault(t => t.Student_Id == s.Id);
                 var grade = take != null ? take.Grade : "";
 
                 <tr>

@@ -107,7 +107,7 @@ namespace Golestan.Controllers
                 ViewBag.ErrorMessage = "شناسه کلاس تکراری است";
                 return View();
             }
-            if(year<DateTime.Now.Year ||semester<1||semester>3)
+            if(year<DateTime.Now.Year -622 ||semester<1||semester>3)
             {
                 ViewBag.ErrorMessage = "سال یا ترم کلاس اشتباه است";
                 return View();
@@ -388,7 +388,11 @@ namespace Golestan.Controllers
                 ViewBag.ErrorMessage = "استاد نمی تواند دانشجوی خود باشد";
                 return View();
             }
-
+            if (section.Capacity == 0)
+            {
+                ViewBag.ErrorMessage = "ظرفیت کلاس تکمیل است";
+                return View();
+            }
 
 
 
@@ -401,6 +405,7 @@ namespace Golestan.Controllers
                     Grade = "0"
                 };
                 _context.Takes.Add(takess);
+                section.Capacity--;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex) { ViewBag.ErrorMessage = ex.Message; }
@@ -458,6 +463,7 @@ namespace Golestan.Controllers
             if (record != null)
             {
                 _context.Takes.Remove(record);
+                section.Capacity++;
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
