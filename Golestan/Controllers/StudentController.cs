@@ -47,7 +47,8 @@ public class StudentController : Controller
             + _context.Time_Slots.FirstOrDefault(tt => tt.Id == _context.Sections.FirstOrDefault(s => s.Id == t.Section_Id).Time_Slot_Id).End_Time.Minute,
             InstructorName = _context.Users.FirstOrDefault(u => u.Id == _context.Instructors.FirstOrDefault(i => i.teaches.Any(a => a.Section_Id == t.Section_Id)).User_Id).First_name + " " + _context.Users.FirstOrDefault(u => u.Id == _context.Instructors.FirstOrDefault(i => i.teaches.Any(a => a.Section_Id == t.Section_Id)).User_Id).Last_name,
             //t.sections.teaches?.instructors?.User?.Last_name ?? "نامعلوم",
-            Grade = t.Grade
+            Grade = t.Grade,
+            IsPassed = double.TryParse(t.Grade,out double g) && g >= 12
         }).ToList();
 
        
