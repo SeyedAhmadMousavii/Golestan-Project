@@ -50,10 +50,9 @@
             font-weight: bold;
         }
 
-        input[type="text"],
-        input[type="number"],
-        input[type="time"],
-        select {
+
+        input[type="text"], input[type="number"],input[type="time"],input[type="date"],select {
+
             width: 100%;
             padding: 0.6rem;
             margin-bottom: 1.2rem;
@@ -145,17 +144,18 @@
             <input type="text" id="code" name="code" placeholder="کد درس را وارد کنید" required />
 
             <label for="unit">واحد درس:</label>
-            <input type="text" id="unit" name="unit" placeholder="واحد درس را وارد کنید" required />
+            <input type="number" id="unit" name="unit" placeholder="واحد درس را وارد کنید" required />
 
             <label for="description">توضیحات درس:</label>
             <input type="text" id="description" name="description" placeholder="توضیحات درس را وارد کنید" required />
 
             <label for="final">زمان امتحان درس:</label>
-            <input type="time" id="final" name="final" required />
 
-            <label for="DepartID">گروه درسی:</label>
-            <select name="DepartID" id="DepartID" required>
+            <input type="date" id="final" name="final" placeholder="زمان امتحان درس را وارد کنید" required />
+
+            <select name="DepartID" id="DepartID" class="form-control" required>
                 <option value="">-- انتخاب کنید --</option>
+
                 <option value="111">کامپیوتر</option>
                 <option value="222">برق</option>
                 <option value="333">مکانیک</option>
