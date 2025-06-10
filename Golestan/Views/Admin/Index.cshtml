@@ -19,24 +19,6 @@
             --light-color: #ecf0f1;
         }
 
-
-<ul>
-    <li><a href="/Admin/AddUser">افزودن کاربر جدید</a></li>
-    <li><a href="/Admin/AddCourse">افزودن درس جدید</a></li>
-    <li><a href="/Admin/AddClass">افزودن کلاس جدید</a></li>
-    <li><a href="/Admin/AddTeacher">افزودن استاد جدید</a></li>
-    <li><a href="/Admin/AddStudent">افزودن دانشجوی جدید</a></li>
-    <li><a href="/Admin/AssignTeacher">تخصیص استاد به کلاس</a></li>
-    <li><a href="/Admin/AddStudentToClass">افزودن دانشجو به کلاس</a></li>
-    <li><a href="/Admin/RemoveTeacher">لغو تخصیص استاد از کلاس</a></li>
-    <li><a href="/Admin/RemoveStudentFromClass">حذف دانشجو از کلاس</a></li>
-    <li><a href="/Admin/DeleteUser">حذف کاربر</a></li>
-    <li><a href="/Admin/DeleteCourse">حذف درس</a></li>
-    <li><a href="/Admin/DeleteClass">حذف کلاس</a></li>
-    <li><a href="/Admin/DeleteTeacher">حذف استاد</a></li>
-    <li><a href="/Admin/DeleteStudent">حذف دانشجو</a></li>
-</ul>
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -82,6 +64,8 @@
                 height: 4px;
                 background: linear-gradient(to right, var(--primary-color), var(--success-color));
             }
+
+   
 
         .panel-body {
             padding: 30px;
@@ -173,11 +157,37 @@
         .manage-link {
             border-right: 4px solid var(--warning-color);
         }
+
+        .top-left-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: auto;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+        }
+
+        .back-button {
+            width: 10%;
+            padding: 0.7rem;
+            background-color: #2980b9;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="admin-panel">
         <div class="panel-header">
+       <a href="@Url.Action("Login", "Account")" class="back-button top-left-button">← بازگشت</a>
             <h2><i class="fas fa-cogs"></i> پنل مدیریت سیستم</h2>
             <p>مدیریت کامل بخش‌های مختلف سامانه</p>
         </div>
@@ -282,7 +292,6 @@
     </div>
 
     <script>
-        ‌
         document.querySelectorAll('.action-link').forEach(link => {
             link.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateX(-5px)';
@@ -294,4 +303,3 @@
     </script>
 </body>
 </html>
-

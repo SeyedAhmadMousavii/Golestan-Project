@@ -37,7 +37,7 @@
             .form-container h2 {
                 text-align: center;
                 margin-bottom: 1.8rem;
-                color: #e74c3c; /* رنگ قرمز برای هشدار */
+                color: #e74c3c;
             }
 
         label {
@@ -88,10 +88,53 @@
             button:hover {
                 background-color: #c0392b;
             }
+
+        .btn-back {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            background-color: #2980b9;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+            .btn-back:hover {
+                background-color: #1c5980;
+            }
+            .back-button {
+    width: 100%;
+    padding: 0.7rem;
+    background-color: #2980b9;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+        .top-left-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: auto;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
+    <a href="@Url.Action("Index", "Admin")" class="back-button top-left-button">← بازگشت</a>
+
     <div class="form-container">
+    
         <form method="post" action="/Admin/RemoveStudentFromClass" onsubmit="return confirm('آیا از حذف این دانشجو مطمئن هستید؟ این عمل غیرقابل بازگشت است!');">
             <h2>حذف دانشجو از کلاس</h2>
 
@@ -110,21 +153,23 @@
                 <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
             }
 
-            <button type="submit">حذف </button>
+            <button type="submit">حذف</button>
         </form>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // اعتبارسنجی اضافی برای حذف
-        $(document).ready(function() {
-            $('form').submit(function(e) {
-                if ($('#classId').val() === '') {
+        $(document).ready(function () {
+            $('form').submit(function () {
+                const classId = $('#classId').val().trim();
+                const studentId = $('#studentId').val().trim();
+
+                if (classId === '') {
                     alert('لطفاً شناسه کلاس را وارد نمایید');
                     return false;
                 }
-                if ($('#studentId').val() === '') {
-                    alert('لطفاً شناسه داشنجو را وارد نمایید');
+                if (studentId === '') {
+                    alert('لطفاً شناسه دانشجو را وارد نمایید');
                     return false;
                 }
                 return true;

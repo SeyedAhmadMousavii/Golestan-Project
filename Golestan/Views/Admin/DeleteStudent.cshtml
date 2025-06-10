@@ -1,5 +1,4 @@
-
-﻿@{
+@{
     ViewData["Title"] = "حذف دانشجو";
 }
 
@@ -90,6 +89,7 @@
             transition: all 0.3s;
             width: 100%;
             font-weight: bold;
+            margin-top: 0.5rem;
         }
 
             .btn-delete:hover {
@@ -101,13 +101,59 @@
                 transform: translateY(0);
             }
 
+        .btn-back {
+            background-color: #2980b9;
+            color: white;
+            padding: 0.7rem 1rem;
+            border-radius: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+            .btn-back:hover {
+                background-color: #1c5980;
+            }
+
         .fa-triangle-exclamation {
             margin-left: 5px;
         }
+
+        .back-button {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: #2980b9;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .top-left-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: auto;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
+    <a href="@Url.Action("Index", "Admin")" class="back-button top-left-button">← بازگشت</a>
+
     <div class="delete-form">
+
+     
+
         <h2 class="delete-header">حذف دانشجو</h2>
 
         <div class="alert-danger">
@@ -118,10 +164,7 @@
         <form method="post" action="/Admin/DeleteStudent" id="deleteForm">
             <div class="form-group">
                 <label for="studentId">شناسه دانشجو:</label>
-                <input type="number" id="studentId" name="id"
-                       placeholder="شناسه دانشجو را وارد نمایید"
-                       required
-                       min="1">
+                <input type="number" id="studentId" name="id" placeholder="شناسه دانشجو را وارد نمایید" required min="1" />
             </div>
 
             @if (ViewBag.ErrorMessage != null)
@@ -129,9 +172,7 @@
                 <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
             }
 
-            <button type="submit" class="btn-delete">
-                حذف دانشجو
-            </button>
+            <button type="submit" class="btn-delete">حذف دانشجو</button>
         </form>
     </div>
 
@@ -152,4 +193,3 @@
     </script>
 </body>
 </html>
-

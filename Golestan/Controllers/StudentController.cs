@@ -98,6 +98,8 @@ public class StudentController : Controller
             _context.Takes.Remove(take);
             await _context.SaveChangesAsync();
         }
+
         return RedirectToAction("Dashboard", new { studen.User_Id });
+
     }
 }

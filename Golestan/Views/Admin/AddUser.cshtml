@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "افزودن کاربر جدید";
 }
 
@@ -23,6 +22,7 @@
             align-items: center;
             min-height: 100vh;
             direction: rtl;
+            position: relative;
         }
 
         .form-container {
@@ -79,6 +79,7 @@
             border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin-top: 0.5rem;
         }
 
             button:hover {
@@ -92,9 +93,33 @@
             border-radius: 10px;
             margin-bottom: 1rem;
         }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            display: inline-block;
+        }
+
+            .back-button:hover {
+                background-color: #d0d3d4;
+            }
     </style>
 </head>
 <body>
+
+    <a href="/Admin/Index" class="back-button">بازگشت به صفحه اصلی</a>
+
     <div class="form-container">
         <form method="post" action="/Admin/AddUser">
             <h2>افزودن کاربر جدید</h2>
