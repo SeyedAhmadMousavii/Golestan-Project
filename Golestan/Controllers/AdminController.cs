@@ -193,6 +193,14 @@ namespace Golestan.Controllers
                 ViewBag.ErrorMessage = "بودجه کافی نیست";
                 return View();
             }
+            var isrepeatedinstructor = _context.Instructors.Any(s => s.User_Id == user.Id && s.Department_Id == DepartId);
+            if (isrepeatedinstructor)
+            {
+                ViewBag.ErrorMessage = "این استاد قبلا در این دانشکده ثبت شده است";
+                return View();
+            }
+
+
 
 
             var instructor = new Instructors
@@ -226,7 +234,7 @@ namespace Golestan.Controllers
     
             var user = await _context.Users.FirstOrDefaultAsync(u=>u.UserId==Id);
             var uuuu = _context.Users.Any(u=>u.UserId==Id);
-
+            
             if (user == null || ! uuuu)
             {
                 ViewBag.ErrorMessage = "کاربر پیدا نشد";
@@ -252,6 +260,13 @@ namespace Golestan.Controllers
                 _context.User_Roles.Add(newUserRole);
                 _context.SaveChanges();
             }
+            var isrepeatedstudent = _context.Students.Any(s => s.User_Id == user.Id && s.Depatment_Id == DepartID);
+            if (isrepeatedstudent)
+            {
+                ViewBag.ErrorMessage = "این دانشجو قبلا در این دانشکده ثبت شده است";
+                return View();
+            }
+
 
             var student = new Students
             {
@@ -261,6 +276,8 @@ namespace Golestan.Controllers
                 Enrollment_Date = DateTime.Now,
                 User=user
             };
+
+
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
             
