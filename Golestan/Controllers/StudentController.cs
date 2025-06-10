@@ -15,7 +15,6 @@ namespace Golestan.Controllers
             _context = context;
         }
 
-        [HttpGet]
         public IActionResult Dashboard(int studentId)
         {
             
