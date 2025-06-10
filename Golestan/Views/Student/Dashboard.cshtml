@@ -112,6 +112,14 @@
                             <span><strong>ساعت کلاس:</strong> @course.TimeSlot</span>
                             <span><strong>نام استاد:</strong> @course.InstructorName</span>
                             <span><strong>نمره:</strong> @course.Grade</span>
+                            @if (course.IsPassed)
+                            {
+                                <span style="color:green;"><strong>وضعیت:</strong>پاس شده</span>
+                            }
+                            else
+                            {
+                                <span style="color:red;"><strong>وضعیت:</strong>پاس نشده</span>
+                            }
                         </div>
                         <form asp-action="RemoveCourse" method="post">
                             <input type="hidden" name="studentId" value="@ViewBag.StudentId" />
