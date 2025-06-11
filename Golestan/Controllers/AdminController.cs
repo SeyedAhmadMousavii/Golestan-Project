@@ -292,7 +292,9 @@ namespace Golestan.Controllers
         [HttpGet]
         public IActionResult AssignTeacher()
         {
-            return View();
+            var teaches = _context.Teaches.ToList();
+            ViewBag.teachers = teaches;
+            return View(teaches);
         }
 
         [HttpPost]
