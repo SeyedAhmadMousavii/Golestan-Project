@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Golestan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250610005130_s")]
-    partial class s
+    [Migration("20250611184150_Golestan")]
+    partial class Golestan
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,6 +125,9 @@ namespace Golestan.Migrations
 
                     b.Property<DateTime>("Final_Exam_Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Prerequisite")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -651,36 +654,6 @@ namespace Golestan.Migrations
                             Hashed_password = "1234",
                             Last_name = "system",
                             UserId = 10203040
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Created_at = new DateTime(2000, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "@teach",
-                            First_name = "Teacher",
-                            Hashed_password = "1234",
-                            Last_name = "T",
-                            UserId = 10203050
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Created_at = new DateTime(2000, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "@Styd",
-                            First_name = "Student",
-                            Hashed_password = "1234",
-                            Last_name = "S",
-                            UserId = 10203060
-                        },
-                        new
-                        {
-                            Id = 40302010,
-                            Created_at = new DateTime(2000, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "System1@gmai",
-                            First_name = "mananger1",
-                            Hashed_password = "4321",
-                            Last_name = "system1",
-                            UserId = 0
                         });
                 });
 
@@ -703,21 +676,6 @@ namespace Golestan.Migrations
                         {
                             User_Id = 10203040,
                             Role_Id = 3
-                        },
-                        new
-                        {
-                            User_Id = 10,
-                            Role_Id = 2
-                        },
-                        new
-                        {
-                            User_Id = 20,
-                            Role_Id = 1
-                        },
-                        new
-                        {
-                            User_Id = 40302010,
-                            Role_Id = 2
                         });
                 });
 

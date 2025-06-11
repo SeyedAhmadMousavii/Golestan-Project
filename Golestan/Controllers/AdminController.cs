@@ -58,10 +58,12 @@ namespace Golestan.Controllers
         [HttpGet]
         public IActionResult AddCourse()
         {
-            return View();
+            var courses = _context.Courses.ToList();
+            ViewBag.Courses = courses;
+            return View(courses);
         }
         [HttpPost]
-        public async Task<IActionResult> AddCourse(int id,string Title,string code,int unit,string description,DateTime final,int DepartID)
+        public async Task<IActionResult> AddCourse(int id,string Title,string code,int unit,string description,DateTime final,int DepartID,int SelectedCourseId)
         {
             var isvalid = _context.Courses.Any(c=>c.CoursId == id);
             if (isvalid)
@@ -74,12 +76,11 @@ namespace Golestan.Controllers
                 ViewBag.ErrorMessage = "واحد نا معتبر است";
                 return View();
             }
-            var courses = _context.Courses.ToList(); 
-            ViewBag.Courses = courses;
 
             var course = new Courses 
             { 
                   Title = Title
+                , Prerequisite= SelectedCourseId
                 , CoursId = id
                 , Code = code
                 , Unit = unit.ToString()
@@ -102,7 +103,7 @@ namespace Golestan.Controllers
         public async Task<IActionResult> AddClass(int SID,int year,int semester, int courseId,int TimeId,int classs, int capacity)
         {
             var cours =await _context.Courses.FirstOrDefaultAsync(c=>c.CoursId==courseId);
-            if (cours == null) { ViewBag.ErrorMessage = "کلاس پیدا نشد";return View(); }
+            if (cours == null) { ViewBag.ErrorMessage = "درس پیدا نشد";return View(); }
 
             var isvalid = _context.Sections.Any(i => i.SectionId == SID);
 
@@ -431,7 +432,26 @@ namespace Golestan.Controllers
                 ViewBag.ErrorMessage = "ظرفیت کلاس تکمیل است";
                 return View();
             }
-
+            if (cours.Prerequisite != 0)
+            {
+                var CourseSection = await _context.Sections.FirstOrDefaultAsync(s=>s.Course_Id==cours.Prerequisite);
+                if (CourseSection == null)
+                {
+                    ViewBag.ErrorMessage = "دانشجو پیشنیاز این درس را پاس نکرده است";
+                    return View();
+                }
+                var StudentTakeSection = await _context.Takes.FirstOrDefaultAsync(t=>t.Student_Id==student.Id && t.Section_Id==CourseSection.Id);
+                if (StudentTakeSection==null)
+                {
+                    ViewBag.ErrorMessage = "دانشجو پیشنیاز این درس را پاس نکرده است";
+                    return View();
+                }
+                if (double.Parse(StudentTakeSection.Grade) <12)
+                {
+                    ViewBag.ErrorMessage = "دانشجو پیشنیاز این درس را پاس نکرده است";
+                    return View();
+                }
+            }
 
 
             try
@@ -565,25 +585,34 @@ namespace Golestan.Controllers
             if (User != null)
             {
                 var students =await _context.Students.Where(s => s.User_Id == User.Id).ToListAsync();
-
-                if (students.Any())
+                try
                 {
-                    foreach(var i in students)
+                    if (students.Any())
                     {
-                       await DeleteStudent(i.Student_Id);
+                        foreach (var i in students)
+                        {
+                            await DeleteStudent(i.Student_Id);
+                        }
+                        _context.Students.RemoveRange(students);
                     }
-                    _context.Students.RemoveRange(students);
-                }
-                var instructor =await _context.Instructors.Where(s => s.User_Id ==User.Id).ToListAsync();
+                    var instructor = await _context.Instructors.Where(s => s.User_Id == User.Id).ToListAsync();
 
-                if (instructor.Any())
-                {
-                    foreach(var i in instructor)
+                    if (instructor.Any())
                     {
-                       await DeleteTeacher(i.Instructor_Id);
+                        foreach (var i in instructor)
+                        {
+                            await DeleteTeacher(i.Instructor_Id);
+                        }
+                        _context.Instructors.RemoveRange(instructor);
                     }
-                    _context.Instructors.RemoveRange(instructor);
                 }
+                catch 
+                {
+                    ViewBag.ErrorMessage = "لطفا دوباره امتحان کنید";
+                    return View();
+                }
+
+                
               
                 _context.Users.Remove(User);
                 await _context.SaveChangesAsync();

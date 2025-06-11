@@ -123,6 +123,9 @@ namespace Golestan.Migrations
                     b.Property<DateTime>("Final_Exam_Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Prerequisite")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Golestan.Migrations
 {
     /// <inheritdoc />
-    public partial class s : Migration
+    public partial class Golestan : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -104,7 +104,8 @@ namespace Golestan.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Final_Exam_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Department_Id = table.Column<int>(type: "int", nullable: false),
-                    section_id = table.Column<int>(type: "int", nullable: true)
+                    section_id = table.Column<int>(type: "int", nullable: true),
+                    Prerequisite = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -354,24 +355,12 @@ namespace Golestan.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Created_at", "Email", "First_name", "Hashed_password", "Last_name", "UserId" },
-                values: new object[,]
-                {
-                    { 10, new DateTime(2000, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "@teach", "Teacher", "1234", "T", 10203050 },
-                    { 20, new DateTime(2000, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "@Styd", "Student", "1234", "S", 10203060 },
-                    { 10203040, new DateTime(2000, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "System@gmai", "mananger", "1234", "system", 10203040 },
-                    { 40302010, new DateTime(2000, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "System1@gmai", "mananger1", "4321", "system1", 0 }
-                });
+                values: new object[] { 10203040, new DateTime(2000, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "System@gmai", "mananger", "1234", "system", 10203040 });
 
             migrationBuilder.InsertData(
                 table: "User_Roles",
                 columns: new[] { "Role_Id", "User_Id" },
-                values: new object[,]
-                {
-                    { 2, 10 },
-                    { 1, 20 },
-                    { 3, 10203040 },
-                    { 2, 40302010 }
-                });
+                values: new object[] { 3, 10203040 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_Department_Id",
