@@ -94,30 +94,33 @@
         }
 
         .back-button {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: #2980b9;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .top-left-button {
             position: absolute;
             top: 20px;
             left: 20px;
-            background-color: #ecf0f1;
-            color: #2c3e50;
-            border: none;
+            width: auto;
             padding: 0.5rem 1rem;
-            border-radius: 10px;
-            cursor: pointer;
-            text-decoration: none;
             font-weight: bold;
-            transition: background-color 0.3s ease;
-            text-align: center;
-            display: inline-block;
         }
-
-            .back-button:hover {
-                background-color: #d0d3d4;
-            }
     </style>
 </head>
 <body>
 
-    <a href="/Admin/Index" class="back-button">بازگشت به صفحه اصلی</a>
+    <a href="@Url.Action("Index", "Admin")" class="back-button top-left-button">← بازگشت</a>
 
     <div class="form-container">
         <form method="post" action="/Admin/AssignTeacher">
@@ -126,9 +129,22 @@
             <label for="classId">شناسه کلاس:</label>
             <input type="number" id="classId" name="classId" placeholder="شناسه کلاس را وارد کنید" required />
 
-            <label for="teacherId">شناسه استاد:</label>
-            <input type="number" id="teacherId" name="teacherId" placeholder="شناسه استاد را وارد کنید" required />
+            <label for="teacherId"> اساتید:</label>
 
+            @if (ViewBag.Instructor_Id != null)
+            {
+                <select id="teacherId" name="teacherId">
+                    <option value="">-- انتخاب کنید --</option>
+                    @foreach (var teachers in ViewBag.Instructor_Id)
+                    {
+                        <option value="@teachers.Instructor_Id">@teachers.Instructor_Id</option>
+                    }
+                </select>
+            }
+            else
+            {
+                <div class="alert">استادی وجود ندارد.</div>
+            }
             @if (ViewBag.ErrorMessage != null)
             {
                 <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
