@@ -17,6 +17,7 @@ namespace Golestan.Models
         public Departments departments { get; set; }
         public int? section_id {  get; set; }
         public Sections? section { get; set; }
+        public int Prerequisite { get; set; }
 
     }
 }//     Class Not Matched
