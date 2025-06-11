@@ -161,6 +161,23 @@
                 <option value="333">مکانیک</option>
                 <option value="444">معماری</option>
             </select>
+            <label for="courseDropdown"> پیش نیاز:</label>
+
+            @if (ViewBag.Courses != null)
+            {
+                <select id="courseDropdown" name="SelectedCourseId">
+                    <option value="">-- انتخاب کنید --</option>
+                    @foreach (var course in ViewBag.Courses)
+                    {
+                        <option value="@course.Id">@course.Title</option>
+                    }
+                </select>
+            }
+            else
+            {
+                <div class="alert">درسی وجود ندارد.</div>
+            }
+
 
             @if (ViewBag.ErrorMessage != null)
             {

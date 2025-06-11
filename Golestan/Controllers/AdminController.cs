@@ -74,7 +74,9 @@ namespace Golestan.Controllers
                 ViewBag.ErrorMessage = "واحد نا معتبر است";
                 return View();
             }
-         
+            var courses = _context.Courses.ToList(); 
+            ViewBag.Courses = courses;
+
             var course = new Courses 
             { 
                   Title = Title

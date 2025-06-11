@@ -10,9 +10,6 @@
     public string TimeSlot { get; set; }
     public string InstructorName { get; set; }
     public string Grade { get; set; }
-<<<<<<< HEAD
-
-=======
     public bool IsPassed {  get; set; }
->>>>>>> 93f714f86a48d0116f97d18cb87fbd32e102d1cb
+
 }
