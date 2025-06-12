@@ -65,16 +65,18 @@ namespace Golestan.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCourse(int id,string Title,string code,int unit,string description,DateTime final,int DepartID,int SelectedCourseId)
         {
+            var courses = _context.Courses.ToList();
+            ViewBag.Courses = courses;
             var isvalid = _context.Courses.Any(c=>c.CoursId == id);
             if (isvalid)
             {
                 ViewBag.ErrorMessage = "شناسه درس تکراریه";
-                return View();
+                return View(courses);
             }
             if (unit > 4 || unit < 1)
             {
                 ViewBag.ErrorMessage = "واحد نا معتبر است";
-                return View();
+                return View(courses);
             }
 
             var course = new Courses 
@@ -109,6 +111,7 @@ namespace Golestan.Controllers
 
             var isvalidlocation = _context.Sections.Any(s=>s.Time_Slot_Id==TimeId && s.Classroom_Id==classs);
 
+
             var isvalidcourse = _context.Sections.Any(s=>s.Course_Id==cours.Id);
             if (isvalid)
             {
@@ -122,8 +125,22 @@ namespace Golestan.Controllers
             }
             if (isvalidlocation)
             {
-                ViewBag.ErrorMessage = "مکان کلاس اشغال است";
-                return View();
+
+                var sectionss = _context.Sections.FirstOrDefault(s => s.Time_Slot_Id == TimeId && s.Classroom_Id == classs);
+                if (sectionss!=null)
+                {
+                    var courses = _context.Courses.Find(sectionss.Course_Id);
+                    if (courses != null)
+                    {
+                        if (courses.Department_Id == cours.Department_Id)
+                        {
+                            ViewBag.ErrorMessage = "مکان کلاس اشغال است";
+                            return View();
+                        }
+                    }
+                }
+
+                
             }
             if (isvalidcourse)
             {
@@ -214,7 +231,7 @@ namespace Golestan.Controllers
                 Salary = salary,
                 Hire_Date = date,
                 User = user,
-
+                instructorname = user.First_name +" "+ user.Last_name
             };
             department.Budget -= salary;
             _context.Instructors.Add(instructor);
@@ -292,46 +309,49 @@ namespace Golestan.Controllers
         [HttpGet]
         public IActionResult AssignTeacher()
         {
-            var teaches = _context.Teaches.ToList();
-            ViewBag.teachers = teaches;
-            return View(teaches);
+            var teachers = _context.Instructors.ToList();
+            ViewBag.teachers = teachers;
+            return View(teachers);
         }
 
         [HttpPost]
         public async Task<IActionResult> AssignTeacher(int classId, int teacherId)
         {
+            Console.WriteLine($"===================== {classId} = {teacherId} =======================");
             var classItem = await _context.Sections.FirstOrDefaultAsync(c=>c.SectionId==classId);
 
             var instructor = await _context.Instructors.FirstOrDefaultAsync(i=>i.Instructor_Id==teacherId);
-
+            var teachers = _context.Instructors.ToList();
+            ViewBag.teachers = teachers;
+            
             if (classItem == null)
             {
                 ViewBag.ErrorMessage = "کلاس پیدا نشد";
-                return View();
+                return View(teachers);
             }
             if (instructor == null)
             {
                 ViewBag.ErrorMessage = "استاد پیدا نشد";
-                return View();
+                return View(teachers);
             }
             var cours = _context.Courses.Find(classItem.Course_Id);
             if (cours == null)
             {
                 ViewBag.ErrorMessage = "درس پیدا نشد";
-                return View();
+                return View(teachers);
             }
 
-            bool hasvalid = _context.Teaches.Any(t => t.Section_Id == classItem.SectionId);
+            bool hasvalid = _context.Teaches.Any(t => t.Section_Id == classItem.Id);
 
             if (hasvalid)
             {
-                ViewBag.ErrorMessage = "کلاس مال استاد دیگری است";
-                return View();
+                ViewBag.ErrorMessage = "این کلاس استاد دارد";
+                return View(teachers);
             }
             if (cours.Department_Id != instructor.Department_Id)
             {
                 ViewBag.ErrorMessage = "استاد مال دانشکده دیگری است";
-                return View();
+                return View(teachers);
             }
             try
             {

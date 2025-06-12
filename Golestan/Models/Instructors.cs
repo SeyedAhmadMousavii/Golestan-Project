@@ -18,5 +18,7 @@ namespace Golestan.Models
         public Departments departments { get; set; }
 
         public List<Teaches> teaches { get; set; }
+
+        public string instructorname { get; set; }
     }
 }//     Class Not Matched

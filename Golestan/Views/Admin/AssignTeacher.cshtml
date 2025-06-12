@@ -47,7 +47,7 @@
             font-weight: bold;
         }
 
-        input[type="number"] {
+        input[type="number"], input[type="teacherId"],select {
             width: 100%;
             padding: 0.6rem;
             margin-bottom: 1.2rem;
@@ -131,26 +131,31 @@
 
             <label for="teacherId"> اساتید:</label>
 
-            @if (ViewBag.Instructor_Id != null)
+            @if (ViewBag.teachers != null)
             {
                 <select id="teacherId" name="teacherId">
                     <option value="">-- انتخاب کنید --</option>
-                    @foreach (var teachers in ViewBag.Instructor_Id)
+                    @foreach (var teachers in ViewBag.teachers)
                     {
-                        <option value="@teachers.Instructor_Id">@teachers.Instructor_Id</option>
+                        <option value="@teachers.Instructor_Id">@teachers.instructorname</option>
                     }
                 </select>
             }
             else
-            {
-                <div class="alert">استادی وجود ندارد.</div>
+            { 
+                @* <div class="alert">استادی وجود ندارد.</div> *@
             }
+
+
+           
             @if (ViewBag.ErrorMessage != null)
             {
                 <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
             }
+         
 
             <button type="submit">تخصیص</button>
+
         </form>
     </div>
 
